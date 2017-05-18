@@ -16,7 +16,11 @@
 // 加载框架引导文件
 //require __DIR__ . '/../thinkphp/start.php';
 
+// 绑定Home模块到当前入口文件
+//$_GET['m'] = 'admin';
+//绑定admin模块到当前入口文件
+define('BIND_MODULE','admin');
 // 定义应用目录 thinkWeb
-define('APP_PATH', __DIR__ . '/../admin/');
+define('APP_PATH', __DIR__ . '/../application/');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
