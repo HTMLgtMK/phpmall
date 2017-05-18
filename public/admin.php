@@ -17,6 +17,6 @@
 //require __DIR__ . '/../thinkphp/start.php';
 
 // 定义应用目录 thinkWeb
-define('APP_PATH', __DIR__ . '/../app/');
+define('APP_PATH', __DIR__ . '/../admin/');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
