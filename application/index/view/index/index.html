@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>thinkShop</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<style type="text/css">
+		html,body{
+			margin:0;
+			padding:0;
+			height: 100%;
+			background-color: #E6E6E6;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+		}
+
+		header{
+			box-sizing: border-box;
+			width:100%;
+			height: 60%;
+			/*background-color: yellow;*/
+			padding-bottom: 5px;
+			position: relative;
+		}
+		/*搜索栏，购物车，用户主页*/
+		nav{
+			box-sizing: border-box;
+			width: 100%;
+			padding: 5px 10px;
+			background-color: #F76525;
+			height: 3rem; 
+			position: relative;
+			line-height: 2rem;
+		}
+		nav #shopCar{
+			display: inline-block;
+			background: url(shopCar.svg) no-repeat;
+			background-position: -8px 0;
+			background-size: 2.5rem 2.5rem;
+			width: 3rem;
+			height: 100%;
+			float: left;
+		}
+		nav .searchBar{
+			position: absolute;
+			left: 3.5rem;
+			right: 3.5rem;
+			height: 2rem;
+			top: 50%;
+			margin-top: -1rem; 
+			line-height: 2rem;
+		}
+		nav .searchBar input[name="searchText"]{
+			width: 100%;
+			height: 2rem;
+			line-height: 1.8rem;
+			font-size: 1.5rem;
+			padding: 0;
+			border: 0;
+		}
+		nav #so{
+			position: absolute;
+			right: 0;
+			top: 0;
+			background: url(so.svg) no-repeat;
+			background-position: 0 3px;
+			background-size: 1.7rem 1.7rem;
+			width: 2rem;
+			height: 100%;
+		}
+		nav #userPage{
+			background: url(userPage.svg) no-repeat;
+			background-position: 8px 0;
+			background-size: 2.5rem 2.5rem;
+			width: 3rem;
+			height: 100%;
+			float: right;
+		}
+		/*轮播图*/
+		.swipe{
+			width: 100%;
+			height: 50%;
+			overflow: hidden;
+			position: relative;
+			background-color: #D7D8D7;
+		}
+		.list{
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+		}
+		.list img{
+			opacity: 0;
+			filter: opacity(0%);
+			position: absolute;
+			width: 100%;
+			z-index: 1;
+		}
+		.list .show{
+			z-index: 3;
+		}
+		.list .fadeOut{
+			opacity: 0;
+			filter: opacity(0);
+			transition: opacity 1s;
+		}
+		.list .fadeIn{
+			opacity: 1;
+			filter: opacity(100%);
+			transition: opacity 2s;
+		}
+		.buttons{
+			position: absolute;
+			height: 0.6rem;
+			margin-top: -1.5rem;
+			left: 50%;
+			margin-left: -2.8rem;
+			z-index: 10;
+		}
+		.buttons span{
+			display: inline-block;
+			width: 0.6rem;
+			height: 0.6rem;
+			border-radius: 0.3rem;
+			background-color: #B2B1B1;
+			box-shadow: 0 0 2px 2px #B2B1B1;
+			margin: 0 0.4rem;
+		}
+		.buttons .on{
+			background-color: #FF770A;
+			box-shadow: 0 0 2px 2px #FF770A;
+		}
+		/*商品类别*/
+		.good-type{
+			box-sizing: border-box;
+			width: 100%;
+			position: absolute;
+			top: 50%;
+			margin-top: 3rem;
+			bottom: 0;
+			background-color: red;
+			z-index: 1;
+		}
+		.good-type .type-list{
+			margin: 0;
+			padding: 0;
+			line-height: 50%;
+			height: 100%;
+			width: 100%;
+			text-align: center;
+		}
+		.type-list .item-type{
+			/*float: left;*/
+			display: inline-block;
+			box-sizing: border-box;
+			width: 23%;
+			height: 50%;
+			background-color: yellow;
+			line-height: 100%;
+			vertical-align: middle;
+		}
+		.item-type a{
+			display: inline-block;
+			width: 80%;
+			padding-bottom: 100%;
+			border-radius: 50%;
+			background-color: blue;
+		}
+
+
+		.main{
+			box-sizing: border-box;
+			width: 100%;
+			height: 40%;
+			background-color: pink;
+		}
+
+		footer{
+			width: 100%;
+			text-align: center;
+			position: absolute;
+			bottom: 0;
+		}
+		footer p{
+			margin: 5px 0;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<nav>
+			<a id="shopCar" href=""></a>
+			<span class="searchBar">
+				<input type="text" name="searchText">
+				<a id="so" href=""></a>
+			</span>
+			<a id="userPage" href=""></a>
+		</nav>
+		<div class="swipe">
+			<div class="list">
+				<img src="__STATIC__/image/1.jpg" class="show fadeIn">
+				<img src="__STATIC__/image/2.jpg">
+				<img src="__STATIC__/image/3.jpg">
+				<img src="__STATIC__/image/4.jpg">
+			</div>
+			<div class="buttons">
+				<span index="1" class="on"></span>
+		        <span index="2"></span>
+		        <span index="3"></span>
+		        <span index="4"></span>
+			</div>
+		</div>
+		<div class="good-type">
+			<ul class="type-list">
+				<li class="item-type"><a href=""></a></li>
+				<li class="item-type"><a href=""></a></li>
+				<li class="item-type"><a href=""></a></li>
+				<li class="item-type"><a href=""></a></li>
+				<li class="item-type"><a href=""></a></li>
+				<li class="item-type"><a href=""></a></li>
+				<li class="item-type"><a href=""></a></li>
+				<li class="item-type"><a href=""></a></li>
+			</ul>
+		</div>
+	</header>
+	<div class="main">
+		
+	</div>
+	<footer>
+		<span>Copyright &copy &nbsp thinkWeb</span>
+		<p>2017-05-18</p>
+	</footer>
+	<script type="text/javascript">
+		var counter = 1;
+		window.onload = function(){
+			var imgs = document.querySelectorAll(".list img");
+			var dots = document.querySelectorAll(".buttons span");
+			var interval = 2500;//时间间隔
+			var timer = setInterval(function(){swipe(imgs,dots);},interval);
+
+		}
+		/*function swipe(imgs,dots){
+			mark = window.flag;
+			imgs.forEach(function(value,index){
+				if(value.className.indexOf("show") != -1){
+					value.className = value.className.replace("show","");
+					mark = true;
+				}else if(mark){
+					value.className = "show";
+					mark = false;
+				}
+			});
+			window.flag = mark;
+		}*/
+		function swipe(imgs,dots){
+			imgs.forEach(function(value,index){
+				if(value.className.indexOf("show") != -1){
+					value.className = " fadeOut";
+					setTimeout(function(){value.className = "";},1000);
+				}
+			});
+			var count = counter;
+			count = (count+4)%4;
+			imgs[count].className = "show fadeIn";
+			window.counter = count+1;
+			dots.forEach(function(value,index){
+				value.className = "";
+			});
+			dots[count].className = "on";
+		}
+	</script>
+</body>
+</html>

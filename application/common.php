@@ -10,3 +10,59 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+
+/**
+ * Url 生成 
+ * 主要是为了方便模板中使用
+ * @param string $url 路由地址
+ * @param string|array $value 变量
+ * @param bool|string $suffix 前缀
+ * @param bool|string $fdomain 域名
+ * return string
+ */
+ function url($url='',$vars='',$suffix=true,$domain=false){
+	 return \think\Url::build($url,$vars,$suffix,$domain);
+ }
+ 
+ 
+ /**
+  * 发送邮件
+  * @param string $toAddress 对方邮箱地址
+  * @param string $subject 主题
+  * @param string $body 正文
+  * @param bool
+  */
+ function sendEmail($toAddress,$subject,$body){
+	include_once(EXTEND_PATH."PHPMailer/PHPMailerAutoload.php");
+	
+	$meEmail=\think\Config::get('Email');
+	
+	$mail=new \PHPMailer();
+	
+	$mail->SMTPDebug=3;//打印smtp信息
+	
+	$mail->isSMTP();
+	$mail->Host=$meEmail['host'];
+	$mail->SMTPAuth=true;
+	$mail->Username=base64_decode($meEmail['username']);
+	$mail->Password=base64_decode($meEmail["password"]);
+	$mail->SMTPSecure="ssl";
+	$mail->Port=$meEmail['port'];
+	$mail->Charset="utf-8";
+	
+	$mail->setFrom(base64_decode($meEmail['username']),$meEmail['name']);
+	$mail->addAddress($toAddress);
+	
+	$mail->isHTML(true);
+	
+	$mail->Subject="=?utf-8?B?".base64_encode($subject)."?=";
+	$mail->Body=$body;
+	
+	if($mail->send()){
+		return true;
+	}else{
+		echo $mail->ErrorInfo();
+		return false;
+	}
+ }

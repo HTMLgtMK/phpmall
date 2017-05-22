@@ -238,4 +238,13 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+	
+	//开发管理配置
+	'Email'					=>[
+		'username'	=> 'R1RfR2FtZUVtYWlsQDE2My5jb20=',
+		'password'	=> 'Z3VvdGluZzEyMzQ=',
+		'name'		=> 'GT',
+		'host'		=> 'smtp.163.com',
+		'port'		=> '994',
+	],
 ];

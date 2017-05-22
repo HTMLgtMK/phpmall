@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="GT" />
+    <title>{$Think.lang.woyaokaidian}</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
+	<style type="text/css">
+		body,html{
+			background-color: #E6E6E6;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+			/*text-align:center;*/
+		}
+		/*改变验证消息颜色*/
+		.error{
+			color:red
+		}
+		/*去掉label*/
+		.hidden{
+			/*display:none;*/
+		}
+	</style>
+  </head>
+  <body>
+    <div>
+      <form class="js-ajax-forms" method="post" action="{:url('Register/step1')}">
+		<div class="table-responsive">
+			<table class="table">
+				<caption><h1>{$Think.lang.seller_registe}</h1></caption>
+				<tbody>
+					<tr>
+						<td>
+							<div class="text-center">
+								<label for="email" class="hidden control-label col-sm-2 sr-only">{$Think.lang.EMAIL}</label>
+							</div>
+						</td>
+						<td>
+							<div class="text-center">
+								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" required autofocus />
+								<div style="color:red" class="help-block">用于用户登陆，不可更改</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="text-center">
+								<label for="password" class="hidden control-label col-sm-2 sr-only">{$Think.lang.PASSWORD}</label>
+							</div>
+						</td>
+						<td>
+							<div class="text-center">
+								<input type="password" id="password" name="password" class="form-control" style="width:80%;" placeholder="{$Think.lang.PASSWORD}" required />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="text-center">
+								<label for="confirm" class="hidden control-label col-sm-2 sr-only">{$Think.lang.CONFIRM_PWD}</label>
+							</div>
+						</td>
+						<td>
+							<div class="text-center">
+								<input type="password" id="confirm" name="confirm" class="form-control" style="width:80%;" placeholder="{$Think.lang.CONFIRM_PWD}" required />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="text-center">
+								<label for="verify" class="hidden control-label col-sm-2 sr-only">{$Think.lang.VERIFY}</label>
+							</div>
+						</td>
+						<td>
+							<div class="text-center">
+								<input type="text" id="verify" name="verify" class="form-control" style="width:80%;" placeholder="{$Think.lang.VERIFY}" required />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<div class="text-center">
+								<img class="col-off-sm-6 col-sm-6" src="__STATIC__/image/4.jpg" width="100" height="30" alt="{$Think.lang.CLICK2REFRESH}" />
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="text-center row">
+				<button id="register" class="btn btn-primary" style="width:80%"  type="submit">{$Think.lang.SUBMIT}</button>
+		</div>
+      </form>
+    </div> <!-- /container -->
+	<script type="text/javascript">
+	
+	$(document).ready(function(){
+		var form = $('form.js-ajax-forms');
+		var formloading=false;
+		//表单验证开始
+		form.validate({
+			//是否在获取焦点时验证
+			onfocusout : false,
+			//是否在敲击键盘时验证
+			onkeyup : false,
+			//当鼠标掉级时验证
+			onclick : false,
+			//验证规则
+			rules : {
+				email:{
+					required:true,
+					email:true
+				},
+				password:{
+					required:true,
+					minlength:5
+				},
+				confirm:{
+					required:true,
+					minlength:5,
+					equalTo:'#password'
+				},
+				verify:{
+					required:true
+				},
+			},
+			//验证未通过提示消息
+			messages : {
+				email:{
+					required:'请输入邮箱地址',
+					email:'请输入正确邮箱地址'
+				},
+				password:{
+					required:'请输入密码',
+					minlength:'密码长度不能少于5位'
+				},
+				confirm:{
+					required:'请输入确认密码',
+					minlength:'密码长度不能少于5位',
+					equalTo:'两次输入密码不一致'
+				},
+				verify:'请输入验证码'
+			},             
+			//给未通过验证的元素加效果,闪烁等
+			highlight : false,
+			//是否在获取焦点时验证
+			onfocusout : false,
+			//表单验证通过
+			submitHandler : function(forms) {
+				if(formloading){
+					return;
+				}
+				$(forms).ajaxSubmit({
+					url:form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+					dataType:'json',
+					beforeSubmit:function(attr,form,opts){
+						formloading=true;
+					},
+					success:function(data, statusText, xhr, $form){
+						formloading=false;
+						console.info(data);
+						if(data.status){
+							//添加成功,跳转
+						}else{
+							console.alert(data.info);
+						}
+					},
+					error:function(textStatus,xhr){
+						console.log(textStatus);
+					}
+				});
+			}
+		});
+	});
+	</script>
+  </body>
+</html>

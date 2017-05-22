@@ -1,11 +1,11 @@
 <?php
 namespace app\index\controller;
+use \think\Controller;
 
-class Index
-{
-  public function index()
-  {
-    echo __DIR__;
-    return '<h1>index page</h1>';
-  }
+class Index extends Controller{
+	
+	public function index(){
+		return $this->fetch();
+	}
+	
 }
