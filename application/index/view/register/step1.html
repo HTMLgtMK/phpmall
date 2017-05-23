@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
     <meta name="description" content="" />
     <meta name="author" content="GT" />
-    <title>{$Think.lang.woyaokaidian}</title>
+    <title>{$Think.lang.buyer_register}</title>
     <link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
@@ -37,10 +37,16 @@
   </head>
   <body>
     <div>
+	  <div class="container-fluid">
+		<ol class="breadcrumb">
+			<li class="active"><a href="#">1.{$Think.lang.reg_step1}</a></li>&nbsp;&nbsp;
+			<li>2.{$Think.lang.reg_step2}</li>
+		<ol>
+	  </div>
       <form class="js-ajax-forms" method="post" action="{:url('Register/step1')}">
 		<div class="table-responsive">
 			<table class="table">
-				<caption><h1>{$Think.lang.seller_registe}</h1></caption>
+				<caption><h1>{$Think.lang.buyer_register}</h1></caption>
 				<tbody>
 					<tr>
 						<td>
@@ -52,6 +58,19 @@
 							<div class="text-center">
 								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" required autofocus />
 								<div style="color:red" class="help-block">用于用户登陆，不可更改</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="text-center">
+								<label for="name" class="hidden control-label col-sm-2 sr-only">{$Think.lang.NAME}</label>
+							</div>
+						</td>
+						<td>
+							<div class="text-center">
+								<input type="text" id="name" name="name" class="form-control" style="width:80%;" placeholder="{$Think.lang.NAME}" required />
+								<div style="color:red" class="help-block">用户真实姓名，不可更改</div>
 							</div>
 						</td>
 					</tr>
@@ -108,7 +127,6 @@
       </form>
     </div> <!-- /container -->
 	<script type="text/javascript">
-	
 	$(document).ready(function(){
 		var form = $('form.js-ajax-forms');
 		var formloading=false;
@@ -125,6 +143,9 @@
 				email:{
 					required:true,
 					email:true
+				},
+				name:{
+					required:true
 				},
 				password:{
 					required:true,
@@ -144,6 +165,9 @@
 				email:{
 					required:'请输入邮箱地址',
 					email:'请输入正确邮箱地址'
+				},
+				name:{
+					required:'请输入姓名'
 				},
 				password:{
 					required:'请输入密码',
@@ -168,7 +192,7 @@
 				//Object { code: 0, msg: "验证码错误!", data: "", url: "", wait: 3 }
 				$(forms).ajaxSubmit({
 					url:form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
-					//dataType:'json',
+					dataType:'json',
 					beforeSubmit:function(attr,form,opts){
 						formloading=true;
 					},

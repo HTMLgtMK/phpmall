@@ -64,4 +64,6 @@ return [
 	'TB_SELLER'		  => 'seller',
 	//买家表
 	'TB_BUYER'		  => 'buyer',
+	//卖家激活表
+	'TB_SELLER_ACTIVATE'	=> 'seller_activate',
 ];

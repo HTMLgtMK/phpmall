@@ -129,6 +129,18 @@ CREATE TABLE IF NOT EXISTS `tb_slides`(
 )DEFAULT CHARSET=UTF8 COMMENT="首页轮播图表";
 
 --
+-- 表的结构 `tb_seller_activate` 卖家激活表
+--
+CREATE TABLE IF NOT EXISTS `tb_seller_activate`(
+	`id` INTEGER NOT NULL COMMENT '激活id',
+	`mail` CHAR(20) NOT NULL COMMENT "买家邮箱,注册登陆用？",
+	`pwd` VARCHAR(255) NOT NULL COMMENT "登陆密码,md5加密",
+	`status` TINYINT DEFAULT 0 COMMENT '验证状态,0:待验证,1:已经验证',
+	`code` CHAR(30) UNIQUE NOT NULL COMMENT '验证code',
+	`time` LONG NOT NULL COMMENT '最后修改时间'
+);
+
+--
 -- INDEX FOR `tb_buyer`
 --
 ALTER TABLE `tb_buyer` 
@@ -249,6 +261,12 @@ ALTER TABLE `tb_slides`
 	MODIFY `id` INTEGER AUTO_INCREMENT,AUTO_INCREMENT=1;
 	
 --
+-- AUTO_INCREMENT for table `tb_seller_activate`
+--
+ALTER TABLE `tb_seller_activate` 
+	MODIFY `id` INTEGER AUTO_INCREMENT,AUTO_INCREMENT=1;
+	
+--
 -- FOREIGN KEY for table `tb_seller`
 --
 ALTER TABLE `tb_seller` 
@@ -290,3 +308,17 @@ ALTER TABLE `tb_order`
 ALTER TABLE `tb_cart` 
 	ADD FOREIGN KEY (`goods_id`) REFERENCES `tb_goods`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	ADD FOREIGN KEY (`buyer_id`) REFERENCES `tb_buyer`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+	
+--
+-- DELETE ORIGINAL DELETION TASK
+--
+DROP EVENT IF EXISTS `e_delete_seller_activate`;
+
+--
+-- CREATE NEW SCHEDULE TASK  DELETE DEPRECATE ACTIVATE CODES IN `tb_seller_activate`
+--
+CREATE 	EVENT `e_delete_seller_activate` 
+	ON SCHEDULE 
+	EVERY 5 SECOND 
+	DO 
+	DELETE FROM `tb_seller_activate` WHERE `time` < DATE_SUB(CURRENT_TIMESTAMP,INTERVAL 30 MINUTE);

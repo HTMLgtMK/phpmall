@@ -952,16 +952,19 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         }
         $pk = $this->getPk();
         if ($this->isUpdate) {
+            // 检测字段
+            $this->checkAllowField($this->data, array_merge($this->auto, $this->update));
+
             // 自动更新
             $this->autoCompleteData($this->update);
+
+            // 获取有更新的数据
+            $data = $this->getChangedData();
 
             // 事件回调
             if (false === $this->trigger('before_update', $this)) {
                 return false;
             }
-
-            // 获取有更新的数据
-            $data = $this->getChangedData();
 
             if (empty($data) || (count($data) == 1 && is_string($pk) && isset($data[$pk]))) {
                 // 关联更新
@@ -977,9 +980,6 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             if (empty($where) && !empty($this->updateWhere)) {
                 $where = $this->updateWhere;
             }
-
-            // 检测字段
-            $this->checkAllowField($data);
 
             // 保留主键数据
             foreach ($this->data as $key => $val) {
@@ -1008,8 +1008,12 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             $this->trigger('after_update', $this);
 
         } else {
+            // 检测字段
+            $this->checkAllowField($this->data, array_merge($this->auto, $this->insert));
+
             // 自动写入
             $this->autoCompleteData($this->insert);
+
             // 自动写入创建时间和更新时间
             if ($this->autoWriteTimestamp) {
                 if ($this->createTime && !isset($this->data[$this->createTime])) {
@@ -1023,9 +1027,6 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             if (false === $this->trigger('before_insert', $this)) {
                 return false;
             }
-
-            // 检测字段
-            $this->checkAllowField($this->data);
 
             $result = $this->getQuery()->insert($this->data);
 
@@ -1060,14 +1061,18 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         return $result;
     }
 
-    protected function checkAllowField(&$data)
+    protected function checkAllowField(&$data, $auto = [])
     {
         if (!empty($this->field)) {
             if (true === $this->field) {
                 $this->field = $this->getQuery()->getTableInfo('', 'fields');
+                $field       = $this->field;
+            } else {
+                $field = array_merge($this->field, $auto);
             }
+
             foreach ($data as $key => $val) {
-                if (!in_array($key, $this->field)) {
+                if (!in_array($key, $field)) {
                     unset($data[$key]);
                 }
             }
