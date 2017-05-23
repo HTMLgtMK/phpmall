@@ -40,6 +40,8 @@
 			//1.查找提交的注册邮箱是否已经注册卖家
 			if($this->isSellerRegisted($post_data['email'])){
 				$this->error("用户已经注册卖家!");
+			}else if($this->isUserApplied($post_data['email'])){
+				$this->error("已经申请注册!请查看邮箱完成验证!");
 			}else{
 				//2.获取随机字符串
 				$code=randStr(30);//数据库设置最多支持30个支付
@@ -49,7 +51,7 @@
 					$test_num=$test_num-1;//防止死循环
 				}
 				//2.发送邮件到注册的邮箱
-				$link=\think\Url::build("seller/register/step2",['code'=>$code],true,true);
+				$link=\think\Url::build("seller/register/step2",['code'=>$code],false,true);
 				$toAddress=$post_data['email'];
 				$subject="卖家注册";
 				$body="欢迎注册卖家,请点击下面链接完成注册:</br>
@@ -58,7 +60,7 @@
 				if($res){
 					//3.写入激活数据表
 					$time=time();
-					$pwd=$post_data['password'];
+					$pwd=md5($post_data['password']);
 					$data=array(
 						"mail"=>"$toAddress",
 						"pwd"=>"$pwd",
@@ -67,7 +69,7 @@
 					);
 					$this->db
 						->table($this->tb_activate)
-						->insert($data,true);//插入或更新
+						->insert($data);//插入或更新
 					return $this->success("邮件已经发送!");
 				}else{
 					return $this->error("邮件发送失败!");
@@ -115,6 +117,18 @@
 				->table($this->tb_activate)
 				->alias('a')
 				->where(array('a.code'=>"$code"))
+				->find();
+		return $res;
+	}
+	
+	/**
+	 * 判断是否已经申请注册
+	 */
+	private function isUserApplied($email){
+		$res=$this->db
+				->table($this->tb_activate)
+				->alias('a')
+				->where(array('a.mail'=>"$email"))
 				->find();
 		return $res;
 	}

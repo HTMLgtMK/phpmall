@@ -33,6 +33,10 @@
 			url=url+"?id="+Math.random();
 			$(img).attr("src",url);
 		}
+		/*清空消息显示*/
+		function clearMsg(){
+			$(".msg-window").html("&nbsp;");
+		}
 	</script>
   </head>
   <body>
@@ -95,7 +99,7 @@
 						<td></td>
 						<td>
 							<div class="text-center">
-								<img id="verify" class="col-off-sm-6 col-sm-6" src="{:captcha_src()}" width="80%" height="30"  alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
+								<img id="verify_img" class="col-off-sm-6 col-sm-6" src="{:captcha_src()}" width="80%" height="30"  alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
 							</div>
 						</td>
 					</tr>
@@ -106,10 +110,15 @@
 				<button id="register" class="btn btn-primary" style="width:80%"  type="submit">{$Think.lang.SUBMIT}</button>
 		</div>
       </form>
+	  <!-- show some info msg -->
+	  <div class="msg-window text-center">&nbsp;</div>
     </div> <!-- /container -->
 	<script type="text/javascript">
-	
 	$(document).ready(function(){
+		$("form").keypress(function(){
+				clearMsg();
+		});
+	
 		var form = $('form.js-ajax-forms');
 		var formloading=false;
 		//表单验证开始
@@ -168,17 +177,22 @@
 				//Object { code: 0, msg: "验证码错误!", data: "", url: "", wait: 3 }
 				$(forms).ajaxSubmit({
 					url:form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
-					//dataType:'json',
+					dataType:'json',
 					beforeSubmit:function(attr,form,opts){
 						formloading=true;
 					},
 					success:function(data, statusText, xhr, $form){
 						formloading=false;
-						console.info(data);
-						if(data.code){
-							//添加成功,跳转
+						refreshVerify($("#verify_img"));//刷新验证码
+						//console.info(data);
+						$("#password").val("");
+						$("#confirm").val("");
+						$("#verify").val("");
+						if(data.status){
+							$(".msg-window").html(data.msg);
 						}else{
-							alert(data.msg);
+							//alert(data.msg);
+							$(".msg-window").html(data.msg);
 						}
 					},
 					error:function(textStatus,xhr){

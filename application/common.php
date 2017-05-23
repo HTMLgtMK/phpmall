@@ -34,13 +34,13 @@
   * @param bool
   */
  function sendEmail($toAddress,$subject,$body){
-	include_once(EXTEND_PATH."PHPMailer/PHPMailerAutoload.php");
+	include_once(VENDOR_PATH."phpmailer/phpmailer/PHPMailerAutoload.php");
 	
 	$meEmail=\think\Config::get('Email');
 	
 	$mail=new \PHPMailer();
 	
-	$mail->SMTPDebug=3;//打印smtp信息
+	//$mail->SMTPDebug=3;//打印smtp信息
 	
 	$mail->isSMTP();
 	$mail->Host=$meEmail['host'];

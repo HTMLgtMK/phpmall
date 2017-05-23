@@ -10,7 +10,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 --  表的结构 `tb_buyer` 买家表
 -- 
 CREATE TABLE IF NOT EXISTS `tb_buyer`(
-	`id` INTEGER NOT NULL COMMENT "买家用户唯一标识",
+	`id` INTEGER NULL COMMENT "买家用户唯一标识",
 	`name` CHAR(50) Not NULL COMMENT "买家实名",
 	`nickname` VARCHAR(200) NULL COMMENT "昵称",
 	`tel` CHAR(11) NULL COMMENT "买家联系方式",
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `tb_buyer`(
 -- 表的结构`tb_seller` 卖家表
 --
 CREATE TABLE IF NOT EXISTS `tb_seller` (
-	`id` INTEGER NOT NULL COMMENT "卖家唯一标识",
+	`id` INTEGER NULL COMMENT "卖家唯一标识",
 	`buyer_id` INTEGER NOT NULL COMMENT "买家身份id,外键",
 	`level` SMALLINT NULL DEFAULT 1 COMMENT "卖家级别",
 	`sell_count` INTEGER NULL DEFAULT 0 COMMENT "交易次数",
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `tb_seller` (
 -- 表的结构 `tb_store` 店铺表
 --
 CREATE TABLE IF NOT EXISTS `tb_store` (
-	`id` INTEGER NOT NULL COMMENT "店铺唯一标识",
+	`id` INTEGER NULL COMMENT "店铺唯一标识",
 	`seller_id` INTEGER NOT NULL COMMENT "店铺主id,外键",
 	`c_time` LONG NOT NULL COMMENT "店铺创建时间"
 )DEFAULT CHARSET=UTF8 COMMENT="店铺表";
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `tb_store` (
 -- 表的结构`tb_store_terms` 店铺内商品分类
 --
 CREATE TABLE IF NOT EXISTS `tb_store_terms`(
-	`id` BIGINT NOT NULL COMMENT "分类唯一标识",
+	`id` BIGINT NULL COMMENT "分类唯一标识",
 	`name` VARCHAR(100) NOT NULL COMMENT "分类名称",
 	`parent_id` BIGINT NULL DEFAULT 0 COMMENT "上级分类id,默认0表示一级分类",
 	`store_id` INTEGER NOT NULL COMMENT "店铺id,外键",
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `tb_store_terms`(
 -- 表的结构`tb_goods` 商品表
 --
 CREATE TABLE IF NOT EXISTS `tb_goods`(
-	`id` BIGINT NOT NULL COMMENT "商品唯一标识",
+	`id` BIGINT NULL COMMENT "商品唯一标识",
 	`store_id` INTEGER NOT NULL COMMENT "商店id,外键",
 	`name` VARCHAR(255) NOT NULL COMMENT "商品名称",
 	`description` text NULL COMMENT "商品描述",
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `tb_goods`(
 -- 表的结构 `tb_order` 订单表
 --
 CREATE TABLE IF NOT EXISTS `tb_order`(
-	`id` BIGINT NOT NULL COMMENT "订单唯一标识",
+	`id` BIGINT NULL COMMENT "订单唯一标识",
 	`buyer_id` INTEGER NOT NULL COMMENT "买家id,外键",
 	`goods_id` BIGINT NOT NULL COMMENT "商品id,外键",
 	`store_id` INTEGER NOT NULL COMMENT "店铺id,外键,可有可恶!!!",
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `tb_order`(
 -- 表的结构 `tb_cart` 购物车表
 --
 CREATE TABLE IF NOT EXISTS `tb_cart`(
-	`id` BIGINT NOT NULL COMMENT "唯一标识",
+	`id` BIGINT NULL COMMENT "唯一标识",
 	`goods_id` BIGINT NOT NULL COMMENT "商品id,外键",
 	`num` INTEGER NOT NULL COMMENT "数量",
 	`buyer_id` INTEGER NOT NULL COMMENT "买家id,外键",
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `tb_cart`(
 -- 表的结构 `tb_admin` 管理员表
 --
 CREATE TABLE IF NOT EXISTS `tb_admin`(
-	`id` INTEGER NOT NULL COMMENT "管理员唯一标识",
+	`id` INTEGER NULL COMMENT "管理员唯一标识",
 	`name` CHAR(50) NOT NULL COMMENT "管理员实名",
 	`tel` CHAR(11) NULL COMMENT "管理员联系电话",
 	`mail` VARCHAR(20) NOT NULL COMMENT "管理员登陆注册邮箱",
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `tb_admin`(
 -- 表的结构 `tb_site_terms` 商城商品分类表
 --
 CREATE TABLE IF NOT EXISTS `tb_site_terms`(
-	`id` INTEGER NOT NULL COMMENT "商城商品分类id",
+	`id` INTEGER NULL COMMENT "商城商品分类id",
 	`name` VARCHAR(100) NOT NULL COMMENT "分类名称",
 	`parent_id` BIGINT NULL DEFAULT 0 COMMENT "上级分类id,默认0表示一级分类",
 	`status` TINYINT NULL DEFAULT 1 COMMENT "启用状态,1:启用分类,0:停用分类",
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `tb_site_terms`(
 -- 表的结构 `tb_slides` 首页轮播图表
 --
 CREATE TABLE IF NOT EXISTS `tb_slides`(
-	`id` INTEGER NOT NULL COMMENT "轮播图id",
+	`id` INTEGER NULL COMMENT "轮播图id",
 	`url` text NOT NULL COMMENT "轮播图url",
 	`msg` text NULL COMMENT "附加消息",
 	`status` TINYINT NULL DEFAULT 1 COMMENT "启用状态,1:启用,0:停用",
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `tb_slides`(
 -- 表的结构 `tb_seller_activate` 卖家激活表
 --
 CREATE TABLE IF NOT EXISTS `tb_seller_activate`(
-	`id` INTEGER NOT NULL COMMENT '激活id',
+	`id` INTEGER NULL COMMENT '激活id',
 	`mail` CHAR(20) NOT NULL COMMENT "买家邮箱,注册登陆用？",
 	`pwd` VARCHAR(255) NOT NULL COMMENT "登陆密码,md5加密",
 	`status` TINYINT DEFAULT 0 COMMENT '验证状态,0:待验证,1:已经验证',
@@ -200,6 +200,11 @@ ALTER TABLE `tb_site_terms`
 ALTER TABLE `tb_slides` 
 	ADD PRIMARY KEY (`id`);
 	
+--
+-- INDEX FOR `tb_seller_activate`
+--
+ALTER TABLE `tb_seller_activate` 
+	ADD PRIMARY KEY (`id`);
 --
 -- AUTO_INCREMENT for table `tb_buyer`
 --
