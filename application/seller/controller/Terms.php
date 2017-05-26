@@ -34,6 +34,9 @@
 	 public function index(){
 		 $seller_id=Session::get('seller.id');		 
 		 $term_id=Request::instance()->param('term_id');
+		 if(empty($term_id)) {
+			 $term_id=0;
+		 }
 		 $this->terms_path($term_id);
 		 $this->terms_child($term_id);
 		 return $this->fetch();

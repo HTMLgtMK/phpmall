@@ -23,5 +23,12 @@
 	'GOODS'				=>'商品',
 	'TERMS'				=>'分类',
 	'ME'				=>'我的',
+	'OP'				=>'操作',
+	'UPDATE'			=>'修改',
+	'DELETE'			=>'删除',
+	'DELETE_CONFIRM'	=>'确认删除',
+	'CONFIRM'			=>'确认',
+	'CANCEL'			=>'取消',
+	'ADD'				=>'添加',
  ];
 ?>
