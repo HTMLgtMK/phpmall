@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
 	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
 	<style type="text/css">
 		body,html{
@@ -27,9 +28,11 @@
 	<!-- 当前分类路径 -->
 	<div>
 		<ol class="breadcrumb" id="terms_path">
-			<li><a href="{:url('seller/terms/index',['id'=>'0'])}">root</a></li>
-			{foreach($term_path as $term)}
-				<li><a href="{:url('seller/terms/index',['id'=>'$term['id']'])}"></a></li>
+			/
+			<li><a href="{:url('seller/terms/index',['term_id'=>'0'])}">root</a></li>
+			{foreach($terms_path as $term)}
+				/
+				<li><a href="{:url('seller/terms/index',['term_id'=>$term['id']])}">{$term['name']}</a></li>
 			{/foreach}
 			<script type="text/javascript">
 				/*添加active*/
@@ -37,9 +40,29 @@
 			</script>
 		</ol>
 	</div>
+	{:var_dump($terms_path);}
+	
+	<ul class="list-group">
+	  <li class="list-group-item">
+		<span class="badge">14</span>
+		Cras justo odio
+	  </li>
+	</ul>
 	<!-- 下级分类 -->
-	<div class="wrapper" id="content-window" style="padding:0;margin:0px;">
-		
+	<div>
+		{empty name="terms_child"}
+			<div class="jumbotron">
+				<h1>没有下级分类!</h1>
+			</div>
+		{else /}
+			<ul class="list-group">
+				{foreach($terms_child as $term)}
+					<li class="list-group-item">
+						<a href="{:url('seller/terms/index',['term_id'=>$term['id']])}">{$term['name']}</a>
+					</li>
+				{/foreach}
+			</ul>
+		{/empty}
 	</div>
 	<!-- 底部菜单 -->
 	{include file="public/bottom_menu" /}
@@ -48,9 +71,6 @@
 			$("#menu_item2").addClass("menu-item-active");
 			$("#menu_item2 a").attr("href","#");//去掉当前活动链接的url
 		});
-		
-		
-		
 	</script>
 </body>
 </html>
