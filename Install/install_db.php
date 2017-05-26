@@ -29,14 +29,14 @@ function sp_execute_sql($db,$file,$tablepre){
             if(false != mysqli_query($db,$item)){
                 echo $msg . ' 完成',"<br/>";
             } else {
-				echo mysqli_error($db),"<br/>";
-                echo $msg . ' 失败！', 'error',"<br/>";
+				echo "<span style='color:red;'>",mysqli_error($db),"</span><br/>";
+                echo "<span style='color:red;'>",$msg . ' 失败！',"</span><br/>";
             }
         } else {
 			$msg = "执行=>".$item;
 			echo $msg,"<br/>";
             if(false == mysqli_query($db,$item)){
-				echo mysqli_error($db),"<br/>";
+				echo "<span style='color:red;'>",mysqli_error($db),"</span><br/>";
 			}
         }
     }

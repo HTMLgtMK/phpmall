@@ -257,6 +257,13 @@ return [
         'reset'    => true
 	],
 	
+	//session配置
+	'session'				=> [
+		'prefix'		=> 'module',
+		'type'			=> '',
+		'auto_start'	=> true
+	],
+	
 	//开发管理配置
 	'Email'					=>[
 		'username'	=> 'R1RfR2FtZUVtYWlsQDE2My5jb20=',

@@ -1,0 +1,34 @@
+.menu-bar {
+font-size: 12px;
+font-weight: bolder;
+padding:0;
+margin:0;
+width:100%;
+height:auto;
+}
+.menu-bar li{
+list-style-image: none;
+list-style-type: none;
+background-color: #383838;
+border-right-width: 1px;
+border-right-style: solid;
+border-right-color: #000000;
+float: left;
+}
+.menu-bar li a{
+color: #FFFFFF;
+text-decoration: none;
+margin: 0px;
+display: block; /* 作为一个块 */
+padding-bottom: 8px;
+text-align:center;
+}
+.menu-bar a.last {
+border-right:0; /* 去掉左侧边框 */
+}
+.menu-bar li a:hover{
+background-color: #0099CC;
+}
+.menu-item-active a{
+	opacity:0.5;
+}

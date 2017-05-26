@@ -66,4 +66,12 @@ return [
 	'TB_BUYER'		  => 'buyer',
 	//卖家激活表
 	'TB_SELLER_ACTIVATE'	=> 'seller_activate',
+	//买家激活表
+	'TB_BUYER_ACTIVATE'		=> 'buyer_activate',
+	//商店分类表
+	'TB_STORE_TERMS'		=> 'store_terms',
+	//商品表
+	'TB_GOODS'				=> 'goods',
+	//商店表
+	'TB_STORE'				=> 'store',
 ];

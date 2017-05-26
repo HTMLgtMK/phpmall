@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
     <meta name="description" content="" />
     <meta name="author" content="GT" />
-    <title>{$Think.lang.buyer_register}</title>
+    <title>{$Think.lang.seller_login}</title>
     <link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
@@ -40,17 +40,11 @@
 	</script>
   </head>
   <body>
-	<div class="container-fluid">
-		<ol class="breadcrumb">
-			<li class="active"><a href="#">1.{$Think.lang.reg_step1}</a></li> &nbsp;&nbsp;
-			<li>2.{$Think.lang.reg_step2}</li>
-		</ol>
-	</div>
     <div>
-      <form class="js-ajax-forms" method="post" action="{:url('index/Register/step1')}">
+      <form class="js-ajax-forms" method="post" action="{:url('Publicc/login')}">
 		<div class="table-responsive">
 			<table class="table">
-				<caption><h1>{$Think.lang.buyer_register}</h1></caption>
+				<caption><h1>{$Think.lang.seller_login}</h1></caption>
 				<tbody>
 					<tr>
 						<td>
@@ -60,21 +54,7 @@
 						</td>
 						<td>
 							<div class="text-center">
-								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" required autofocus />
-								<div style="color:red" class="help-block">用于用户登陆，不可更改</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="name" class="hidden control-label col-sm-2 sr-only">{$Think.lang.NAME}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="text" id="name" name="name" class="form-control" style="width:80%;" placeholder="{$Think.lang.NAME}" required />
-								<div style="color:red" class="help-block">用户真实姓名，不可更改</div>
+								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" value="{$res['mail']}" required autofocus />
 							</div>
 						</td>
 					</tr>
@@ -87,18 +67,6 @@
 						<td>
 							<div class="text-center">
 								<input type="password" id="password" name="password" class="form-control" style="width:80%;" placeholder="{$Think.lang.PASSWORD}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="confirm" class="hidden control-label col-sm-2 sr-only">{$Think.lang.CONFIRM_PWD}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="password" id="confirm" name="confirm" class="form-control" style="width:80%;" placeholder="{$Think.lang.CONFIRM_PWD}" required />
 							</div>
 						</td>
 					</tr>
@@ -126,7 +94,7 @@
 			</table>
 		</div>
 		<div class="text-center row">
-				<button id="register" class="btn btn-primary" style="width:80%"  type="submit">{$Think.lang.SUBMIT}</button>
+				<button id="register" class="btn btn-primary" style="width:80%"  type="submit">{$Think.lang.LOGIN}</button>
 		</div>
       </form>
 	  <!-- show some info msg -->
@@ -154,17 +122,9 @@
 					required:true,
 					email:true
 				},
-				name:{
-					required:true
-				},
 				password:{
 					required:true,
 					minlength:5
-				},
-				confirm:{
-					required:true,
-					minlength:5,
-					equalTo:'#password'
 				},
 				verify:{
 					required:true
@@ -176,17 +136,9 @@
 					required:'请输入邮箱地址',
 					email:'请输入正确邮箱地址'
 				},
-				name:{
-					required:'请输入真实姓名'
-				},
 				password:{
 					required:'请输入密码',
 					minlength:'密码长度不能少于5位'
-				},
-				confirm:{
-					required:'请输入确认密码',
-					minlength:'密码长度不能少于5位',
-					equalTo:'两次输入密码不一致'
 				},
 				verify:'请输入验证码'
 			},             
@@ -208,14 +160,15 @@
 					},
 					success:function(data, statusText, xhr, $form){
 						formloading=false;
-						refreshVerify($("#verify_img"));//刷新验证码
-						//console.info(data);
-						$("#password").val("");
-						$("#confirm").val("");
-						$("#verify").val("");
-						if(data.status){
+						console.info(data);
+						if(data.code){
 							$(".msg-window").html(data.msg);
+							location.href=data.url;
 						}else{
+							$("#password").val("");
+							//$("#confirm").val("");
+							$("#verify").val("");
+							refreshVerify($("#verify_img"));//刷新验证码
 							//alert(data.msg);
 							$(".msg-window").html(data.msg);
 						}

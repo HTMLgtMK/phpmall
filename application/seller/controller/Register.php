@@ -9,6 +9,7 @@
  use \think\Db;
  use \think\Config;
  use \think\Request;
+ use \think\Url;
  
  class Register extends Controller{
 	 
@@ -35,13 +36,13 @@
 			//var_dump($post_data);
 			if(!captcha_check($post_data['verify'])){
 				 //验证失败
-				 $this->error("验证码错误!");
+				 return $this->error("验证码错误!");
 			}
 			//1.查找提交的注册邮箱是否已经注册卖家
 			if($this->isSellerRegisted($post_data['email'])){
-				$this->error("用户已经注册卖家!");
+				return $this->error("用户已经注册卖家!");
 			}else if($this->isUserApplied($post_data['email'])){
-				$this->error("已经申请注册!请查看邮箱完成验证!");
+				return $this->error("已经申请注册!请查看邮箱完成验证!");
 			}else{
 				//2.获取随机字符串
 				$code=randStr(30);//数据库设置最多支持30个支付
@@ -84,16 +85,49 @@
 	 * 步骤2
 	 */
 	function step2(){
-		$code=Request::instance()->get('code');
+		$request=Request::instance()->param();
+		if(empty($request['code'])){
+			return $this->error("错误参数!");
+		}
+		$code=$request['code'];
 		$res=$this->db
-				->where(array('code'=>$code))
+				->table($this->tb_activate)
+				->where(array("code"=>"$code"))
 				->find();
 		if(!$res){
-			$this->error("验证码已经过期!需要重新申请注册!");
-		}else{
-			//添加到卖家表
-			
+			return $this->error("验证码已经失效!");
 		}
+		$mail=$res['mail'];
+		$pwd=$res['pwd'];
+		$time=time();
+		
+		$buyer=$this->db->table($this->tb_buyer)->where(['mail'=>"$mail"])->find();
+		if(!$buyer){
+			return $this->error("请先注册为买家!");
+		}
+		//1.写入已经具有的信息
+		$buyer_id=$buyer['id'];
+		
+		$data=array(
+			'buyer_id'=>"$buyer_id",
+			"pwd"=>"$pwd",
+			"c_time"=>"$time"
+		);
+		$exist=$this->db->table($this->tb_seller)->where(['buyer_id'=>"$buyer_id"])->find();
+		if(!$exist){
+			$this->db->startTrans();//启用事务
+			$this->db->table($this->tb_seller)->insert($data);
+			$this->db->table($this->tb_activate)->where("id",$res['id'])->update(['status'=>'1']);
+			$this->db->commit();//提交事务
+		}
+		$redirect_url=Url::build("seller/Publicc/login",array("mail"=>"$mail"));
+		$content="卖家身份验证成功!<br/>即将跳转...
+					<script type='text/javascript'>
+						window.setTimeout(function(){
+							window.location='$redirect_url';
+						},2000);
+					</script>";
+		return $this->display($content);
 	}
 	
 	/*

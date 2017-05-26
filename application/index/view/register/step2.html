@@ -28,26 +28,28 @@
 		}
 	</style>
 	<script type="text/javascript">
-		function refreshVerify(img){
-			var url="{:captcha_src()}";
-			url=url+"?id="+Math.random();
-			$(img).attr("src",url);
-		}
 		/*清空消息显示*/
 		function clearMsg(){
 			$(".msg-window").html("&nbsp;");
+		}
+		/*跳过*/
+		function jj(){
+			var email=$("#email").val();
+			var url="{:url('index/Index/login')}";
+			window.location.href=url+"?email="+email;
 		}
 	</script>
   </head>
   <body>
 	<div class="container-fluid">
 		<ol class="breadcrumb">
-			<li class="active"><a href="#">1.{$Think.lang.reg_step1}</a></li> &nbsp;&nbsp;
-			<li>2.{$Think.lang.reg_step2}</li>
+			<li>1.{$Think.lang.reg_step1}</li> &nbsp;&nbsp;
+			<li class="active"><a href="#">2.{$Think.lang.reg_step2}</a></li>
 		</ol>
 	</div>
     <div>
-      <form class="js-ajax-forms" method="post" action="{:url('index/Register/step1')}">
+      <form class="js-ajax-forms" method="post" action="{:url('index/Register/step3')}">
+		<input type="hidden" name="id" value="{$info['id']}" />
 		<div class="table-responsive">
 			<table class="table">
 				<caption><h1>{$Think.lang.buyer_register}</h1></caption>
@@ -60,8 +62,7 @@
 						</td>
 						<td>
 							<div class="text-center">
-								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" required autofocus />
-								<div style="color:red" class="help-block">用于用户登陆，不可更改</div>
+								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" value="{$info['mail']}" readonly="readonly" required />
 							</div>
 						</td>
 					</tr>
@@ -73,60 +74,42 @@
 						</td>
 						<td>
 							<div class="text-center">
-								<input type="text" id="name" name="name" class="form-control" style="width:80%;" placeholder="{$Think.lang.NAME}" required />
-								<div style="color:red" class="help-block">用户真实姓名，不可更改</div>
+								<input type="text" id="name" name="name" class="form-control" style="width:80%;" placeholder="{$Think.lang.NAME}" value="{$info['name']}" readonly="readonly" required />
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<div class="text-center">
-								<label for="password" class="hidden control-label col-sm-2 sr-only">{$Think.lang.PASSWORD}</label>
+								<label for="name" class="hidden control-label col-sm-2 sr-only">{$Think.lang.NICKNAME}</label>
 							</div>
 						</td>
 						<td>
 							<div class="text-center">
-								<input type="password" id="password" name="password" class="form-control" style="width:80%;" placeholder="{$Think.lang.PASSWORD}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="confirm" class="hidden control-label col-sm-2 sr-only">{$Think.lang.CONFIRM_PWD}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="password" id="confirm" name="confirm" class="form-control" style="width:80%;" placeholder="{$Think.lang.CONFIRM_PWD}" required />
+								<input type="text" id="nickname" name="nickname" class="form-control" style="width:80%;" placeholder="{$Think.lang.NICKNAME}" value="{$info['nickname']}" autofocus />
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<div class="text-center">
-								<label for="verify" class="hidden control-label col-sm-2 sr-only">{$Think.lang.VERIFY}</label>
+								<label for="tel" class="hidden control-label col-sm-2 sr-only">{$Think.lang.TEL}</label>
 							</div>
 						</td>
 						<td>
 							<div class="text-center">
-								<input type="text" id="verify" name="verify" class="form-control" style="width:80%;" placeholder="{$Think.lang.VERIFY}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							<div class="text-center">
-								<img id="verify_img" class="col-off-sm-6 col-sm-6" src="{:captcha_src()}" width="80%" height="30"  alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
+								<input type="tel" id="tel" name="tel" class="form-control" style="width:80%;" placeholder="{$Think.lang.TEL}" value="{$info['tel']}" />
 							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="text-center row">
-				<button id="register" class="btn btn-primary" style="width:80%"  type="submit">{$Think.lang.SUBMIT}</button>
+		<div class="text-center">
+			<button id="register" class="btn btn-primary"  style="width:80%;" type="submit">{$Think.lang.SUBMIT}</button>
+		</div><br/>
+		<div class="text-center">
+			<button id="jump" class="btn btn-default"style="width:80%;" onclick="jj();" >{$Think.lang.JUMP}</button>
 		</div>
       </form>
 	  <!-- show some info msg -->
@@ -137,7 +120,6 @@
 		$("form").keypress(function(){
 				clearMsg();
 		});
-	
 		var form = $('form.js-ajax-forms');
 		var formloading=false;
 		//表单验证开始
@@ -157,18 +139,6 @@
 				name:{
 					required:true
 				},
-				password:{
-					required:true,
-					minlength:5
-				},
-				confirm:{
-					required:true,
-					minlength:5,
-					equalTo:'#password'
-				},
-				verify:{
-					required:true
-				},
 			},
 			//验证未通过提示消息
 			messages : {
@@ -179,16 +149,6 @@
 				name:{
 					required:'请输入真实姓名'
 				},
-				password:{
-					required:'请输入密码',
-					minlength:'密码长度不能少于5位'
-				},
-				confirm:{
-					required:'请输入确认密码',
-					minlength:'密码长度不能少于5位',
-					equalTo:'两次输入密码不一致'
-				},
-				verify:'请输入验证码'
 			},             
 			//给未通过验证的元素加效果,闪烁等
 			highlight : false,
@@ -208,13 +168,12 @@
 					},
 					success:function(data, statusText, xhr, $form){
 						formloading=false;
-						refreshVerify($("#verify_img"));//刷新验证码
 						//console.info(data);
-						$("#password").val("");
-						$("#confirm").val("");
-						$("#verify").val("");
 						if(data.status){
 							$(".msg-window").html(data.msg);
+							window.setTimeout(function(){
+								jj();
+							},2000);//延时跳转
 						}else{
 							//alert(data.msg);
 							$(".msg-window").html(data.msg);

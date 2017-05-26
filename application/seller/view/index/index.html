@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<title>{$Think.lang.MYSTORE}</title>
+	<meta name="author" content="GT" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<style type="text/css">
+		body,html{
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+			/*text-align:center;*/
+			padding:0;
+			margin:0;
+		}
+		/*改变验证消息颜色*/
+		.error{
+			color:red
+		}
+	</style>
+</head>
+<body>
+	<!-- 外部框架 -->
+	<div class="wrapper" style="padding:0;margin:0px;">
+		{:var_dump($list);}
+	</div>
+	<!-- 底部菜单 -->
+	{include file="public/bottom_menu" /}
+	<script type="text/javascript">
+		$(window).ready(function(){
+			$("#menu_item1").addClass("menu-item-active");
+			$("#menu_item1 a").attr("href","#");//去掉当前活动链接的url
+		});
+	</script>
+</body>
+</html>

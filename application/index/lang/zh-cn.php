@@ -8,6 +8,7 @@
 	'PASSWORD'	  		=> '密码',
 	'NAME'				=> '真实姓名',
 	'NICKNAME'			=> '昵称',
+	'TEL'				=> '手机号码',
 	'EMAIL_ADDRESS'		=> '邮箱地址',
 	'CONFIRM_PWD'		=> '确认密码',
 	'VERIFY'			=> '验证码',
@@ -16,5 +17,6 @@
 	'SUBMIT'			=> '提交',
 	'reg_step1'			=> '填写注册信息',
 	'reg_step2'			=> '完善个人信息',
+	'JUMP'				=> '跳过',
  );
 ?>
