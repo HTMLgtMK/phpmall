@@ -6,70 +6,134 @@
  */
  namespace app\seller\Controller;
  use \app\seller\Controller\Base;
- use \think\Config;
  use \think\Request;
- use \think\Db;
  use \think\Session;
+ use \app\common\model\StoreTerms;
  
  class Terms extends Base{
 	 
-	 protected $db;
-	 protected $tb_buyer;
-	 protected $tb_seller;
-	 protected $tb_store_terms;
-	 protected $tb_store;
-	 protected $tb_goods;
-	 
 	 function _initialize(){
 		 parent::_initialize();
-		 $this->db=Db::connect();
-		 $database=Config::get('database');
-		 $this->tb_buyer=$database['prefix'].$database['TB_BUYER'];
-		 $this->tb_seller=$database['prefix'].$database['TB_SELLER'];
-		 $this->tb_store_terms=$database['prefix'].$database['TB_STORE_TERMS'];
-		 $this->tb_store=$database['prefix'].$database['TB_STORE'];
-		 $this->tb_goods=$database['prefix'].$database['TB_GOODS'];
+		  if(!Session::has('store_id')){
+			 Session::clear();
+			 $url=\think\Url::build("seller/Publicc/login",true,true);
+			 return $this->error("登陆超时!",$url);
+		 }
 	 }
 	 
 	 public function index(){
-		 $seller_id=Session::get('seller.id');		 
 		 $term_id=Request::instance()->param('term_id');
-		 if(empty($term_id)) {
+		 if(!isset($term_id)) {
 			 $term_id=0;
 		 }
-		 $this->terms_path($term_id);
-		 $this->terms_child($term_id);
+		 $terms_path=(new StoreTerms())->terms_path($term_id);
+		 $this->assign("terms_path",$terms_path);
+		 $terms_child=StoreTerms::where('parent_id',$term_id)->select();
+		 $this->assign('terms_child',$terms_child);
 		 return $this->fetch();
 	 }
 	 
-	 /**
-	  * 获取该分类下的所有分类
-	  * @param $term_id 分类id
-	  */
-	 private function terms_child($term_id=0){
-		 $terms_child=$this->db
-						->table($this->tb_store_terms)
-						->where('parent_id',$term_id)
-						->select();
-		 $this->assign('terms_child',$terms_child);
+	 public function add(){
+		 if(Request::instance()->isPost()){
+			 $store_id=Session::get("store_id");
+			
+			 $post_data=Request::instance()->post();
+			 if(!isset($post_data['term_parent'])){
+				 return $this->error("请选择父级分类!");
+			 }
+			 if(!isset($post_data['term_name'])){
+				 return $this->error("请输入分类名称!");
+			 }
+			 if(!isset($post_data['term_status'])){
+				 $post_data['status']='1';
+			 }
+			 $model_store_terms=new StoreTerms();
+			 if($model_store_terms->isExistTerm($store_id,$post_data['term_name'])){
+				 return $this->error("已经存在该分类!");
+			 }
+			 $timestamp=date('Y-m-d H:i:s',time());
+			 $data=array(
+				'parent_id'=>"{$post_data['term_parent']}",
+				'name'=>"{$post_data['term_name']}",
+				'store_id'=>"{$store_id}",
+				'status'=>"{$post_data['term_status']}",
+				'c_time'=>"{$timestamp}"
+			 );
+			 $res=$model_store_terms->insert($data);
+			 if(!$res){
+				 $err=$model_store_terms->getError();
+				 return $this->error("添加失败!".$err);
+			 }else{
+				 return $this->success("添加成功!");
+			 }
+		 }else{
+			 $term_id=Request::instance()->param('term_id');
+			 $store_id=Session::get('store_id');
+			 $terms=StoreTerms::where('store_id',$store_id)->select();
+			 $this->assign("terms",$terms);
+			 $this->assign("term_id",$term_id);
+			 return $this->fetch();
+		 }
 	 }
 	 
-	 /*
-	  * 获取当前分类的路径
-	  */
-	 private function terms_path($term_id=0){
-		 $terms_path=array();
-		 while($term_id!=0){
-			 $term=$this->db
-						->table($this->tb_store_terms)
-						->where('id',$term_id)
-						->find();
-			 $terms_path[]=$term;
-			 $term_id=$term['parent_id'];
+	 public function edit(){
+		 if(Request::instance()->isPost()){
+			 $store_id=Session::get("store_id");
+			 $post_data=Request::instance()->post();
+			 if(!isset($post_data['term_parent'])){
+				 return $this->error("请选择父级分类!");
+			 }
+			 if(!isset($post_data['term_name'])){
+				 return $this->error("请输入分类名称!");
+			 }
+			 if(!isset($post_data['term_status'])){
+				 $post_data['status']='1';
+			 }
+			 $model_store_terms=new StoreTerms();
+			 if($model_store_terms->isExistTerm($store_id,$post_data['term_name'])){
+				 return $this->error("已经存在该分类!");
+			 }
+			 $timestamp=date('Y-m-d H:i:s',time());
+			 $data=array(
+				'parent_id'=>"{$post_data['term_parent']}",
+				'name'=>"{$post_data['term_name']}",
+				'status'=>"{$post_data['term_status']}",
+				'store_id'=>"{$store_id}"
+			 );
+			 $res=$model_store_terms->where("id","{$post_data['id']}")
+						->update($data);
+			 if(!$res){
+				 $err=$model_store_terms->getError();
+				 return $this->error("修改失败!".$err);
+			 }else{
+				 return $this->success("修改成功!");
+			 }
+		 }else{
+			 $term_id=Request::instance()->param('term_id');
+			 if(!isSet($term_id)){
+				 return $this->error("错误参数!");
+			 }
+			 $term=StoreTerms::where("id",$term_id)->find();
+			 if(!$term){
+				 return $this->error("没有该分类!");
+			 }
+			 $store_id=Session::get('store_id');
+			 $terms=StoreTerms::where('store_id',$store_id)->select();
+			 $this->assign("terms",$terms);
+			 $this->assign("term",$term);
+			 // var_dump($term);exit;
+			 return $this->fetch();
 		 }
-		 //反转数组
-		 $terms_path=array_reverse($terms_path,true);
-		 $this->assign('terms_path',$terms_path);
+	 }
+	 
+	 public function delete(){
+		$term_id=Request::instance()->param('term_id');
+		$res=StoreTerms::delete(['id'=>"{$term_id}"]);
+		if(!$res){
+			$err=StoreTerms::getError();
+			return $this->error("删除失败!".$err);
+		}
+		return $this->success("删除成功!");
 	 }
  }
 ?>

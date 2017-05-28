@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<title>{$Think.lang.EDIT}</title>
+	<meta name="author" content="GT" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.form.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<style type="text/css">
+		body,html{
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+			/*text-align:center;*/
+			padding:0;
+			margin:0;
+		}
+		/*改变验证消息颜色*/
+		.error{
+			color:red
+		}
+	</style>
+	<script type="text/javascript">
+		/*清空消息显示*/
+		function clearMsg(){
+			$(".msg-window").html("&nbsp;");
+		}
+	</script>
+</head>
+<body>
+	<div class="container center-block" style="margin-top:30px;">
+		<form class="form form-horizontal js-ajax-forms" action="{:url('seller/terms/edit')}" method="post">
+			<input type="hidden" name="id" value="{$term['id']}" />
+			<div class="form-group">
+				<label for="term_parent" class="col-xs-2 control-label">父级</label>
+				<div class="col-xs-8">
+					<select id="term_parent" class="form-control" name="term_parent" required autofocus >
+						<option value="0">一级菜单</option>
+						{foreach($terms as $vo)}
+							<option value="{$vo['id']}">{$vo['name']}</option>
+						{/foreach}
+					</select>
+					<!-- 默认选中的父级分类 -->
+					<script type="text/javascript">
+						$("#term_parent").val("{$term['parent_id']}");
+					</script>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="term_name" class="col-xs-2 control-label">名称</label>
+				<div class="col-xs-8">
+					<input type="text" id="term_name" class="form-control" name="term_name" value="{$term['name']}" placeholder="请输入分类名称" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="term_status" class="col-xs-2 control-label">状态</label>
+				<div class="col-xs-8" id="term_status">
+					<label class="radio-inline control-label">
+					  <input type="radio" name="term_status" id="inlineRadio1" value="1" > 启用
+					</label>
+					<label class="radio-inline control-label">
+					  <input type="radio"  name="term_status" id="inlineRadio2" value="0" > 禁用
+					</label>
+					<script type="text/javascript">
+						if("1"=="{$term['status']}"){
+							$("#inlineRadio1").attr("checked","checked");
+						}else{
+							$("#inlineRadio2").attr("checked","checked");
+						}
+					</script>
+				</div>
+			</div>
+			<br/>
+			<div class="text-center">
+				<button class="btn btn-default" onclick="back();" >返回</button> &nbsp;&nbsp;
+				<button class="btn btn-primary" type="submit" >修改</button>
+			</div>
+		</form>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">信息</h4>
+		  </div>
+		  <div class="modal-body"><!-- 显示信息 --></div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal" onclick="back();">返回列表</button>
+			<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="clear();">确定</button>
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<!-- 底部菜单 -->
+	{include file="public/bottom_menu" /}
+	<script type="text/javascript">
+		$(window).ready(function(){
+			$("#menu_item2").addClass("menu-item-active");
+			$("#menu_item2 a").attr("href","#");//去掉当前活动链接的url
+		});
+		
+		function back(){
+			window.location.href="{:url('seller/terms/index',['term_id'=>$term['id']])}";
+		}
+		
+		function clear(){
+			//清空表单
+			$("#term_name").val("");
+		}
+		
+		$(document).ready(function(){
+			$("form").keypress(function(){
+				clearMsg();
+			});
+			var form = $('form.js-ajax-forms');
+			var formloading=false;
+			//表单验证开始
+			form.validate({
+				//是否在获取焦点时验证
+				onfocusout : false,
+				//是否在敲击键盘时验证
+				onkeyup : false,
+				//当鼠标掉级时验证
+				onclick : false,
+				//验证规则
+				rules : {
+					term_parent:{
+						required:true
+					},
+					term_name:{
+						required:true,
+					}
+				},
+				//验证未通过提示消息
+				messages : {
+					term_parent:{
+						required:'请选择父级分类'
+					},
+					term_name:{
+						required:'请输入分类名称',
+					}
+				},
+				//给未通过验证的元素加效果,闪烁等
+				highlight : false,
+				//是否在获取焦点时验证
+				onfocusout : false,
+				//表单验证通过
+				submitHandler : function(forms) {
+					if(formloading){
+						return;
+					}
+					//Object { code: 0, msg: "验证码错误!", data: "", url: "", wait: 3 }
+					$(forms).ajaxSubmit({
+						url:form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+						dataType:'json',
+						beforeSubmit:function(attr,form,opts){
+							formloading=true;
+						},
+						success:function(data, statusText, xhr, $form){
+							formloading=false;
+							console.log(data);
+							if(data.status){
+								$(".msg-window").html(data.msg);
+								//填充信息
+								var msg="<p>"+data.msg+"</p>";
+								$("#myModal .modal-dialog .modal-content .modal-body").html(msg);
+								$("#myModal").modal('show');
+							}else{
+								//alert(data.msg);
+								$(".msg-window").html(data.msg);
+								
+								var msg="<p>"+data.msg+"</p>";
+								$("#myModal .modal-dialog .modal-content .modal-body").html(msg);
+								$("#myModal").modal('show');
+								
+								if(typeof data.url != "undefine"){
+									setTimeout(1000,function(){
+										window.location.href=data.url;
+									});
+								}
+							}
+						},
+						error:function(textStatus,xhr){
+							console.log(textStatus);
+						}
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>

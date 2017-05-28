@@ -1,0 +1,185 @@
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+	<meta name="author" content="GT" />
+	<title>{$Think.lang.DETAIL}</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/float-menu.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<!-- stick Bar -->
+	<script type="text/javascript" src="__STATIC__/stickUp/stickUp.min.js" ></script>
+</head>
+<body>
+	<!-- 固定的返回栏 -->
+	<div class="action-bar" style="position:fixed;top:0px;width:100%;height:45px;background-color:#2c2c2c;vertical-align:center;z-index:9999">
+		<a href="{:url('seller/index/index')}" style="display:block;margin-left:10px;float:left;">
+			<span class="glyphicon glyphicon-menu-left" style="font-size:32px;color:#fff;line-height:45px;"></span>
+			<span style="font-size:32px;color:#fff;line-height:45px;font-size:20px;">{$Think.lang.DETAIL}</span>
+		</a>
+		<div class="pull-right text-center" style="height:100%;margin-right:30px;">
+			<button class="btn btn-link" style="color:#fff" onclick="toEdit();">{$Think.lang.EDIT}</button>
+		</div>
+		<div style="clear:float;"></div>
+	</div>
+	<div style="width:60%;height:auto;margin-top:50px;margin-bottom:90px;margin-left:auto;margin-right:auto;">
+		<!-- 分类情况 -->
+		<div id="home">
+			<ol class="breadcrumb" id="terms_path">
+				/
+				<li>root</li>
+				{foreach($terms_path as $term_p)}
+					<li>{$term_p['name']}</li>
+				{/foreach}
+			</ol>
+		</div>
+		<!-- 商品信息头部(商品封面,商品名,商品价格,销量) 以及 操作 -->
+		<div class="header" style="width:100%;height:auto;">
+			<div class="header-left cover" style="width:50%;float:left;background-color:#36ab60;">
+				<!-- <img src="__ROOT__/uploads/cover/{$goods['cover']}" alt="商品封面" style="width:100%;" /> -->
+				 <img src="__ROOT__/static/image/goods_none.jpg" alt="商品封面" style="width:100%;" />
+			</div>
+			<div class="header-right info-wrapper" style="width:50%;float:right;background-color:#17abe3">
+				<div class="panel panel-info" style="width:100%;height:auto;margin-bottom:20px;">
+					<div class="panel-heading">
+						<h3 class="panel-title">{$goods['name']}</h3>
+					</div>
+					<div class="panel-body">
+						<span>库存:{$goods['stock']}</span><br/>
+						<span>价格:￥{$goods['price']}</span><br/>
+						<span>销量:{$goods['sell_count']}</span><br/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<!-- 商品详情 stick bar -->
+		<div class="navbar-wrapper" style="padding-top:45px;width:100%;left:0px;z-index:9999;">
+		  <div class="container" style="width:100%;position:relative:left:0xp;">
+		  <div class="navwrapper">
+			<div class="navbar navbar-inverse navbar-static-top">
+			  <div class="container">
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a class="navbar-brand" href="#">info</a>
+				</div>
+				<div class="navbar-collapse collapse">
+				  <ul class="nav navbar-nav">
+					<li class="menuItem active"><a href="#description">商品介绍</a></li>
+					<li class="menuItem"><a href="#features">规格包装</a></li>
+					<li class="menuItem"><a href="#guarantee">售后保障</a></li>
+					<li class="menuItem"><a href="#comment">商品评价</a></li>
+					<li class="menuItem"><a href="#contact">联系</a></li>   
+				  </ul>
+				</div>
+			  </div>
+			</div> 
+		  </div><!-- End Navbar -->
+		  
+		  </div>
+		</div> <!-- END NAVBAR -->
+		
+		<div class="content" style="width:100%;height:auto;z-index:10;">
+			<!-- 商品描述 -->
+			<div id="description">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<span class="navbar-brand">商品详情</span>
+						</div>
+					</div>
+				</nav>
+				<div class="">
+					{$goods['description']}
+				</div>
+			</div>
+			<!-- 规格包装 -->
+			<div id="features">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid" >
+						<div class="navbar-header">
+							<span class="navbar-brand">规格包装</span>
+						</div>
+					</div>
+				</nav>
+				<div class="">
+					规格包装
+				</div>
+			</div>
+			<!-- 售后保障 -->
+			<div id="guarantee">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<span class="navbar-brand">售后保障</span>
+						</div>
+					</div>
+				</nav>
+				<div class="">
+					售后保障
+				</div>
+			</div>
+			<!-- 商品评价 -->
+			<div id="comment">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<span class="navbar-brand">商品评价</span>
+						</div>
+					</div>
+				</nav>
+				<div class="">
+					商品评价
+				</div>
+			</div>
+			<!-- 联系 -->
+			<div id="contact">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<span class="navbar-brand">联系</span>
+						</div>
+					</div>
+				</nav>
+				<div class="">
+					联系
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 底部菜单 -->
+	{include file="public/bottom_menu" /}
+	<script type="text/javascript">
+		function toEdit(){
+			window.location.href="{:url('seller/index/edit',['goods_id'=>$goods['id']])}";
+		}
+	
+		$(window).ready(function(){
+			$("#menu_item1").addClass("menu-item-active");
+			$("#menu_item1 a").attr("href","#");//去掉当前活动链接的url
+			
+			jQuery(function($){
+				$('.navbar-wrapper').stickUp({
+						parts: {
+							0:'description',
+							1:'features',
+							2: 'guarantee',
+							3: 'comment',
+							4: 'contact',
+						},
+						itemClass: 'menuItem',
+						itemHover: 'active',
+						marginTop: 'auto'
+				});
+			});
+		});
+	</script>
+</body>
+</html>

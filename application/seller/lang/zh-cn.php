@@ -28,7 +28,18 @@
 	'DELETE'			=>'删除',
 	'DELETE_CONFIRM'	=>'确认删除',
 	'CONFIRM'			=>'确认',
+	'OK'				=>'确定',
 	'CANCEL'			=>'取消',
 	'ADD'				=>'添加',
+	'TERMS_ADD'			=>'添加分类',
+	'EDIT'				=>'编辑',
+	'DETAIL'			=>'详情',
+	'DESCRIPTION'		=>'描述',
+	'COVER'				=>'封面',
+	'PRICE'				=>'单价',
+	'BACK'				=>'返回',
+	'NAME'				=>'名称',
+	'INFO'				=>'信息',
+	'STOCK'				=>'库存',
  ];
 ?>
