@@ -54,7 +54,7 @@
 						<ul class="goods_list" style="list-style:none;">
 						{foreach $item['goods'] as $goods}
 							<li class="goods_item" style="background-color:#cfcfcf;padding:10px;border-radius:10px;">
-								<a href="" class="pull-left" style="display:block;width:60%">
+								<a href="{:url('seller/index/detail',['goods_id'=>$goods['id']])}" class="pull-left" style="display:block;width:60%">
 									<img src="__ROOT__/uploads/cover/taobao_128.png" alt="商品封面" style="width:50px;height:50px;display:block;float:left;" />
 									<div style="float:left;">
 										<span style="overflow:hidden;">{$goods['name']}</span><br/>
