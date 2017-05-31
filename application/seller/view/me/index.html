@@ -28,27 +28,52 @@
 	<!-- 外部框架 -->
 	<div class="wrapper" style="padding:0;margin-top:0px;margin-bottom:90px;overflow:auto;">
 		<!-- 卖家wrapper -->
-		<div id="seller_container" style="width:100%;height:auto;margin:10px;">
+		<div id="seller_container" style="width:100%;height:auto;margin-top:10px;">
 			<!-- 卖家头像 -->
 			<div class="pull-left" style="width:40%">
 				<img src="__STATIC__/image/seller_thumb.jpg" alt="卖家头像" class="img-thumbnail">
 			</div>
 			<!-- 卖家基本信息 -->
-			<div class="pull-right" style="width:40%">
-				<span style="margin:5px 10px 0px 10px;border-bottom-color:#000;">{$seller['name']}</span><br/>
-				<span style="margin:5px 10px 0px 10px;border-bottom-color:#000;">{$seller['mail']}</span><br/>
+			<div class="pull-right" style="width:60%">
+				<span style="margin-top:10px;">{$seller['name']}</span><hr/>
+				<span style="margin-top:10px;overflow:hide;">{$seller['mail']}</span><hr/>
 				<div >
 					<a href="{:url('seller/me/modifyPwd',['seller_id'=>$seller['id']])}" 
 						style="display:block;float:left;margin-left:5px;">修改密码</a>
-					<a href="{:url('seller/me/exit',['seller_id'=>$seller['id']])}" 
+					<a href="{:url('seller/me/exitStore',['seller_id'=>$seller['id']])}" 
 						style="display:block;float:right;margin-right:5px;">退出卖家</a>
 					<div style="clear:both;"></div>
 				</div>
 			</div>
 		</div>
+		<div class="clearfix"></div>
+		<hr/>
 		<!-- 商铺wrapper -->
-		<div id="store_wrapper">
-			
+		<div id="store_wrapper" style="width:100%;height:auto;margin-top:10px;">
+			<!-- 商铺标志 -->
+			<div class="pull-left" style="width:40%">
+				<img src="__STATIC__/image/store_logo.gif" alt="商铺标识" class="img-thumbnail">
+			</div>
+			<!-- 商铺基本信息 -->
+			<div class="pull-right" style="width:60%">
+				<span style="margin-top:10px;">商铺名:{$store['name']}</span><hr/>
+				<span style="margin-top:10px;overflow:hide;">
+				总销量:￥
+				{empty name="$store['sell_count']"}
+					10
+				{else /}
+					{$store['sell_count']}
+				{/empty}
+				</span><hr/>
+				<span style="margin-top:10px;overflow:hide;">
+				总交易额:￥
+				{empty name="$store['total']"}
+					1000
+				{else /}
+					{$store['total']}
+				{/empty}
+				</span><hr/>
+			</div>
 		</div>
 	</div>
 	<!-- 模态框 -->

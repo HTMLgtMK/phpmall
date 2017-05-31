@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS `tb_store` (
 	`id` INTEGER NULL COMMENT "店铺唯一标识",
 	`seller_id` INTEGER NOT NULL COMMENT "店铺主id,外键",
 	`name` VARCHAR(255) NOT NULL COMMENT '店名',
+	`sell_count` INTEGER NULL DEFAULT 0 COMMENT '店铺总销量',
+	`total` INTEGER NULL DEFAULT 0 COMMENT '店铺总交易额',
 	`c_time` TIMESTAMP NOT NULL COMMENT "店铺创建时间"
 )DEFAULT CHARSET=UTF8 COMMENT="店铺表";
 
