@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `tb_buyer`(
 	`tel` CHAR(11) NULL COMMENT "买家联系方式",
 	`mail` CHAR(20) NOT NULL COMMENT "买家邮箱，注册登陆用？",
 	`pwd` VARCHAR(255) NOT NULL COMMENT "登陆密码,md5加密",
+	`address` VARCHAR(255) NOT NULL COMMENT "地址",
 	`c_time` TIMESTAMP  NOT NULL COMMENT "买家创建时间"
 )DEFAULT CHARSET=UTF8 COMMENT="买家表";
 

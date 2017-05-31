@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<title>{$Think.lang.MYSTORE}</title>
+	<meta name="author" content="GT" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<style type="text/css">
+		body,html{
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+			/*text-align:center;*/
+			padding:0;
+			margin:0;
+		}
+		/*改变验证消息颜色*/
+		.error{
+			color:red
+		}
+	</style>
+</head>
+<body>
+	<!-- 外部框架 -->
+	<div class="wrapper" style="padding:0;margin-top:0px;margin-bottom:90px;overflow:auto;">
+		<!-- 卖家wrapper -->
+		<div id="seller_container" style="width:100%;height:auto;margin:10px;">
+			<!-- 卖家头像 -->
+			<div class="pull-left" style="width:40%">
+				<img src="__STATIC__/image/seller_thumb.jpg" alt="卖家头像" class="img-thumbnail">
+			</div>
+			<!-- 卖家基本信息 -->
+			<div class="pull-right" style="width:40%">
+				<span style="margin:5px 10px 0px 10px;border-bottom-color:#000;">{$seller['name']}</span><br/>
+				<span style="margin:5px 10px 0px 10px;border-bottom-color:#000;">{$seller['mail']}</span><br/>
+				<div >
+					<a href="{:url('seller/me/modifyPwd',['seller_id'=>$seller['id']])}" 
+						style="display:block;float:left;margin-left:5px;">修改密码</a>
+					<a href="{:url('seller/me/exit',['seller_id'=>$seller['id']])}" 
+						style="display:block;float:right;margin-right:5px;">退出卖家</a>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 商铺wrapper -->
+		<div id="store_wrapper">
+			
+		</div>
+	</div>
+	<!-- 模态框 -->
+	<div class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">info</h4>
+			  </div>
+			  <div class="modal-body"></div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">{$Think.lang.OK}</button>
+			  </div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<!-- 底部菜单 -->
+	{include file="public/bottom_menu" /}
+	<script type="text/javascript">
+		$(window).ready(function(){
+			$("#menu_item4").addClass("menu-item-active");
+			$("#menu_item4 a").attr("href","#");//去掉当前活动链接的url
+		});
+	</script>
+</body>
+</html>
