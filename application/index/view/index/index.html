@@ -5,15 +5,22 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 	<style type="text/css">
-		html,body{
-			margin:0;
-			padding:0;
-			height: 100%;
-			background-color: #E6E6E6;
-			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+		html,body,ul,li,a{
+			padding: 0;
+			margin: 0;
 			text-decoration: none;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			color: black;
 		}
-
+		html,body{
+			height: 100%;
+			background-color: black;
+		}
+		body{
+			margin: 0 auto;
+			max-width: 400px;
+			position: relative;
+		}
 		header{
 			box-sizing: border-box;
 			width:100%;
@@ -27,7 +34,7 @@
 			box-sizing: border-box;
 			width: 100%;
 			padding: 5px 10px;
-			background-color: #F76525;
+			background-color: black;
 			height: 3rem; 
 			position: relative;
 			line-height: 2rem;
@@ -93,7 +100,7 @@
 			opacity: 0;
 			filter: opacity(0%);
 			position: absolute;
-			width: 100%;
+			height: 100%;
 			z-index: 1;
 		}
 		.list .show{
@@ -138,12 +145,10 @@
 			top: 50%;
 			margin-top: 3rem;
 			bottom: 0;
-			background-color: red;
+			/*background-color: red;*/
 			z-index: 1;
 		}
 		.good-type .type-list{
-			margin: 0;
-			padding: 0;
 			line-height: 50%;
 			height: 100%;
 			width: 100%;
@@ -155,31 +160,68 @@
 			box-sizing: border-box;
 			width: 23%;
 			height: 50%;
-			background-color: yellow;
+			/*background-color: yellow;*/
 			line-height: 100%;
 			vertical-align: middle;
+			color: white;
 		}
 		.item-type a{
 			display: inline-block;
-			width: 80%;
-			padding-bottom: 100%;
+			width: 90%;
+			padding-bottom: 70%;
 			border-radius: 50%;
-			background-color: blue;
+			background-color: #484848;
 		}
 
 
 		.main{
 			box-sizing: border-box;
 			width: 100%;
-			height: 40%;
-			background-color: pink;
+			padding-top: 0.5rem;
+		}
+		.main .good-list{
+			height: 100%;
+			width: 100%;
+			text-align: center;
+		}
+		.good-list .good-item{
+			display: inline-block;
+			position: relative;
+			border: 1px #B6B5B5 solid;
+			width: 30%; 
+			padding-bottom: 40%;
+			background-size: 100%;
+			background-position: 0 2rem;
+			background-color: #5E5757;
+		}
+		.good-list .good-item .tittle{
+			margin: 0.5rem auto;
+			position: absolute;
+			color: #D8D8D8;
+			width: 100%;
+			background-color: rgba(20,20,20,0.7);
+			text-align: center;
+		}
+		.good-list .good-item .bottomInfo{
+			margin: 0.5rem auto;
+			position: absolute;
+			bottom: 0;
+			font-size:0.8rem;
+			width: 100%;
+		}
+		.good-item .bottomInfo span:first-child{
+			float: left;
+			color: red;
+		}
+		.good-item .bottomInfo span:last-child{
+			float: right;
+			color: #0ABB03;
 		}
 
 		footer{
 			width: 100%;
 			text-align: center;
-			position: absolute;
-			bottom: 0;
+			color: white;
 		}
 		footer p{
 			margin: 5px 0;
@@ -198,33 +240,30 @@
 		</nav>
 		<div class="swipe">
 			<div class="list">
-				<img src="__STATIC__/image/1.jpg" class="show fadeIn">
-				<img src="__STATIC__/image/2.jpg">
-				<img src="__STATIC__/image/3.jpg">
-				<img src="__STATIC__/image/4.jpg">
+				{foreach name="slide" item="vo"}
+					<img src="__STATIC__/image/{$vo.url}">
+				{/foreach}
 			</div>
 			<div class="buttons">
-				<span index="1" class="on"></span>
-		        <span index="2"></span>
-		        <span index="3"></span>
-		        <span index="4"></span>
+				{foreach name="slide" item="vo" key="k"}
+					<span index="{$k.order}"></span>
+				{/foreach}
 			</div>
 		</div>
 		<div class="good-type">
 			<ul class="type-list">
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
+				{foreach name="goodType" item="vo"}
+					<li class="item-type"><a href="" style="background: url(__STATIC__/image/{$vo.icon}) no-repeat center;"></a><span>{$vo.name}</span></li>
+				{/foreach}
 			</ul>
 		</div>
 	</header>
 	<div class="main">
-		
+		<ul class="good-list">
+			{foreach name="goods" item="vo"}
+				<li class="good-item" style="background: url(__STATIC__/image/{$vo.cover}) no-repeat center;background-size: auto 100%"><a href=""><p class="tittle">{$vo.name}</p><p class="bottomInfo"><span>￥{$vo.price}</span><span>累销：{$vo.sell_count}</span></p></a></li>
+			{/foreach}
+		</ul>
 	</div>
 	<footer>
 		<span>Copyright &copy &nbsp thinkWeb</span>
@@ -237,6 +276,10 @@
 			var dots = document.querySelectorAll(".buttons span");
 			var interval = 2500;//时间间隔
 			var timer = setInterval(function(){swipe(imgs,dots);},interval);
+			//轮播图初始显示
+			imgs[0].classList.add("show");
+			imgs[0].classList.add("fadeIn");
+			dots[0].classList.add("on");
 
 		}
 		/*function swipe(imgs,dots){
@@ -260,7 +303,8 @@
 				}
 			});
 			var count = counter;
-			count = (count+4)%4;
+			var len = imgs.length;
+			count = (count+len)%len;
 			imgs[count].className = "show fadeIn";
 			window.counter = count+1;
 			dots.forEach(function(value,index){

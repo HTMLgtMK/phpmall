@@ -52,6 +52,36 @@
 			overflow: auto;
 		}
 
+		/*未登录遮罩*/
+		.to-login{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			line-height: 500px;
+			vertical-align: middle;
+			z-index: 20;
+			text-align: center;
+			background-color: rgba(20,20,20,0.7);
+		}
+		.login{
+			line-height: 2rem;
+			display: inline-block;
+			border: 2px solid white;
+			border-radius: 1rem;
+			padding: 1rem;
+			font-size: 1.5rem;
+		}
+		.login form input,.login form input button{
+			border: 0;
+			outline: 0;
+			vertical-align: text-top;
+			background: #E0E0E0;
+		}
+		.login form i{
+			font-size: 2rem;
+			color: #C1D0F9;
+		}
+
 		/*我的信息*/
 		.my-info{
 			height: 30%;
@@ -134,6 +164,17 @@
 	</style>
 </head>
 <body>
+	<div class="to-login">
+		<div class="login">
+			<form>
+				<span><i class="fa fa-user"></i> <input type="text" name="username" placeholder="用户名"></span>
+				<br>
+				<span><i class="fa fa-lock"></i> <input type="password" name="pwd"></span>
+				<br>
+				<button>login</button>
+			</form>
+		</div>
+	</div>
 	<div class="contain-box my-info">
 		<p class="box-tittle"><span class="barFront"><strong>我的信息</strong></span><span class="barBack">编辑</span></p>
 		<hr>
@@ -175,7 +216,7 @@
 	<div class="contain-box my-shop ifHasShop">
 		<p class="box-tittle"><span class="barFront"><strong>我的店铺</strong></span></p><hr>
 		<div id="no-shop" class="info-detail" style="display: none;">
-			<a href=""><img src="img/addShop.png"></a>
+			<a href=""><img src="__STATIC__/image/addShop.png"></a>
 			<span><strong><i class="fa fa-hand-o-left"></i>马上开店</strong></span>
 		</div>
 		<div id="has-shop" class="info-detail">
