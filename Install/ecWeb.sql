@@ -66,10 +66,10 @@ CREATE TABLE IF NOT EXISTS `tb_goods`(
 	`name` VARCHAR(255) NOT NULL COMMENT "商品名称",
 	`description` text NULL COMMENT "商品描述",
 	`price` FLOAT NOT NULL COMMENT "商品单价",
-	`stock` INTEGER NOT NULL COMMENT "库存",
 	`cover` text NOT NULL COMMENT "商品封面",
 	`smeta` text NULL COMMENT "资源等,使用json格式存储",
 	`sell_count` INTEGER NULL DEFAULT 0 COMMENT "总销量",
+	`stock` INTEGER NOT NULL COMMENT "库存",
 	`term_id` BIGINT NOT NULL COMMENT "商品分类",
 	`c_time` TIMESTAMP NOT NULL COMMENT "创建商品时间"
 )DEFAULT CHARSET=UTF8 COMMENT="商品表";
@@ -408,6 +408,27 @@ INSERT INTO `tb_order`(`buyer_id`,`goods_id`,`store_id`,`num`,`total`,`message`,
 	('1','3','1','1','28','','2','2017-05-27 12:00:00'),
 	('1','1','1','1','28','','3','2017-05-27 12:00:00'),
 	('1','1','1','1','28','','4','2017-05-27 12:00:00');
+	
+INSERT INTO `tb_site_terms` (`id`,`name`,`parent_id`,`icon`,`status`,`c_time`) VALUE 
+	('1', '数码', '0' ,'digital.svg', '1', '2017-05-31 19:38:30'),
+	('2', '家电', '0' ,'appliances.svg', '1', '2017-05-31 19:38:56'),
+	('3', '图书', '0' ,'book.svg', '1', '2017-05-31 19:39:02'),
+	('4', '食品', '0' ,'food.svg', '1', '2017-05-31 19:39:10'),
+	('5', '服装', '0' ,'clothes.svg', '1', '2017-05-31 19:39:18'),
+	('6', '医药', '0' ,'medical.svg', '1', '2017-05-31 19:39:24'),
+	('7', '家具', '0' ,'furniture.svg', '1', '2017-05-31 19:39:30'),
+	('8', '美妆', '0' ,'makeup.svg', '1', '2017-05-31 19:39:37');
+
+INSERT INTO `tb_goods` (`id`,`store_id`,`name`,`description`,`price`,`cover`,`smeta`,`sell_count`,`stock`,`term_id`,`c_time`) VALUE
+	('1', '1', '茶具 贴身衣物洗涤颗粒', '茶具 贴身衣物洗涤颗粒', '28', 'good1.jpg', null, '99', '22' , '1', '2017-05-31 22:48:42'),
+	('2', '1', 'Nums 超薄智能键盘', 'Nums 超薄智能键盘', '129', 'good2.jpg', null, '44', '22' , '1', '2017-05-31 22:48:45'),
+	('3', '1', '手写板', '手写板', '248', 'good3.jpg', null, '54', '22' , '1', '2017-05-31 22:48:47'),
+	('4', '1', '磁悬浮太阳能电机马达', '磁悬浮太阳能电机马达', '178', 'good4.jpg', null, '22', '22' , '1', '2017-05-31 22:48:49'),
+	('5', '1', '星战系列手机盒', '星战系列手机盒', '49', 'good5.jpg', null, '85', '22' , '2', '2017-05-31 22:48:51'),
+	('6', '1', '黑爵GTX 电竞机械鼠标', '黑爵GTX 电竞机械鼠标', '99', 'good6.jpg', null, '755', '22' , '3', '2017-05-31 22:48:53'),
+	('7', '1', '黑爵AK35i 机械键盘', '黑爵AK35i 机械键盘', '199', 'good7.jpg', null, '63', '22' , '3', '2017-05-31 22:48:55'),
+	('8', '1', 'Rokid 智能语音机器人', 'Rokid 智能语音机器人', '1399', 'good8.jpg', null, '123', '22' , '3', '2017-05-31 22:48:57'),
+	('9', '1', 'Oracleen熊本熊电动牙刷', 'Oracleen熊本熊电动牙刷', '399', 'good9.jpg', null, '86', '22' , '4', '2017-05-31 22:49:00');
 
 INSERT INTO `tb_slides` VALUES ('1', '1.jpg', null, '1', '1', '2017-05-31 21:33:38');
 INSERT INTO `tb_slides` VALUES ('2', '2.jpg', null, '2', '1', '2017-05-31 21:33:39');
@@ -415,21 +436,3 @@ INSERT INTO `tb_slides` VALUES ('3', '3.jpg', null, '3', '1', '2017-05-31 21:33:
 INSERT INTO `tb_slides` VALUES ('4', '4.jpg', null, '4', '1', '2017-05-31 21:34:53');
 INSERT INTO `tb_slides` VALUES ('5', '5.jpg', null, '5', '1', '2017-05-31 21:35:04');
 
-INSERT INTO `tb_goods` VALUES ('1', '1', '茶具 贴身衣物洗涤颗粒', '茶具 贴身衣物洗涤颗粒', '28', 'good1.jpg', null, '99', '1', '2017-05-31 22:48:42');
-INSERT INTO `tb_goods` VALUES ('2', '1', 'Nums 超薄智能键盘', 'Nums 超薄智能键盘', '129', 'good2.jpg', null, '44', '1', '2017-05-31 22:48:45');
-INSERT INTO `tb_goods` VALUES ('3', '1', '手写板', '手写板', '248', 'good3.jpg', null, '54', '1', '2017-05-31 22:48:47');
-INSERT INTO `tb_goods` VALUES ('4', '1', '磁悬浮太阳能电机马达', '磁悬浮太阳能电机马达', '178', 'good4.jpg', null, '22', '1', '2017-05-31 22:48:49');
-INSERT INTO `tb_goods` VALUES ('5', '1', '星战系列手机盒', '星战系列手机盒', '49', 'good5.jpg', null, '85', '2', '2017-05-31 22:48:51');
-INSERT INTO `tb_goods` VALUES ('6', '1', '黑爵GTX 电竞机械鼠标', '黑爵GTX 电竞机械鼠标', '99', 'good6.jpg', null, '755', '3', '2017-05-31 22:48:53');
-INSERT INTO `tb_goods` VALUES ('7', '1', '黑爵AK35i 机械键盘', '黑爵AK35i 机械键盘', '199', 'good7.jpg', null, '63', '3', '2017-05-31 22:48:55');
-INSERT INTO `tb_goods` VALUES ('8', '1', 'Rokid 智能语音机器人', 'Rokid 智能语音机器人', '1399', 'good8.jpg', null, '123', '3', '2017-05-31 22:48:57');
-INSERT INTO `tb_goods` VALUES ('9', '1', 'Oracleen熊本熊电动牙刷', 'Oracleen熊本熊电动牙刷', '399', 'good9.jpg', null, '86', '4', '2017-05-31 22:49:00');
-	
-INSERT INTO `tb_site_terms` VALUES ('1', '数码', 'digital.svg', '1', '2017-05-31 19:38:30');
-INSERT INTO `tb_site_terms` VALUES ('2', '家电', 'appliances.svg', '1', '2017-05-31 19:38:56');
-INSERT INTO `tb_site_terms` VALUES ('3', '图书', 'book.svg', '1', '2017-05-31 19:39:02');
-INSERT INTO `tb_site_terms` VALUES ('4', '食品', 'food.svg', '1', '2017-05-31 19:39:10');
-INSERT INTO `tb_site_terms` VALUES ('5', '服装', 'clothes.svg', '1', '2017-05-31 19:39:18');
-INSERT INTO `tb_site_terms` VALUES ('6', '医药', 'medical.svg', '1', '2017-05-31 19:39:24');
-INSERT INTO `tb_site_terms` VALUES ('7', '家具', 'furniture.svg', '1', '2017-05-31 19:39:30');
-INSERT INTO `tb_site_terms` VALUES ('8', '美妆', 'makeup.svg', '1', '2017-05-31 19:39:37');
