@@ -396,11 +396,11 @@ INSERT INTO `tb_store`(`seller_id`,`name`,`c_time`) VALUE
 	('1','好评...','2017-05-27 16:30:00');
 	
 INSERT INTO `tb_store_terms`(`name`,`parent_id`,`icon`,`store_id`,`c_time`) VALUE 
-	('科技','0','1','appliances.svg','2017-05-27 16:30:00'),
-	('星战','0','1','digital.svg','2017-05-27 16:30:00'),
-	('数码','0','1','digital.svg','2017-05-27 16:30:00'),
-	('生活','0','1','clothes.svg','2017-05-27 16:30:00'),
-	('限定','0','1','makeup.svg','2017-05-27 16:30:00');
+	('家电','0','appliances.svg','1','2017-05-27 16:30:00'),
+	('数码','0','digital.svg','1','2017-05-27 16:30:00'),
+	('图书','0','book.svg','1','2017-05-27 16:30:00'),
+	('食品','0','food.svg','1','2017-05-27 16:30:00'),
+	('服装','0','clothes.svg','1','2017-05-27 16:30:00');
 	
 INSERT INTO `tb_order`(`buyer_id`,`goods_id`,`store_id`,`num`,`total`,`message`,`status`,`c_time`) VALUE 
 	('1','1','1','1','28','不要茶具','1','2017-05-27 12:00:00'),
