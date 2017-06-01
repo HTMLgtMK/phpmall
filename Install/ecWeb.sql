@@ -154,6 +154,7 @@ CREATE TABLE IF NOT EXISTS `tb_buyer_activate`(
 	`mail` CHAR(20) NOT NULL COMMENT "买家邮箱,注册登陆用？",
 	`pwd` VARCHAR(255) NOT NULL COMMENT "登陆密码,md5加密",
 	`name` CHAR(20) NOT NULL COMMENT "用户真实名字",
+	`address` VARCHAR(255) NOT NULL COMMENT "地址",
 	`status` TINYINT DEFAULT 0 COMMENT '验证状态,0:待验证,1:已经验证',
 	`code` CHAR(30) UNIQUE NOT NULL COMMENT '验证code',
 	`time` TIMESTAMP NOT NULL COMMENT '最后修改时间'
@@ -381,8 +382,9 @@ CREATE 	EVENT `e_delete_buyer_activate`
 INSERT INTO `tb_admin`(`name`,`tel`,`mail`,`pwd`,`c_time`) VALUE 
 	('admin','17862701356','GT_GameEmail@163.com','e10adc3949ba59abbe56e057f20f883e','2017-05-27 16:30:00');
 	
-INSERT INTO `tb_buyer`(`name`,`nickname`,`tel`,`mail`,`pwd`,`c_time`) VALUE 
-	('GT','HTML_GT_MK','17862701356','GT_GameEmail@163.com','e10adc3949ba59abbe56e057f20f883e','2017-05-27 16:30:00');
+INSERT INTO `tb_buyer`(`name`,`nickname`,`tel`,`mail`,`pwd`,`address`,`c_time`) VALUE 
+	('GT','HTML_GT_MK','17862701356','GT_GameEmail@163.com','e10adc3949ba59abbe56e057f20f883e',
+		'山东威海哈工大(威海)','2017-05-27 16:30:00');
 	
 INSERT INTO `tb_seller`(`buyer_id`,`pwd`,`c_time`) VALUE 
 	('1','e10adc3949ba59abbe56e057f20f883e','2017-05-27 16:30:00');

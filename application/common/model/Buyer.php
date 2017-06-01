@@ -10,6 +10,15 @@
  
  class Buyer extends Model{
 	 
+	 /*
+	 * 判断注册买家是否已经注册
+	 * @return bool
+	 */
+	public function isBuyerRegisted($email){
+		$res=$this->where('mail',"{$email}")->find();
+		return $res;
+	}
+	
  }
 
 ?>

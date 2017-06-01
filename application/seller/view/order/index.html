@@ -116,12 +116,13 @@
 					{/case}
 				{/switch}
 				<div class="container" >
-					<div class="pull-left" style="width:50%;">
-						<a href="{:url('seller/index/detail',['goods_id'=>$order['goods_id']])}" class="thumbnail">
-							<img style="width:100%;" src="__ROOT__/uploads/cover/taobao_128.png" />
+					<!-- 商品图片 -->
+					<div class="pull-left" style="width:40%;">
+						<a href="{:url('seller/index/detail',['goods_id'=>$order['goods_id']])}">
+							<img  class="img-thumbnail" style="width:100%;" src="__ROOT__/uploads/cover/taobao_128.png" />
 						</a>
 					</div>
-					<div class="pull-right dropdown" style="width:50%;vertical-align:center-right;">
+					<div class="pull-right dropdown" style="width:60%;vertical-align:center-right;">
 						<button class="btn btn-default dropdown-toggle" style="background-color:transparent;border:1px solid transparent;"
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
 							{switch name="$order['status']"}
@@ -150,6 +151,7 @@
 						<br/>
 						<span>订单时间:{$order['c_time']}</span>
 					</div>
+					<hr/>
 					<div class="">
 						{$order['message']}
 					</div>
