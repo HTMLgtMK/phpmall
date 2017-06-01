@@ -1,6 +1,11 @@
 <?php
 namespace app\index\controller;
 use \think\Controller;
+use \think\Request;
+use \think\Session;
+
+use app\common\model\Buyer;
+use app\common\model\Order;
 
 class Index extends Controller{
 	protected $tb_slides;//表中添加了order字段，表示图片滚动的顺序
@@ -9,6 +14,7 @@ class Index extends Controller{
 	protected $tb_cart;//此处修改了原有的购物车表，新增商品总额字段
 
 	function _initialize(){
+		parent::_initialize();
 		$this->tb_slides=db("slides");
 		$this->tb_site_terms=db("site_terms");
 		$this->tb_goods=db("goods");
@@ -29,6 +35,19 @@ class Index extends Controller{
 
 	//我的主页
 	public function main(){
+		if(!Session::has('buyer.login')){
+			return $this->redirect('index/index/login');
+		}
+		//买家信息
+		$buyer_id=Session::get('buyer.id');
+		$buyer=Buyer::where('id',$buyer_id)->find();
+		$this->assign('buyer',$buyer);
+		//买家订单
+		$orders=Order::alias('`a`')
+						->join(['__GOODS__'=>'`b`'],'a.goods_id=b.id')
+						->field('a.*,b.name,b.id as goods_id')
+						->where('buyer_id',$buyer_id)->select();
+		$this->assign('orders',$orders);
 		return $this->fetch();
 	}
 	
@@ -56,5 +75,37 @@ class Index extends Controller{
 	//商品购买
 	public function buy($id){
 		echo "正在购买，开发中";
+	}
+
+	//买家登陆
+	public function login(){
+		if(Request::instance()->isPost()){
+			$post_data=Request::instance()->post();
+			if(!captcha_check($post_data['verify'])){
+				 //验证失败
+				 return $this->error("验证码错误!");
+			}
+			$res=Buyer::where('mail',"{$post_data['email']}")->find();
+			if(!$res){
+				return $this->error("未注册买家!");
+			}
+			if($res['pwd']!=md5($post_data['password'])){
+				return $this->error("密码错误!");
+			}
+			//登陆成功,记录登陆信息
+			Session::set("buyer.login",true);
+			Session::set("buyer.id",$res['id']);
+			Session::set("buyer.login_time",time());
+			$url=\think\Url::build("index/Index/main",false,true);
+			return $this->success("登陆成功",$url);
+		 }else{
+			 $request=Request::instance()->param();
+			 if(!empty($request) && !empty($request['email'])){
+				 $this->assign("res",['mail'=>$request['email']]);
+			 }else{
+				 $this->assign("res",['mail'=>'']);
+			 }
+			 return $this->fetch();
+		 }
 	}
 }

@@ -17,10 +17,9 @@
 		 if($action!='login'){
 			if(!Session::has('seller.login')){
 				//重定向到卖家登陆
-				return $this->redirect("seller/Publicc/login");
+				return $this->redirect("seller/Publicc/login2");
 			}
 		 }
 	 }
  }
- 
 ?>
