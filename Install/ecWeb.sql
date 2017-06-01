@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `tb_buyer`(
 	`tel` CHAR(11) NULL COMMENT "买家联系方式",
 	`mail` CHAR(20) NOT NULL COMMENT "买家邮箱，注册登陆用？",
 	`pwd` VARCHAR(255) NOT NULL COMMENT "登陆密码,md5加密",
+	`address` VARCHAR(255) NOT NULL COMMENT "地址",
 	`c_time` TIMESTAMP  NOT NULL COMMENT "买家创建时间"
 )DEFAULT CHARSET=UTF8 COMMENT="买家表";
 
@@ -38,6 +39,8 @@ CREATE TABLE IF NOT EXISTS `tb_store` (
 	`id` INTEGER NULL COMMENT "店铺唯一标识",
 	`seller_id` INTEGER NOT NULL COMMENT "店铺主id,外键",
 	`name` VARCHAR(255) NOT NULL COMMENT '店名',
+	`sell_count` INTEGER NULL DEFAULT 0 COMMENT '店铺总销量',
+	`total` INTEGER NULL DEFAULT 0 COMMENT '店铺总交易额',
 	`c_time` TIMESTAMP NOT NULL COMMENT "店铺创建时间"
 )DEFAULT CHARSET=UTF8 COMMENT="店铺表";
 
@@ -62,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `tb_goods`(
 	`name` VARCHAR(255) NOT NULL COMMENT "商品名称",
 	`description` text NULL COMMENT "商品描述",
 	`price` FLOAT NOT NULL COMMENT "商品单价",
+	`stock` INTEGER NOT NULL COMMENT "库存",
 	`cover` text NOT NULL COMMENT "商品封面",
 	`smeta` text NULL COMMENT "资源等,使用json格式存储",
 	`sell_count` INTEGER NULL DEFAULT 0 COMMENT "总销量",
@@ -150,6 +154,7 @@ CREATE TABLE IF NOT EXISTS `tb_buyer_activate`(
 	`mail` CHAR(20) NOT NULL COMMENT "买家邮箱,注册登陆用？",
 	`pwd` VARCHAR(255) NOT NULL COMMENT "登陆密码,md5加密",
 	`name` CHAR(20) NOT NULL COMMENT "用户真实名字",
+	`address` VARCHAR(255) NOT NULL COMMENT "地址",
 	`status` TINYINT DEFAULT 0 COMMENT '验证状态,0:待验证,1:已经验证',
 	`code` CHAR(30) UNIQUE NOT NULL COMMENT '验证code',
 	`time` TIMESTAMP NOT NULL COMMENT '最后修改时间'
@@ -377,8 +382,9 @@ CREATE 	EVENT `e_delete_buyer_activate`
 INSERT INTO `tb_admin`(`name`,`tel`,`mail`,`pwd`,`c_time`) VALUE 
 	('admin','17862701356','GT_GameEmail@163.com','e10adc3949ba59abbe56e057f20f883e','2017-05-27 16:30:00');
 	
-INSERT INTO `tb_buyer`(`name`,`nickname`,`tel`,`mail`,`pwd`,`c_time`) VALUE 
-	('GT','HTML_GT_MK','17862701356','GT_GameEmail@163.com','e10adc3949ba59abbe56e057f20f883e','2017-05-27 16:30:00');
+INSERT INTO `tb_buyer`(`name`,`nickname`,`tel`,`mail`,`pwd`,`address`,`c_time`) VALUE 
+	('GT','HTML_GT_MK','17862701356','GT_GameEmail@163.com','e10adc3949ba59abbe56e057f20f883e',
+		'山东威海哈工大(威海)','2017-05-27 16:30:00');
 	
 INSERT INTO `tb_seller`(`buyer_id`,`pwd`,`c_time`) VALUE 
 	('1','e10adc3949ba59abbe56e057f20f883e','2017-05-27 16:30:00');
@@ -400,13 +406,20 @@ INSERT INTO `tb_store_terms`(`name`,`parent_id`,`store_id`,`c_time`) VALUE
 	('生活','0','1','2017-05-27 16:30:00'),
 	('限定','0','1','2017-05-27 16:30:00');
 	
-INSERT INTO `tb_goods`(`store_id`,`name`,`description`,`price`,`cover`,`term_id`,`c_time`) VALUE 
-	('1','茶具 贴身衣物洗涤颗粒','','28','','1','2017-05-27 16:30:00'),
-	('1','Nums 超薄智能键盘','','129','','1','2017-05-27 16:30:00'),
-	('1','手写板','','248','','1','2017-05-27 16:30:00'),
-	('1','磁悬浮太阳能电机马达','','178','','1','2017-05-27 16:30:00'),
-	('1','星战系列手机盒','','49','','2','2017-05-27 16:30:00'),
-	('1','黑爵GTX 电竞机械鼠标','','99','','3','2017-05-27 16:30:00'),
-	('1','黑爵AK35i 机械键盘','','199','','3','2017-05-27 16:30:00'),
-	('1','Rokid 智能语音机器人','','1399','','3','2017-05-27 16:30:00'),
-	('1','Oracleen熊本熊电动牙刷','','399','','4','2017-05-27 16:30:00');
+INSERT INTO `tb_goods`(`store_id`,`name`,`description`,`price`,`stock`,`cover`,`term_id`,`c_time`) VALUE 
+	('1','茶具 贴身衣物洗涤颗粒','','28','100','','1','2017-05-27 16:30:00'),
+	('1','Nums 超薄智能键盘','','129','100','','1','2017-05-27 16:30:00'),
+	('1','手写板','','248','100','','1','2017-05-27 16:30:00'),
+	('1','磁悬浮太阳能电机马达','','178','100','','1','2017-05-27 16:30:00'),
+	('1','星战系列手机盒','','49','100','','2','2017-05-27 16:30:00'),
+	('1','黑爵GTX 电竞机械鼠标','','99','100','','3','2017-05-27 16:30:00'),
+	('1','黑爵AK35i 机械键盘','','199','100','','3','2017-05-27 16:30:00'),
+	('1','Rokid 智能语音机器人','','1399','100','','3','2017-05-27 16:30:00'),
+	('1','Oracleen熊本熊电动牙刷','','399','100','','4','2017-05-27 16:30:00');
+	
+INSERT INTO `tb_order`(`buyer_id`,`goods_id`,`store_id`,`num`,`total`,`message`,`status`,`c_time`) VALUE 
+	('1','1','1','1','28','不要茶具','1','2017-05-27 12:00:00'),
+	('1','2','1','1','28','要帅小哥哥配送','1','2017-05-27 12:00:00'),
+	('1','3','1','1','28','','2','2017-05-27 12:00:00'),
+	('1','1','1','1','28','','3','2017-05-27 12:00:00'),
+	('1','1','1','1','28','','4','2017-05-27 12:00:00');

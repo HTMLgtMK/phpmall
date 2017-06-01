@@ -1,0 +1,107 @@
+	"array(4) {  ["name"]=>  string(6) "相机"  
+				["term_id"]=>  string(1) "3"  
+				["price"]=>  string(4) "8999"  
+				["description"]=>  string(143) "<p>test</p><p><img alt="QQ图片20170520223559.jpg" 
+				src="/public/upload/image/20170527/1495891369113259.jpg" 
+				title="1495891369113259.jpg"/></p>"}
+	array(1) {  
+		["cover"]=>  
+			object(think\File)#3 (13) {   
+				["error":"think\File":private]=>    string(0) ""    
+				["filename":protected]=>    string(27) "C:\Windows\Temp\phpB8D3.tmp"    
+				["saveName":protected]=>    NULL   
+				["rule":protected]=>    string(4) "date"   
+				["validate":protected]=>    array(0) {    }    
+				["isTest":protected]=>    NULL    
+				["info":protected]=>    array(5) {      
+					["name"]=>      string(21) "591181ccN6d5edaae.jpg"      
+					["type"]=>      string(10) "image/jpeg"      
+					["tmp_name"]=>      string(27) "C:\Windows\Temp\phpB8D3.tmp"      
+					["error"]=>      int(0)     
+					["size"]=>      int(17934)    
+				}   
+				["hash":protected]=>    array(0) {    }    
+				["pathName":"SplFileInfo":private]=>    string(27) "C:\Windows\Temp\phpB8D3.tmp"    
+				["fileName":"SplFileInfo":private]=>    string(11) "phpB8D3.tmp"    
+				["openMode":"SplFileObject":private]=>    string(1) "r"    
+				["delimiter":"SplFileObject":private]=>    string(1) ","    
+				["enclosure":"SplFileObject":private]=>    string(1) """  
+			}
+ <!-- START THE NAVBAR -->
+    <div class="navbar-wrapper">
+      <div class="container">
+      <div class="navwrapper">
+        <div class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">stickUp</a>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="menuItem active"><a href="#home">Home</a></li>
+                <li class="menuItem"><a href="#features">Features</a></li>
+                <li class="menuItem"><a href="#updates">Updates</a></li>
+                <li class="menuItem"><a href="#installation">Installation</a></li>
+                <li class="menuItem"><a href="#one-pager">One Pager</a></li>
+                <li class="menuItem"><a href="#extras">Extras</a></li>
+                <li class="menuItem"><a href="#wordpress">Wordpress</a></li>
+                <li class="menuItem"><a href="#contact">Contact</a></li>    
+              </ul>
+            </div>
+          </div>
+        </div> 
+      </div><!-- End Navbar -->
+      
+      </div>
+    </div> <!-- END NAVBAR -->
+	
+jQuery(function($){
+			$(document).ready(function(){
+				$('.navbar-wrapper').stickUp({
+									parts: {
+									  0:'description',
+									  1:'features',
+									  2: 'guarantee',
+									  3: 'comment',
+									  4: 'contact',
+									},
+									itemClass: 'menuItem',
+									itemHover: 'active',
+									marginTop: 'auto'
+								  });
+			});
+		});
+		
+<div class="navbar-wrapper">
+		  <div class="container" style="height:auto;">
+		  <div class="navwrapper">
+			<div class="navbar navbar-inverse navbar-static-top">
+			  <div class="container">
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a class="navbar-brand" href="#">stickUp</a>
+				</div>
+				<div class="navbar-collapse collapse">
+				  <ul class="nav navbar-nav">
+					<li class="menuItem active"><a href="#description">商品介绍</a></li>
+					<li class="menuItem"><a href="#features">规格包装</a></li>
+					<li class="menuItem"><a href="#guarantee">售后保障</a></li>
+					<li class="menuItem"><a href="#comment">商品评价</a></li>
+					<li class="menuItem"><a href="#contact">联系</a></li>   
+				  </ul>
+				</div>
+			  </div>
+			</div> 
+		  </div><!-- End Navbar -->
+		  
+		  </div>
+		</div> <!-- END NAVBAR -->

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyPage</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/font-awesome/css/font-awesome.min.css">
+	<style type="text/css">
+		html,body,ul,li,a,p{
+			padding: 0;
+			margin: 0;
+			text-decoration: none;
+			list-style: none;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			color: black;
+		}
+		html,body{
+			height: 100%;
+			background-color: black;
+		}
+		body{
+			margin: 0 auto;
+			max-width: 400px;
+			position: relative;
+		}
+		body hr{
+			margin: 2px;
+		}
+
+		/*功能class*/
+		.contain-box{
+			box-sizing: border-box;
+			width: 100%;
+			box-shadow: 0 0 1px 1px #CBCBCB;
+			background-color: white;
+			padding: 5px;
+			margin-top: 1rem;
+		}
+		.box-tittle{
+			overflow: hidden;
+		}
+		.barFront{
+			float: left;
+		}
+		.barBack{
+			float: right;
+		}
+		.info-detail{
+			width: 100%;
+			height: 80%;
+			position: relative;
+			overflow: auto;
+		}
+
+		/*我的信息*/
+		.my-info{
+			height: 30%;
+		}
+		.my-info .info-detail .headimg-box{
+			position: absolute;
+			width: 30%;
+			padding-bottom: 30%;
+			top: 10%;
+			background: url(__STATIC__/image/headimg.jpg) -10px 0/120% no-repeat;
+			border-radius: 50%;
+		}
+		.my-info .text-info-box{
+			text-align: center;
+			box-sizing: border-box;
+			margin-left: 32%;
+			width: 68%;
+		}
+
+		/*我的订单*/
+		.my-bill{
+			height: 45%;
+		}
+		.my-bill .info-detail table{
+			width: 100%;
+		}
+		
+		/*我的店铺*/
+		.my-shop{
+			height: 15%;
+		}
+		/*没店*/
+		#no-shop{
+			text-align: center;
+			height: 50%;
+			overflow: hidden;
+		}
+		#no-shop a{
+			display: inline-block;
+			height: 90%;
+			border-radius: 1rem;
+			background: #9B9B9B;
+		}
+		#no-shop span{
+			position: absolute;
+			bottom: 5px;
+		}
+		/*有店*/
+		#has-shop{
+			box-sizing: border-box;
+			position: relative;
+		}
+		#has-shop .shop-menu-list{
+			width: 100%;
+			height: 100%;
+			line-height: 100%;
+			text-align: center;
+		}
+		#has-shop .shop-menu-list .shop-menu-item{
+			display: inline-block;
+			width: 18%;
+			margin: 0 2% 0 2%;
+			/*background: yellow;*/
+			height: 80%;
+		}
+		#has-shop .shop-menu-list .shop-menu-item a{
+			display: inline-block;
+			width: 100%;
+			height: 80%;
+			line-height: 1.5rem;
+			background: url(__STATIC__/image/type2.png) center center/auto 100% no-repeat;
+			text-align: center;
+		}
+		#has-shop .shop-menu-list .shop-menu-item span{
+			display: inline-block;
+			position: relative;
+			margin:0 auto;
+			top:100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="contain-box my-info">
+		<p class="box-tittle"><span class="barFront"><strong>我的信息</strong></span><span class="barBack">编辑</span></p>
+		<hr>
+		<div class="info-detail">
+			<div class="headimg-box"></div>
+			<div class="text-info-box">
+				<p><i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;Aman</p><hr>
+				<p><i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp;17862700605</p><hr>
+				<p><i class="fa fa-envelope-open"></i>&nbsp;&nbsp;&nbsp;zman_2016@163.com</p><hr>
+				<p><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;&nbsp;山东省威海市环翠区文化西路二号哈尔滨工业大学(威海)</p>
+			</div>
+		</div>
+	</div>
+	<div class="contain-box my-bill">
+		<p class="box-tittle"><span class="barFront"><strong>我的订单</strong></span></p><hr>
+		<div class="info-detail">
+			<table>
+				<thead><tr><th>名称</th><th>数量</th><th>总额</th><th>备注</th><th>日期</th><th>状态</th></tr></thead>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>	
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>	
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
+				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>	
+			</table>
+		</div>
+	</div>
+	<!-- 后台传来ifHasShop变量，判断用户是否已开店 -->
+	<div class="contain-box my-shop ifHasShop">
+		<p class="box-tittle"><span class="barFront"><strong>我的店铺</strong></span></p><hr>
+		<div id="no-shop" class="info-detail" style="display: none;">
+			<a href=""><img src="__STATIC__/image/addShop.png"></a>
+			<span><strong><i class="fa fa-hand-o-left"></i>马上开店</strong></span>
+		</div>
+		<div id="has-shop" class="info-detail">
+			<ul class="shop-menu-list">
+				<li class="shop-menu-item"><a href=""><span>按钮</span></a></li>
+				<li class="shop-menu-item"><a href=""><span>按钮</span></a></li>
+				<li class="shop-menu-item"><a href=""><span>按钮</span></a></li>
+				<li class="shop-menu-item"><a href=""><span>按钮</span></a></li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload=function(){
+			//仿bootstrap斑马线
+			var tableCell = document.querySelectorAll(".my-bill .info-detail table tr");
+			tableCell.forEach(function(value,index){
+				if(index%2 == 0){
+					value.style.backgroundColor = "#EAEAEA";
+				}
+			});
+
+			//判断用户是否已经开店
+			var ifShop = document.getElementsByClassName("my-shop")[0];
+			if(!ifShop.getAttribute("class").indexOf("ifHasShop")){
+				document.getElementById("no-shop").style.display = "block";
+				document.getElementById("has-shop").style.display = "none";
+			}
+		};
+	</script>
+</body>
+</html>

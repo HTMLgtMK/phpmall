@@ -1,1 +1,1 @@
-# bootstrap 3.3.7 dist Éú²ú°æ
+# bootstrap 3.3.7 dist

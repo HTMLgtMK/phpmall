@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+	<meta name="author" content="GT" />
+	<title>{$Think.lang.EDIT}</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/float-menu.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.form.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<!-- UEditor 配置 -->
+	<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js" ></script>
+	<!-- UEditor 源码 -->
+	<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js" ></script>
+	
+	<style type="text/css">
+		body,html{
+			margin:0;
+			padding:0;
+		}
+		.error{
+			color:red;
+		}
+	</style>
+	
+	<script type="text/javascript">
+		function back(){
+			window.location.href="{:url('seller/index/index')}";
+		}
+	</script>
+</head>
+<body>
+	<div class="container" style="margin-top:30px;margin-bottom:90px;margin-left:auto;margin-right:auto;">
+		<form class="form form-horizontal js-ajax-form" action="{:url('seller/index/edit')}" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{$goods['id']}" />
+			<div class="form-group">
+				<label for="name" class="control-label col-xs-2">{$Think.lang.NAME}</label>
+				<div class="col-xs-10">
+					<input id="name" type="text" name="name" class="form-control" value="{$goods['name']}" placeholder="请输入名称" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="term_id" class="control-label col-xs-2">{$Think.lang.TERMS}</label>
+				<div class="col-xs-10">
+					<select id="term_id" name="term_id" class="form-control" required> 
+						{foreach $terms as $vo}
+							<option value="{$vo['id']}">{$vo['name']}</option>
+						{/foreach}
+					</select>
+					<script type="text/javascript">
+						$("#term_id").val("{$goods['term_id']}");
+					</script>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="price" class="control-label col-xs-2">{$Think.lang.PRICE}</label>
+				<div class="col-xs-10">
+					<input type="number" id="price" name="price" class="form-control" value="{$goods['price']}" placeholder="请输入单价(￥)" required/>
+					<span> 件(个) </span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="stock" class="control-label col-xs-2">{$Think.lang.STOCK}</label>
+				<div class="col-xs-10">
+					<input type="number" id="stock" name="stock" class="form-control" value="{$goods['stock']}" placeholder="请输入库存" required/>
+					<span> 件(个) </span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="cover" class="control-label col-xs-2">{$Think.lang.COVER}</label>
+				<div class="col-xs-10">
+					<input type="file" id="cover" name="cover" class="form-control" value="{$goods['cover']}" placeholder="请选择封面" required/>
+				</div>
+			</div>
+			<!-- 封面预览 error...? -->
+			<div id="cover_previou_wrapper" class="center-block row">
+				<img src="__ROOT__/uploads/cover/{$goods['cover']}" id="cover_previou" class="col-xs-offset-3 col-xs-3" />
+			</div>
+			<br/>
+			<div class="form-group" >
+				<label for="description" class="control-label col-xs-2">{$Think.lang.DESCRIPTION}</label>
+				<div class="col-xs-10">
+					<!-- UEEditor -->
+					<script id="ueditor_container" name="description" type="text/plain">{$goods['description']}</script>
+				</div>
+			</div>
+			<div class="center-block text-center">
+				<button class="btn btn-default" type="button" onclick="back();">{$Think.lang.BACK}</button> &nbsp;&nbsp;
+				<button class="btn btn-primary" type="submit">{$Think.lang.UPDATE}</button>
+			</div>
+		</form>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">{$Think.lang.INFO}</h4>
+		  </div>
+		  <div class="modal-body"><!-- 显示信息 --></div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal" onclick="back();">返回列表</button>
+			<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">{$Think.lang.OK}</button>
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div class="clearfix"></div>
+	<!-- 底部菜单 -->
+	{include file="public/bottom_menu" /}
+	<script type="text/javascript">
+		$(window).ready(function(){
+			$("#menu_item1").addClass("menu-item-active");
+			$("#menu_item1 a").attr("href","#");//去掉当前活动链接的url
+			
+			//实例化UEDITOR
+			var ue=UE.getEditor('ueditor_container',{
+				autoHeightEnabled: true,
+				autoFloatEnabled:false
+			});
+			//为封面添加预览
+			$("#cover").bind("blur",function(){
+				var path=$("#cover").val();
+				$("#cover_previou").attr("src",path);
+			});
+			//表单验证
+			var form=$("form.js-ajax-form");
+			var formloading=false;
+			form.validate({
+				//是否在获取焦点时验证
+				onfocusout : false,
+				//是否在敲击键盘时验证
+				onkeyup : false,
+				//当鼠标掉级时验证
+				onclick : false,
+				//验证规则
+				rules : {
+					name:{
+						required:true
+					},
+					term_id:{
+						required:true
+					},
+					price:{
+						required:true
+					},
+					stock:{
+						required:true
+					},
+					cover:{
+						required:true
+					}
+				},
+				//验证未通过提示消息
+				messages : {
+					name:{
+						required:'请输入商品名称'
+					},
+					term_id:{
+						required:'请选择商品分类'
+					},
+					price:{
+						required:'请输入商品价格'
+					},
+					stock:{
+						required:'请输入商品库存'
+					},
+					cover:{
+						required:'请选择商品封面'
+					}
+				},
+				//给未通过验证的元素加效果,闪烁等
+				highlight : false,
+				//是否在获取焦点时验证
+				onfocusout : false,
+				//表单验证通过
+				submitHandler : function(forms) {
+					if(formloading){
+						return;
+					}
+					//Object { code: 0, msg: "验证码错误!", data: "", url: "", wait: 3 }
+					$(forms).ajaxSubmit({
+						url:form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+						dataType:'json',
+						beforeSubmit:function(attr,form,opts){
+							formloading=true;
+						},
+						success:function(data, statusText, xhr, $form){
+							formloading=false;
+							console.log(data);
+							if(data.status){
+								//$(".msg-window").html(data.msg);
+								//填充信息
+								var msg="<p>"+data.msg+"</p>";
+								$("#myModal .modal-dialog .modal-content .modal-body").html(msg);
+								$("#myModal").modal('show');
+							}else{
+								//alert(data.msg);
+								//$(".msg-window").html(data.msg);
+								var msg="<p>"+data.msg+"</p>";
+								$("#myModal .modal-dialog .modal-content .modal-body").html(msg);
+								$("#myModal").modal('show');
+								//登陆超时...
+								if(typeof data.url != "undefine"){
+									setTimeout(1000,function(){
+										window.location.href=data.url;
+									});
+								}
+							}
+						},
+						error:function(textStatus,xhr){
+							console.log(textStatus);
+						}
+					});
+				}
+			});
+			
+		});
+	</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
-    <meta charset="utf-8" />
+<head>
+	<meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
     <meta name="description" content="" />
@@ -38,63 +38,35 @@
 			$(".msg-window").html("&nbsp;");
 		}
 	</script>
-  </head>
-  <body>
-    <div>
-      <form class="js-ajax-forms" method="post" action="{:url('Publicc/login')}">
-		<div class="table-responsive">
-			<table class="table">
-				<caption><h1>{$Think.lang.seller_login}</h1></caption>
-				<tbody>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="email" class="hidden control-label col-sm-2 sr-only">{$Think.lang.EMAIL}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" value="{$res['mail']}" required autofocus />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="password" class="hidden control-label col-sm-2 sr-only">{$Think.lang.PASSWORD}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="password" id="password" name="password" class="form-control" style="width:80%;" placeholder="{$Think.lang.PASSWORD}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="verify" class="hidden control-label col-sm-2 sr-only">{$Think.lang.VERIFY}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="text" id="verify" name="verify" class="form-control" style="width:80%;" placeholder="{$Think.lang.VERIFY}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							<div class="text-center">
-								<img id="verify_img" class="col-off-sm-6 col-sm-6" src="{:captcha_src()}" width="80%" height="30"  alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+</head>
+<body>
+    <div class="container">
+      <form class="js-ajax-forms form form-horizontal" method="post" action="{:url('Publicc/login')}">
+		<div><h1 class="text-center">{$Think.lang.seller_login}</h1></div>
+		<div class="form-group">
+			<label for="email" class="col-xs-2 control-label">{$Think.lang.EMAIL}</label>
+			<div class="col-xs-10 text-center">
+				<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" value="{$res['mail']}" required autofocus />
+			</div>
 		</div>
+		<div class="form-group">
+			<label for="password" class="col-xs-2 control-label col-sm-2">{$Think.lang.PASSWORD}</label>
+			<div class="col-xs-10 text-center">
+				<input type="password" id="password" name="password" class="form-control" style="width:80%;" placeholder="{$Think.lang.PASSWORD}" required />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="verify" class="col-xs-2 control-label col-sm-2">{$Think.lang.VERIFY}</label>
+			<div class="col-xs-10 text-center">
+				<input type="text" id="verify" name="verify" class="form-control" style="width:80%;" placeholder="{$Think.lang.VERIFY}" required />
+			</div>
+		</div>
+		<div class="text-center">
+			<img id="verify_img" src="{:captcha_src()}" width="50%"  alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
+		</div>
+		<br/>
 		<div class="text-center row">
-				<button id="register" class="btn btn-primary" style="width:80%"  type="submit">{$Think.lang.LOGIN}</button>
+				<button id="register" class="btn btn-primary" style="width:50%"  type="submit">{$Think.lang.LOGIN}</button>
 		</div>
       </form>
 	  <!-- show some info msg -->
@@ -181,5 +153,5 @@
 		});
 	});
 	</script>
-  </body>
+</body>
 </html>

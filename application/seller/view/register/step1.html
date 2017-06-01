@@ -13,9 +13,10 @@
 	<script type="text/javascript" src="__JS__/jquery.form.js" ></script>
 	<style type="text/css">
 		body,html{
-			background-color: #E6E6E6;
+			background-color: #2c2c2c;
 			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 			text-decoration: none;
+			color:#fff;
 			/*text-align:center;*/
 		}
 		/*改变验证消息颜色*/
@@ -41,73 +42,40 @@
   </head>
   <body>
     <div>
-      <form class="js-ajax-forms" method="post" action="{:url('Register/step1')}">
-		<div class="table-responsive">
-			<table class="table">
-				<caption><h1>{$Think.lang.seller_registe}</h1></caption>
-				<tbody>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="email" class="hidden control-label col-sm-2 sr-only">{$Think.lang.EMAIL}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="email" id="email" name="email" class="form-control" style="width:80%;" placeholder="{$Think.lang.EMAIL_ADDRESS}" required autofocus />
-								<div style="color:red" class="help-block">用于用户登陆，不可更改</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="password" class="hidden control-label col-sm-2 sr-only">{$Think.lang.PASSWORD}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="password" id="password" name="password" class="form-control" style="width:80%;" placeholder="{$Think.lang.PASSWORD}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="confirm" class="hidden control-label col-sm-2 sr-only">{$Think.lang.CONFIRM_PWD}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="password" id="confirm" name="confirm" class="form-control" style="width:80%;" placeholder="{$Think.lang.CONFIRM_PWD}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="text-center">
-								<label for="verify" class="hidden control-label col-sm-2 sr-only">{$Think.lang.VERIFY}</label>
-							</div>
-						</td>
-						<td>
-							<div class="text-center">
-								<input type="text" id="verify" name="verify" class="form-control" style="width:80%;" placeholder="{$Think.lang.VERIFY}" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							<div class="text-center">
-								<img id="verify_img" class="col-off-sm-6 col-sm-6" src="{:captcha_src()}" width="80%" height="30"  alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+      <form class="form form-horizontal js-ajax-forms" method="post" action="{:url('Register/step1')}">
+		<div class="container">
+			<div class="text-center"><h1>{$Think.lang.seller_registe}</h1></div>
 		</div>
-		<div class="text-center row">
-				<button id="register" class="btn btn-primary" style="width:80%"  type="submit">{$Think.lang.SUBMIT}</button>
+		<div class="form-group">
+			<label for="email" class="control-label col-xs-2">{$Think.lang.EMAIL}</label>
+			<div class="col-xs-10">
+				<input type="email" id="email" name="email" class="form-control" placeholder="{$Think.lang.EMAIL_ADDRESS}" required autofocus />
+				<div style="color:red" class="help-block">用于用户登陆，不可更改</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="password" class="control-label col-xs-2">{$Think.lang.PASSWORD}</label>
+			<div class="col-xs-10">
+				<input type="password" id="password" name="password" class="form-control" placeholder="{$Think.lang.PASSWORD}" required />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="confirm" class="control-label col-xs-2">{$Think.lang.CONFIRM_PWD}</label>
+			<div class="col-xs-10">
+				<input type="password" id="confirm" name="confirm" class="form-control" placeholder="{$Think.lang.CONFIRM_PWD}" required />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="verify" class="control-label col-xs-2">{$Think.lang.VERIFY}</label>
+			<div class="col-xs-10">
+				<input type="text" id="verify" name="verify" class="form-control" placeholder="{$Think.lang.VERIFY}" required />
+			</div>
+		</div>
+		<div class="text-center" style="margin:0 auto;margin-top:5px;">
+			<img id="verify_img" class="col-off-sm-6 col-sm-6" src="{:captcha_src()}" style="margin:0 auto;"  alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
+		</div>
+		<div class="text-center" style="margin-top:10px;">
+				<button id="register" class="btn btn-primary" style="width:50%"  type="submit">{$Think.lang.SUBMIT}</button>
 		</div>
       </form>
 	  <!-- show some info msg -->

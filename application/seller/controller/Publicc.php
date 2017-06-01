@@ -16,6 +16,7 @@
 	 protected $db;
 	 protected $tb_buyer;
 	 protected $tb_seller;
+	 protected $tb_store;
 	 
 	 function _initialize(){
 		 parent::_initialize();
@@ -23,6 +24,7 @@
 		 $database=Config::get('database');
 		 $this->tb_buyer=$database['prefix'].$database['TB_BUYER'];
 		 $this->tb_seller=$database['prefix'].$database['TB_SELLER'];
+		 $this->tb_store=$database['prefix'].$database['TB_STORE'];
 	 }
 	 
 	 /**
@@ -36,11 +38,13 @@
 				 return $this->error("验证码错误!");
 			}
 			$email=$post_data['email'];
-			$res=$this->db->table($this->tb_seller)
-					->alias("a")
-					->join(array($this->tb_buyer=>"`b`"),"b.id=a.buyer_id")
-					->field("a.pwd as `seller_pwd`,a.id as `id`")
-					->where(array('b.mail'=>"$email"))
+			$res=$this->db->table(["{$this->tb_seller}"=>"a"])
+					->join(["{$this->tb_buyer}"=>"b"],"a.buyer_id=b.id")
+					->field([
+						'a.pwd'=>'seller_pwd',
+						'a.id'=>'seller_id'
+					])
+					->where(array('b.mail'=>"{$email}"))
 					->find();
 			if(!$res){
 				return $this->error("未注册卖家!");
@@ -50,9 +54,10 @@
 			}
 			//登陆成功,记录登陆信息
 			Session::set("seller.login",true);
-			Session::set("seller.id",$res['id']);
+			Session::set("seller.id",$res['seller_id']);
 			Session::set("seller.login_time",time());
-			$url=\think\Url::build("seller/Index/index",array('seller_id'=>$res['id']),false,true);
+			$this->loginStore();
+			$url=\think\Url::build("seller/Index/index",array('seller_id'=>$res['seller_id']),false,true);
 			return $this->success("登陆成功",$url);
 		 }else{
 			 $request=Request::instance()->param();
@@ -65,11 +70,19 @@
 		 }
 	 }
 	 
+	 /*为了方便直接在这个方法中选择商店*/
+	 private function loginStore(){
+		 $seller_id = Session::get('seller.id');
+		 $store = $this->db->table($this->tb_store)->where("seller_id",$seller_id)->find();
+		 Session::set('store_id',$store['id']);
+	 }
+	 
 	 /**
 	  * 登出卖家
 	  */
 	 public function logout(){
-		 
+		 Session::clear();//清空
+		 return $this->redirect("seller/publicc/login");
 	 }
  }
 ?>

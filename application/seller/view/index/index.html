@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
 	<style type="text/css">
 		body,html{
@@ -25,9 +26,88 @@
 </head>
 <body>
 	<!-- 外部框架 -->
-	<div class="wrapper" style="padding:0;margin:0px;">
-		{:var_dump($list);}
+	<div class="wrapper" style="padding:0;margin-top:0px;margin-bottom:90px;overflow:auto;">
+		{foreach $list as $item }
+			<div style="width:100%;height:auto;">
+				<!-- 分类名称 -->
+				<div style="margin-top:10px;">
+					<h3 style="font-size:18px;color:#000000;margin-left:10px;display:inline;">{$item['term']['name']}</h3>
+					<div style="margin-right:30px;" class="text-center pull-right dropdown">
+						<!-- 
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							{$Think.lang.OP} <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="dropdown">
+							<li><a href="{:url('seller/index/add',['term_id'=>$item['term']['id']])}">添加</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a onclick="event.preventDefault();deleteTerm({$item['term']['id']});">删除</a></li>
+						 </ul>
+						 -->
+						 <a href="{:url('seller/index/add',['term_id'=>$item['term']['id']])}">添加&gt;&gt;</a>
+					</div>
+					<div class="clearfix"></div>
+					<hr/>
+				</div>
+				<!-- 分类商品列表 -->
+				<div style="width:80%;height:auto;">
+					{empty name="item['goods']"}
+						<div class="text-center">
+							没有商品!
+						</div>
+					{else /}
+						<ul class="goods_list" style="list-style:none;">
+						{foreach $item['goods'] as $goods}
+							<li class="goods_item" style="background-color:#cfcfcf;padding:5px;">
+								<a href="{:url('seller/index/detail',['goods_id'=>$goods['id']])}" class="pull-left" style="display:block;width:60%">
+									<img src="__ROOT__/uploads/cover/taobao_128.png" alt="商品封面" style="width:50px;height:50px;display:block;float:left;" />
+									<div style="float:left;">
+										<span style="overflow:hidden;">{$goods['name']}</span><br/>
+										<div>
+											<span style="display:block;float:left;text-align:center-left;">{$goods['price']} 元/件</span>
+											<span style="display:block;float:right;text-align:center-right;">{$goods['sell_count']} 件</span>
+											<div class="clearfix"></div>
+										</div>
+									</div>
+									<div style="clear:both;"></div>
+								</a>
+								<div class="pull-right text-center dropdown" style="margin-right:10px;">
+									<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" 
+											style="background-color:transparent;border-color:transparent;">
+										{$Think.lang.OP} <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="dropdown">
+										<li><a href="{:url('seller/index/detail',['goods_id'=>$goods['id']])}">{$Think.lang.DETAIL}</a></li>
+										<li><a href="{:url('seller/index/edit',['goods_id'=>$goods['id']])}">{$Think.lang.EDIT}</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a onclick="event.preventDefault();deleteGoods({$goods['id']});">{$Think.lang.DELETE}</a></li>
+									 </ul>
+								</div>
+								<div class="clearfix"></div>
+							</li>
+							<br/>
+						{/foreach}
+						</ul>
+					{/empty}
+				</div>
+			</div>
+		{/foreach}
 	</div>
+	<!-- 模态框 -->
+	<div class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">info</h4>
+			  </div>
+			  <div class="modal-body"></div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">{$Think.lang.OK}</button>
+			  </div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
 	<!-- 底部菜单 -->
 	{include file="public/bottom_menu" /}
 	<script type="text/javascript">
@@ -35,6 +115,37 @@
 			$("#menu_item1").addClass("menu-item-active");
 			$("#menu_item1 a").attr("href","#");//去掉当前活动链接的url
 		});
+		
+		/*删除商品分类以及该分类下所有商品*/
+		function deleteTerm(term_id){
+			
+		}
+		
+		/*删除商品*/
+		function deleteGoods(goods_id){
+			$.ajax({
+				url:"{:url('seller/index/delete')}",
+				data:{
+					'goods_id':goods_id
+				},
+				dataType:'JSON',
+				success:function(data,textStatus,xhr){
+					$(".modal .modal-dialog .modal-content .modal-body").text(data.msg);
+					$(".modal").modal('show');
+					console.log(data);
+					if(data.code){
+						window.location.reload();
+					}else{
+						if(typeof data.url != "undefine"){
+							window.location.href=data.url;
+						}
+					}
+				},
+				error:function(xhr,status,error){
+					console.log(status+" error:"+error);
+				}
+			});
+		}
 	</script>
 </body>
 </html>

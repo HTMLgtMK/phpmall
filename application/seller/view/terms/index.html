@@ -7,9 +7,11 @@
 	<meta name="author" content="GT" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/float-menu.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
 	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<!-- <script type="text/javascript" src="__JS__/float-menu.js"></script> -->
 	<style type="text/css">
 		body,html{
 			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
@@ -30,9 +32,8 @@
 		<ol class="breadcrumb" id="terms_path">
 			/
 			<li><a href="{:url('seller/terms/index',['term_id'=>'0'])}">root</a></li>
-			{foreach($terms_path as $term)}
-				/
-				<li><a href="{:url('seller/terms/index',['term_id'=>$term['id']])}">{$term['name']}</a></li>
+			{foreach($terms_path as $term_p)}
+				<li><a href="{:url('seller/terms/index',['term_id'=>$term_p['id']])}">{$term_p['name']}</a></li>
 			{/foreach}
 			<script type="text/javascript">
 				/*添加active*/
@@ -40,29 +41,78 @@
 			</script>
 		</ol>
 	</div>
-	{:var_dump($terms_path);}
-	
-	<ul class="list-group">
-	  <li class="list-group-item">
-		<span class="badge">14</span>
-		Cras justo odio
-	  </li>
-	</ul>
+	<!-- 添加分类 -->
+	<div class="pull-right">
+		<button class="btn btn-primary" style="margin-right:30px;" onclick="addTerms()">{$Think.lang.ADD}</button>
+	</div>
+	<div class="clearfix"></div>
 	<!-- 下级分类 -->
-	<div>
+	<div style="overflow:scroll;min-height:200px;">
 		{empty name="terms_child"}
-			<div class="jumbotron">
-				<h1>没有下级分类!</h1>
+			<div class="text-center center-block" style="width:200px;padding-top:10px;padding-bottom:10px;border-radius:10px;background-color:#2c2c2c;">
+				<img src="__STATIC__/image/none_white_128.png" style="width:128px;height:128px;" /><br/>
+				<span style="color:#ffffff;">没有下级分类!</span>
 			</div>
 		{else /}
-			<ul class="list-group">
-				{foreach($terms_child as $term)}
-					<li class="list-group-item">
-						<a href="{:url('seller/terms/index',['term_id'=>$term['id']])}">{$term['name']}</a>
-					</li>
-				{/foreach}
-			</ul>
+			<div style="margin:30px;">
+				<ul class="list-group">
+					{foreach($terms_child as $term)}
+						<li class="list-group-item">
+							<a href="{:url('seller/terms/index',['term_id'=>$term['id']])}">{$term['name']}</a>
+							<div class="pull-right text-center" style="margin-right:30px;height:100%;">
+								<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" 
+									style="background-color:transparent;border-color:transparent;color:#000;">
+									{$Think.lang.OP}&nbsp;<span class="glyphicon glyphicon-triangle-bottom"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="{:url('seller/terms/add',['term_id'=>$term['id']])}">{$Think.lang.ADD}</a></li>
+									<li><a href="{:url('seller/terms/edit',['term_id'=>$term['id']])}">{$Think.lang.EDIT}</a></li>
+									<li class="divider"></li>
+									<li><a onclick="event.preventDefault();showModal({$term['id']});" >{$Think.lang.DELETE}</a></li>
+								</ul>
+							</div>
+						</li>
+					{/foreach}
+				</ul>
+			</div>
 		{/empty}
+	</div>
+	<!-- 悬浮添加按钮 -->
+	<!-- 
+	<div class="float-menu">
+		<div class="plus" onclick="addTerms()"><div class="cross"></div></div>
+		<div class="menu-list">
+			<a href="#index" class="link-home">首页</a>
+			<a href="#my" class="link-my">我的</a>
+			<a href="#cart" class="link-cart">购物车<span id="float-cart">6</span></a>
+		</div>
+	</div>
+	-->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						{$Think.lang.CONFIRM} ?
+					</h4>
+				</div>
+				<div class="modal-body">
+					删除这个分类以及该分类下商品?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						{$Think.lang.CANCEL}
+					</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteTerms(this);">
+						{$Think.lang.DELETE_CONFIRM}
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
 	</div>
 	<!-- 底部菜单 -->
 	{include file="public/bottom_menu" /}
@@ -71,6 +121,47 @@
 			$("#menu_item2").addClass("menu-item-active");
 			$("#menu_item2 a").attr("href","#");//去掉当前活动链接的url
 		});
+		
+		//利用js传递参数到modal
+		function showModal(id){
+			$("#myModal .modal-footer button:last").attr("data-id",id);
+			$('#myModal').modal("show");
+		}
+		/*删除该分类*/
+		function deleteTerms(btn){
+			var id=$(btn).attr("data-id");
+			console.log(id);
+			$.ajax({
+				url:"{:url('seller/terms/delete')}",
+				dataType:'json',
+				data:{
+					'term_id':id
+				},
+				success:function(data,textStatus,xhr){
+					if(data.code){
+						window.location.reload();
+					}else{
+						if(typeof data.url != "undefine"){
+							alert("删除失败!");
+						}else{
+							window.location.href=data.url;
+						}
+					}
+				},
+				error:function(textStatus,xhr){
+					console.log(textStatus);
+				}
+			});
+		}
+		
+		/*添加新分类*/
+		function addTerms(){
+			{empty name="term_p"}
+				window.location.href="{:url('seller/terms/add',['term_id'=>0])}";
+			{else /}
+				window.location.href="{:url('seller/terms/add',['term_id'=>$term_p['id']])}";
+			{/empty}
+		}
 	</script>
 </body>
 </html>
