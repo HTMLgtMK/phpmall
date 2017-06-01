@@ -91,7 +91,7 @@
 	/*登出*/
 	public function exitStore(){
 		$publicc=controller('Publicc');
-		$publicc->logout();
+		$publicc->logout2();
 	}
  }
 ?>

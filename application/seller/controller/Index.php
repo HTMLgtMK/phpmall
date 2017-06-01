@@ -13,13 +13,6 @@
  
  class Index extends Base{
 	 
-	 function _initialize(){
-		 parent::_initialize();
-		 if(!Session::has("store_id")){
-			 return $this->error("登陆超时!","seller/publicc/login");
-		 }
-	 }
-	 
 	 public function index(){
 		 $store_id = Session::get('store_id');
 		 $this->goods_list($store_id);
