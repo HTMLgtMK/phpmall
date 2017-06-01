@@ -5,6 +5,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 	<link rel="stylesheet" type="text/css" href="__STATIC__/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.form.js" ></script>
 </head>
 <style type="text/css">
 		html,body,ul,li,a,p{
@@ -31,6 +35,7 @@
 		.contain{
 			width: 100%;
 			height: 100%;
+			margin-top:90px;
 			position: relative;
 		}
 		.contain .desc{
@@ -52,39 +57,55 @@
 			background-color: black;
 			margin-bottom: 0.2rem;
 		}
-		.contain ul li .left-pic{
+		.contain ul li a .left-pic{
 			display: inline-block;
 			width: 30%;
 			height: 100%;
 			overflow: hidden;
 		}
-		.contain ul li .left-pic img{
+		.contain ul li a .left-pic img{
 			width: 100%;
 		}
-		.contain ul li .right-info{
+		.contain ul li a .right-info{
 			display: inline-block;
 			width: 60%;
 			height: 100%;
 		}
-		.contain ul li .right-info p:nth-child(2){
+		.contain ul li a .right-info p:nth-child(2){
 			font-size: 2rem;
 			color: red;
 		}
 </style>
 <body>
+	<!-- 顶部的搜索navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+		<form class="navbar-form navbar-left" method="GET" action="{:url('index/index/goodList')}">
+			<div class="form-group" style="float:left;width:80%">
+			  <input id="keyword"name="keyword" type="text" class="form-control" placeholder="Search" value="{$keyword}">
+			</div>
+			<div style="float:right;width:20%;">
+				<button type="submit" class="btn btn-default" >Submit</button>
+			</div>
+			<div class="clearfix"></div>
+       </form>
+	</nav>
+	<!-- 商品列表 -->
 	<div class="contain">
-		<p class="desc">商品列表</p>
 		<ul>
+			{foreach $goods as $good}
 			<li>
-				<div class="left-pic">
-					<img src="__STATIC__/image/good3.jpg">
-				</div>
-				<div class="right-info">
-					<p>商品名称</p>
-					<p>￥99</p>
-					<p>销量：99 库存：99</p>
-				</div>
+				<a href="{:url('index/index/detail',['id'=>$good['id']])}" style="display:block;" >
+					<div class="left-pic">
+						<img src="__STATIC__/image/{$good['cover']}">
+					</div>
+					<div class="right-info">
+						<p>{$good['name']}</p>
+						<p>￥{$good['price']}</p>
+						<p>销量：{$good['sell_count']} 库存：{$good['stock']}</p>
+					</div>
+				</a>
 			</li>
+			{/foreach}
 		</ul>
 	</div>
 </body>
