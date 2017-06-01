@@ -32,4 +32,29 @@ class Index extends Controller{
 		return $this->fetch();
 	}
 	
+	//商品详情
+	public function detail($id){
+		$good = $this->tb_goods->where("id",$id)->find();
+		$this->assign("good",$good);
+		return $this->fetch();
+	}
+
+	//商品列表类
+	/*
+	*@param $type: 请求类型，如类别请求->0，搜索结果->1
+	*@param $query: 即为不同类型下的查询根据
+	*/
+	public function goodList($type,$query){
+		if($type){//查询
+			
+		}else{//类别
+
+		}
+		return $this->fetch();
+	}
+
+	//商品购买
+	public function buy($id){
+		echo "正在购买，开发中";
+	}
 }

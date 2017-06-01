@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 <head>
@@ -253,7 +252,7 @@
 		<div class="good-type">
 			<ul class="type-list">
 				{foreach name="goodType" item="vo"}
-					<li class="item-type"><a href="" style="background: url(__STATIC__/image/{$vo.icon}) no-repeat center;"></a><span>{$vo.name}</span></li>
+					<li class="item-type"><a href="{:url('index/goodList', ['type' => 1,’query' => $vo.id])}" style="background: url(__STATIC__/image/{$vo.icon}) no-repeat center;"></a><span>{$vo.name}</span></li>
 				{/foreach}
 			</ul>
 		</div>
@@ -261,7 +260,15 @@
 	<div class="main">
 		<ul class="good-list">
 			{foreach name="goods" item="vo"}
-				<li class="good-item" style="background: url(__STATIC__/image/{$vo.cover}) no-repeat center;background-size: auto 100%"><a href=""><p class="tittle">{$vo.name}</p><p class="bottomInfo"><span>￥{$vo.price}</span><span>累销：{$vo.sell_count}</span></p></a></li>
+				<li class="good-item" style="background: url(__STATIC__/image/{$vo.cover}) no-repeat center;background-size: auto 100%">
+					<a href="{:url('index/detail', ['id' => $vo.id])}">
+						<p class="tittle">{$vo.name}</p>
+						<p class="bottomInfo">
+							<span>￥{$vo.price}</span>
+							<span>累销：{$vo.sell_count}</span>
+						</p>
+					</a>
+				</li>
 			{/foreach}
 		</ul>
 	</div>
@@ -282,19 +289,6 @@
 			dots[0].classList.add("on");
 
 		}
-		/*function swipe(imgs,dots){
-			mark = window.flag;
-			imgs.forEach(function(value,index){
-				if(value.className.indexOf("show") != -1){
-					value.className = value.className.replace("show","");
-					mark = true;
-				}else if(mark){
-					value.className = "show";
-					mark = false;
-				}
-			});
-			window.flag = mark;
-		}*/
 		function swipe(imgs,dots){
 			imgs.forEach(function(value,index){
 				if(value.className.indexOf("show") != -1){
