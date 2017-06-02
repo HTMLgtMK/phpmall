@@ -127,7 +127,24 @@ class Index extends Controller{
 			"c_time"=>date("Y-m-d H:i:s")];
 		$this->tb_order->insert($data);
 		$this->tb_goods->where('id',$id)->update(["sell_count"=>(int)($good["sell_count"])+1,"stock"=>(int)($good["stock"])-1]);
-		return $this->redirect('index/index/index');
+		return $this->success("剁手成功!",'index/index/index');
+	}
+	
+	public function qianshou(){
+		$order_id=Request::instance()->param('order_id');
+		if(!isSet($order_id)){
+			return $this->error("错误参数!");
+		}
+		$data=[
+			'id'=>"{$order_id}",
+			'status'=>'4'
+		];
+		$res=$this->tb_order->where('id',$order_id)->update($data);
+		if($res){
+			return $this->success("签收成功!");
+		}else{
+			return $this->success("签收失败!");
+		}
 	}
 
 	//买家登陆
@@ -160,5 +177,10 @@ class Index extends Controller{
 			 }
 			 return $this->fetch();
 		 }
+	}
+	
+	public function logout(){
+		Session::clear();
+		return $this->redirect('index/index/index');
 	}
 }

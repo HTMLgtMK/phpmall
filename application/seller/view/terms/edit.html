@@ -11,14 +11,15 @@
 	<script type="text/javascript" src="__JS__/jquery.form.js"></script>
 	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
-	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
 	<style type="text/css">
 		body,html{
+			background-color:#000;
 			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 			text-decoration: none;
 			/*text-align:center;*/
 			padding:0;
 			margin:0;
+			color:#fff;
 		}
 		/*改变验证消息颜色*/
 		.error{
@@ -58,6 +59,12 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label for="icon" class="control-label col-xs-2">图标</label>
+				<div class="col-xs-10">
+					<input type="file" id="icon" name="icon" class="form-control" value="{$term['icon']}" placeholder="请选择图标" required/>
+				</div>
+			</div>
+			<div class="form-group">
 				<label for="term_status" class="col-xs-2 control-label">状态</label>
 				<div class="col-xs-8" id="term_status">
 					<label class="radio-inline control-label">
@@ -88,9 +95,9 @@
 		<div class="modal-content">
 		  <div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title">信息</h4>
+			<h4 class="modal-title" style="color:#fff;">信息</h4>
 		  </div>
-		  <div class="modal-body"><!-- 显示信息 --></div>
+		  <div class="modal-body" style="color:#fff;" ><!-- 显示信息 --></div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal" onclick="back();">返回列表</button>
 			<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="clear();">确定</button>
@@ -136,7 +143,10 @@
 						required:true
 					},
 					term_name:{
-						required:true,
+						required:true
+					},
+					icon:{
+						required:true
 					}
 				},
 				//验证未通过提示消息
@@ -145,7 +155,10 @@
 						required:'请选择父级分类'
 					},
 					term_name:{
-						required:'请输入分类名称',
+						required:'请输入分类名称'
+					},
+					icon:{
+						required:'请选择图标'
 					}
 				},
 				//给未通过验证的元素加效果,闪烁等

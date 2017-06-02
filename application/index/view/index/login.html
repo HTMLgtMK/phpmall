@@ -38,6 +38,9 @@
 		function clearMsg(){
 			$(".msg-window").html("&nbsp;");
 		}
+		function jump2register(){
+			window.location.href="{:url('index/Register/step1')}";
+		}
 	</script>
 </head>
 <body>
@@ -68,6 +71,8 @@
 		<br/>
 		<div class="text-center">
 				<button id="register" class="btn btn-primary" style="width:50%"  type="submit">{$Think.lang.LOGIN}</button>
+				<br/>
+				<button id="register" class="btn" style="width:50%;margin-top:10px;color:#000;" onclick="jump2register();" type="button">注册</button>
 		</div>
       </form>
 	  <!-- show some info msg -->

@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<!-- <script type="text/javascript" src="__JS__/menu-bar.js"></script> -->
 	<!-- 图表 -->
 	<script type="text/javascript">
 		var URL_JQPLOT = "__STATIC__/jqplot/";
@@ -17,11 +17,13 @@
 	<script type="text/javascript" src="__STATIC__/jqplot/jqplot.js"></script>
 	<style type="text/css">
 		body,html{
+			background-color:#000;
 			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 			text-decoration: none;
 			/*text-align:center;*/
 			padding:0;
 			margin:0;
+			color:#fff;
 		}
 		/*改变验证消息颜色*/
 		.error{
@@ -126,13 +128,17 @@
 		$(window).ready(function(){
 			$("#menu_item4").addClass("menu-item-active");
 			$("#menu_item4 a").attr("href","#");//去掉当前活动链接的url
-			/*
 			var data=[
+			[
 				{foreach $month['day'] as $day}
-					$day['total'],
+					{$day['sell_count']},
 				{/foreach}
-			];//data
-			*/
+			],
+			[
+				{foreach $month['day'] as $day}
+					{$day['total']},
+				{/foreach}
+			]];//data
 			/*
 			var x=[
 				<?php 
@@ -143,9 +149,9 @@
 				?>
 			];
 			*/
-			var data = [[3,6,8,1,11,22,4,21,6]];
-			var data_max = 10000; //Y轴最大刻度
-			var line_title = ["交易额"]; //曲线名称
+			//var data = [[3,6,8,1,11,22,4,21,6]];
+			var data_max = 1000; //Y轴最大刻度
+			var line_title = ["订单数","交易额"]; //曲线名称
 			var y_label = "交易额"; //Y轴标题
 			var x_label = "日"; //X轴标题
 			var x = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,

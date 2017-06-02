@@ -64,7 +64,7 @@
 		 }
 		 $orders=\app\common\model\Order::alias('a')
 					->join(["__GOODS__"=>'b'],'a.goods_id=b.id')
-					->field('a.*,b.name as `name`,b.term_id as `term_id`')
+					->field('a.*,b.name as `name`,b.cover as `cover`,b.term_id as `term_id`')
 					->where($where)
 					->select();
 		 $this->assign("orders",$orders);

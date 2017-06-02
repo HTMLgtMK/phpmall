@@ -66,14 +66,14 @@
 		$duration_end=date('Y-m-d 00:00:00',strtotime($duration_begin." +1 day"));
 		$index=1;
 		while($duration_end<=$end_time){
-			$count=Order::field('count(*) as order_num,count(total) as total')
+			$count=Order::field('count(*) as order_num,sum(total) as total')
 					->where(['store_id'=>"{$store_id}"])
 					->where(['c_time'=>['lt',"{$duration_end}"]])
 					->where(['c_time'=>['gt',"{$duration_begin}"]])
 					->select();
 			$count=$count[0];
-			$month['day'][$index]['sell_count']=$count['order_num'];
-			$month['day'][$index]['total']=$count['total'];
+			$month['day'][$index]['sell_count']=$count['order_num']+0;
+			$month['day'][$index]['total']=$count['total']+0;
 			$index++;
 			$duration_begin=$duration_end;
 			$duration_end=date('Y-m-d 00:00:00',strtotime($duration_begin."+1 day"));
