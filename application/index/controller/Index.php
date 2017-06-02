@@ -12,6 +12,7 @@ class Index extends Controller{
 	protected $tb_site_terms;
 	protected $tb_goods;
 	protected $tb_cart;//此处修改了原有的购物车表，新增商品总额字段
+	protected $tb_order;
 
 	function _initialize(){
 		parent::_initialize();
@@ -19,6 +20,7 @@ class Index extends Controller{
 		$this->tb_site_terms=db("site_terms");
 		$this->tb_goods=db("goods");
 		$this->tb_cart=db("cart");
+		$this->tb_order=db("order");
 	}
 
 	//thinkshop首页
@@ -64,17 +66,28 @@ class Index extends Controller{
 	*@param $query: 即为不同类型下的查询根据
 	*/
 	public function goodList($type,$query){
-		if($type){//查询
-			
-		}else{//类别
-
-		}
 		return $this->fetch();
 	}
 
 	//商品购买
 	public function buy($id){
-		echo "正在购买，开发中";
+		if(!Session::has('buyer.login')){
+			return $this->redirect('index/index/login');
+		}
+		//存储订单数据
+		$good = $this->tb_goods->where('id',$id)->find();
+		$data=['buyer_id'=>Session::get('buyer.id'),
+			"goods_id"=>$id,
+			"store_id"=>$good["store_id"],
+			"num"=>1,
+			"total"=>$good["price"],
+			"message"=>"",
+			"status"=>2,
+			"status_message"=>"",
+			"c_time"=>date("Y-m-d H:i:s")];
+		$this->tb_order->insert($data);
+		$this->tb_goods->where('id',$id)->update(["sell_count"=>(int)($good["sell_count"])+1,"stock"=>(int)($good["stock"])-1]);
+		return $this->redirect('index/index/index');
 	}
 
 	//买家登陆
