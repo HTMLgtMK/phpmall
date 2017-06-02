@@ -11,6 +11,10 @@
  use \think\Db;
  use \think\Session;
  
+ use app\common\model\Store;
+ use app\seller\model\Seller;
+ use app\common\model\Buyer;
+ 
  class Publicc extends Controller{
 	 
 	 protected $db;
@@ -25,6 +29,75 @@
 		 $this->tb_buyer=$database['prefix'].$database['TB_BUYER'];
 		 $this->tb_seller=$database['prefix'].$database['TB_SELLER'];
 		 $this->tb_store=$database['prefix'].$database['TB_STORE'];
+	 }
+	 
+	 public function c_shop(){
+		 if(Request::instance()->isPost()){
+			 $post_data=Request::instance()->post();
+			 $c_time=date('Y-m-d H:i:s',time());
+			 $data=[
+				'name'=>"{$post_data['name']}",
+				'seller_id'=>"{$post_data['seller_id']}",
+				'c_time'=>"{$c_time}"
+			 ];
+			 $res=Store::insert($data);
+			 if(!$res){
+				 return $this->error('创建店铺失败!');
+			 }
+			 $buyer_id=Seller::field('buyer_id')->where('id',$post_data['seller_id'])->find();
+			 $buyer_id=$buyer_id['buyer_id'];
+			 $url=\think\Url::build('seller/Publicc/login2',['buyer_id'=>"{$buyer_id}"],true,true);
+			 return $this->redirect($url);
+		 }else{
+			 return $this->fetch();
+		 }
+	 }
+	 
+	 /**
+	  * 自动登陆
+	  */
+	 public function login2(){
+		 $buyer_id=Session::get('buyer.id');
+		 if(!isSet($buyer_id)){
+			 return $this->error('错误参数!');
+		 }
+		 //判断是否已经是卖家
+		 $seller=Seller::where('buyer_id',$buyer_id)->find();
+		 if(!$seller){
+			 //添加新卖家
+			 $buyer=Buyer::where('id',$buyer_id)->find();
+			 $c_time=date("Y-m-d H:i:s",time());
+			 $data=[
+				'buyer_id'=>"{$buyer_id}",
+				'pwd'=>"{$buyer['pwd']}",
+				'c_time'=>"{$c_time}"
+			 ];
+			 $res=Seller::insert($data);
+			 if(!$res){
+				 return $this->error('创建卖家失败!');
+			 }
+			 $seller=Seller::where('buyer_id',$buyer_id)->find();
+		 }
+		 /*登陆卖家成功*/
+		 Session::set("seller.login",true);
+		 Session::set("seller.id",$seller['id']);
+		 Session::set("seller.login_time",time());
+		 //判断是否已经有店铺
+		 $res=Store::where('seller_id',$seller['id'])->find();
+		 if(!$res){
+			 //创建店铺
+			 return $this->fetch('c_shop');
+		 }
+		 //登陆店铺
+		 $this->loginStore();
+		 //跳转卖家后台
+		 $url=\think\Url::build("seller/Index/index",array('seller_id'=>$res['seller_id']),false,true);
+		 return $this->redirect($url);
+	 }
+	 
+	 public function logout2(){
+		  Session::clear('seller');//清空seller控制
+		 return $this->redirect("index/Index/main");
 	 }
 	 
 	 /**
@@ -73,7 +146,7 @@
 	 /*为了方便直接在这个方法中选择商店*/
 	 private function loginStore(){
 		 $seller_id = Session::get('seller.id');
-		 $store = $this->db->table($this->tb_store)->where("seller_id",$seller_id)->find();
+		 $store = Store::where("seller_id",$seller_id)->find();
 		 Session::set('store_id',$store['id']);
 	 }
 	 

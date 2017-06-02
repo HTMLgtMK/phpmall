@@ -13,13 +13,6 @@
  
  class Index extends Base{
 	 
-	 function _initialize(){
-		 parent::_initialize();
-		 if(!Session::has("store_id")){
-			 return $this->error("登陆超时!","seller/publicc/login");
-		 }
-	 }
-	 
 	 public function index(){
 		 $store_id = Session::get('store_id');
 		 $this->goods_list($store_id);
@@ -32,7 +25,7 @@
 			 $post_data=Request::instance()->post();
 			 //保存封面文件
 			 $file=Request::instance()->file("cover");
-			 $info = $file->move(ROOT_PATH.'public'.DS.'uploads'.DS.'cover');
+			 $info = $file->move(ROOT_PATH.'public'.DS.'static'.DS.'image');
 			 if(!$info){
 				// 上传失败获取错误信息
 				$err=$file->getError();
@@ -92,7 +85,7 @@
 			 $post_data=Request::instance()->post();
 			 //保存封面文件
 			 $file=Request::instance()->file("cover");
-			 $info = $file->move(ROOT_PATH.'public'.DS.'uploads'.DS.'cover');
+			 $info = $file->move(ROOT_PATH.'public'.DS.'static'.DS.'image');
 			 if(!$info){
 				// 上传失败获取错误信息
 				$err=$file->getError();

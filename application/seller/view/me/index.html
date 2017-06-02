@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<title>{$Think.lang.MYSTORE}</title>
+	<meta name="author" content="GT" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="__JS__/menu-bar.js"></script> -->
+	<!-- 图表 -->
+	<script type="text/javascript">
+		var URL_JQPLOT = "__STATIC__/jqplot/";
+	</script>
+	<script type="text/javascript" src="__STATIC__/jqplot/jqplot.js"></script>
+	<style type="text/css">
+		body,html{
+			background-color:#000;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+			/*text-align:center;*/
+			padding:0;
+			margin:0;
+			color:#fff;
+		}
+		/*改变验证消息颜色*/
+		.error{
+			color:red
+		}
+	</style>
+</head>
+<body>
+	<!-- 外部框架 -->
+	<div class="container" style="padding:0;margin-top:0px;margin-bottom:90px;overflow:auto;">
+		<!-- 卖家wrapper -->
+		<div id="seller_container" style="width:100%;height:auto;margin-top:10px;">
+			<!-- 卖家头像 -->
+			<div class="pull-left" style="width:40%">
+				<img src="__STATIC__/image/seller_thumb.jpg" alt="卖家头像" class="img-thumbnail">
+			</div>
+			<!-- 卖家基本信息 -->
+			<div class="pull-right" style="width:60%">
+				<span style="margin-top:10px;">{$seller['name']}</span><hr/>
+				<span style="margin-top:10px;overflow:hide;">{$seller['mail']}</span><hr/>
+				<div >
+					<!-- 
+					<a href="{:url('seller/me/modifyPwd',['seller_id'=>$seller['id']])}" 
+						style="display:block;float:left;margin-left:5px;">修改密码</a>
+					-->
+					<a href="{:url('seller/me/exitStore',['seller_id'=>$seller['id']])}" 
+						style="display:block;float:right;margin-right:5px;">退出卖家&gt;&gt;</a>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<hr/>
+		<!-- 商铺wrapper -->
+		<div id="store_wrapper" style="width:100%;height:auto;margin-top:10px;">
+			<!-- 商铺标志 -->
+			<div class="pull-left" style="width:40%">
+				<img src="__STATIC__/image/store_logo.gif" alt="商铺标识" class="img-thumbnail">
+			</div>
+			<!-- 商铺基本信息 -->
+			<div class="pull-right" style="width:60%">
+				<span style="margin-top:10px;">商铺名:{$store['name']}</span><hr/>
+				<span style="margin-top:10px;overflow:hide;">
+				总销量:￥
+				{empty name="$store['sell_count']"}
+					10
+				{else /}
+					{$store['sell_count']}
+				{/empty}
+				</span><hr/>
+				<span style="margin-top:10px;overflow:hide;">
+				总交易额:￥
+				{empty name="$store['total']"}
+					1000
+				{else /}
+					{$store['total']}
+				{/empty}
+				</span>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<hr/>
+		<!-- 销量统计 -->
+		<div id="sell_wrapper" style="width:100%;height:auto;margin-top:10px;">
+			<!-- 今日销量 -->
+			<div id="today" style="margin-left:10px;margin-right:10px;">
+				<span style="display:block;float:left;">今日销量</span>
+				<span style="display:block;float:right;">{$today['sell_count']}单;&nbsp;￥{$today['total']}</span>
+				<div class="clearfix"></div>
+				<hr/>
+			</div>
+			<!-- 月销量 -->
+			<div id="today" style="margin-left:10px;margin-right:10px;">
+				<span style="display:block;float:left;">月销量</span>
+				<span style="display:block;float:right;">{$month['sell_count']}单;&nbsp;￥{$month['total']}</span>
+				<div class="clearfix"></div>
+				<hr/>
+				<!-- 月销量明细 -->
+				<div id="chart_month"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 模态框 -->
+	<div class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">info</h4>
+			  </div>
+			  <div class="modal-body"></div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">{$Think.lang.OK}</button>
+			  </div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<!-- 底部菜单 -->
+	{include file="public/bottom_menu" /}
+	<script type="text/javascript">
+		$(window).ready(function(){
+			$("#menu_item4").addClass("menu-item-active");
+			$("#menu_item4 a").attr("href","#");//去掉当前活动链接的url
+			var data=[
+			[
+				{foreach $month['day'] as $day}
+					{$day['sell_count']},
+				{/foreach}
+			],
+			[
+				{foreach $month['day'] as $day}
+					{$day['total']},
+				{/foreach}
+			]];//data
+			/*
+			var x=[
+				<?php 
+					$length=count($month['day']);
+					for($i=1;$i<$length;++$i){
+						echo $i,",";
+					}
+				?>
+			];
+			*/
+			//var data = [[3,6,8,1,11,22,4,21,6]];
+			var data_max = 1000; //Y轴最大刻度
+			var line_title = ["订单数","交易额"]; //曲线名称
+			var y_label = "交易额"; //Y轴标题
+			var x_label = "日"; //X轴标题
+			var x = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
+					 17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]; //定义X轴刻度值
+			var title = "月销量"; //统计图标标题
+			//线表
+			j.jqplot.diagram.base("chart_month", data, line_title, title, x, x_label, y_label, data_max, 1);
+			//柱表
+			//j.jqplot.diagram.base("chart2", data, line_title, "这是统计标题", x, x_label, y_label, data_max, 2);
+		});
+	</script>
+</body>
+</html>

@@ -71,10 +71,48 @@ class Index extends Controller{
 	}
 	
 	public function search(){
+<<<<<<< HEAD
 		$keyword=Request::instance()->param('keyword');
 		$goods=Goods::where('name','like',"%{$keyword}%")->select();
 		$this->assign("goods",$goods);
 		// ajaxReturn($data,$info='',$status=1,$type='') 没有了。。
+=======
+		//查询
+		$keyword=Request::instance()->param('keyword');
+		$page=Request::instance()->param('page');
+		if(!isSet($page)){
+			$page=1;
+		}
+		$goods=Goods::alias('`a`')
+						->join(['__STORE_TERMS__'=>'`b`'],'a.term_id=b.id')
+						->field('a.*,b.name as terms_name')
+						->where('a.name','like',"%{$keyword}%")
+						->whereOr('a.description','like',"%{$keyword}%")
+						->whereOr('b.name','like',"%{$keyword}%")
+						->where('b.status','1')
+						->order('a.sell_count DESC')//按销量排序
+						->page($page)//分页
+						->select();
+		$this->assign("goods",$goods);
+		// ajaxReturn($data,$info='',$status=1,$type='') 没有了。。
+		//分页
+		$count=Goods::alias('`a`')
+						->join(['__STORE_TERMS__'=>'`b`'],'a.term_id=b.id')
+						->field('a.*,b.name as terms_name')
+						->where('a.name','like',"%{$keyword}%")
+						->whereOr('a.description','like',"%{$keyword}%")
+						->whereOr('b.name','like',"%{$keyword}%")
+						->where('b.status','1')
+						->count();//计数
+		$this->assign('page',$page);
+		$this->assign('count',$count);
+		$list_rows=\think\Config::get('paginate.list_rows');
+		$page_count=$count/$list_rows;
+		if($count%$list_rows!=0){
+			$page_count+=1;
+		}
+		$this->assign('page_count',$page_count);
+>>>>>>> a18df754164942e29efc0823fab6ee4ac4c0a9aa
 		return json($goods);
 	}
 
@@ -96,7 +134,28 @@ class Index extends Controller{
 			"c_time"=>date("Y-m-d H:i:s")];
 		$this->tb_order->insert($data);
 		$this->tb_goods->where('id',$id)->update(["sell_count"=>(int)($good["sell_count"])+1,"stock"=>(int)($good["stock"])-1]);
+<<<<<<< HEAD
 		return $this->redirect('index/index/index');
+=======
+		return $this->success("剁手成功!",'index/index/index');
+	}
+	
+	public function qianshou(){
+		$order_id=Request::instance()->param('order_id');
+		if(!isSet($order_id)){
+			return $this->error("错误参数!");
+		}
+		$data=[
+			'id'=>"{$order_id}",
+			'status'=>'4'
+		];
+		$res=$this->tb_order->where('id',$order_id)->update($data);
+		if($res){
+			return $this->success("签收成功!");
+		}else{
+			return $this->success("签收失败!");
+		}
+>>>>>>> a18df754164942e29efc0823fab6ee4ac4c0a9aa
 	}
 
 	//买家登陆
@@ -130,4 +189,12 @@ class Index extends Controller{
 			 return $this->fetch();
 		 }
 	}
+<<<<<<< HEAD
+=======
+	
+	public function logout(){
+		Session::clear();
+		return $this->redirect('index/index/index');
+	}
+>>>>>>> a18df754164942e29efc0823fab6ee4ac4c0a9aa
 }

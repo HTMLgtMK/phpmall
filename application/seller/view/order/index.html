@@ -11,11 +11,26 @@
 	<link type="text/css" href="__STATIC__/bootstrap-datatimepicker/css/bootstrap-datatimepicker.min.css" rel="stylesheet" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<!-- <script type="text/javascript" src="__JS__/menu-bar.js"></script> -->
+	<style type="text/css">
+		body,html{
+			background:#000;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+			/*text-align:center;*/
+			padding:0;
+			margin:0;
+			color:#fff;
+		}
+		/*改变验证消息颜色*/
+		.error{
+			color:red
+		}
+	</style>
 </head>
 <body>
 	<!-- 固定的筛选栏 -->
-	<nav class="navbar navbar-default navbar-fixed-top">
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#000;">
 		<div>
 			<div style="line-height:45px;float:left;margin-left:30px;">筛选</div>
 			<div style="float:right;margin-right:30px;" >
@@ -116,12 +131,13 @@
 					{/case}
 				{/switch}
 				<div class="container" >
-					<div class="pull-left" style="width:50%;">
-						<a href="{:url('seller/index/detail',['goods_id'=>$order['goods_id']])}" class="thumbnail">
-							<img style="width:100%;" src="__ROOT__/uploads/cover/taobao_128.png" />
+					<!-- 商品图片 -->
+					<div class="pull-left" style="width:40%;">
+						<a href="{:url('seller/index/detail',['goods_id'=>$order['goods_id']])}">
+							<img  class="img-thumbnail" style="width:100%;" src="__STATIC__/image/{$order['cover']}" />
 						</a>
 					</div>
-					<div class="pull-right dropdown" style="width:50%;vertical-align:center-right;">
+					<div class="pull-right dropdown" style="width:60%;vertical-align:center-right;">
 						<button class="btn btn-default dropdown-toggle" style="background-color:transparent;border:1px solid transparent;"
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
 							{switch name="$order['status']"}
@@ -143,11 +159,14 @@
 					</div>
 					<div class="clearfix"></div>
 					<div>
-						<a href="{:url('seller/index/detail',['goods_id'=>$order['goods_id']])}" >{$order['name']}</a>
+						<a href="{:url('index/index/detail',['id'=>$order['goods_id']])}" >{$order['name']}</a>
 						<br/>
 						<span>数量:{$order['num']}</span>
 						<span style="margin-left:10px;">总额:{$order['total']}</span>
+						<br/>
+						<span>订单时间:{$order['c_time']}</span>
 					</div>
+					<hr/>
 					<div class="">
 						{$order['message']}
 					</div>

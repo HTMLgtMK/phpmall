@@ -1,4 +1,42 @@
-<div style="position:fixed;width:100%;height:auto;bottom:0px;padding:0px;margin:0px;z-index:9999;" >
+<head>
+	<style type="text/css">
+		.good-type{
+			box-sizing: border-box;
+			width: 100%;
+			position: absolute;
+			top: 50%;
+			margin-top: 3rem;
+			bottom: 0;
+			/*background-color: red;*/
+			z-index: 1;
+		}
+		.good-type .type-list{
+			line-height: 50%;
+			height: 100%;
+			width: 100%;
+			text-align: center;
+		}
+		.type-list .item-type{
+			/*float: left;*/
+			display: inline-block;
+			box-sizing: border-box;
+			width: 23%;
+			height: 50%;
+			/*background-color: yellow;*/
+			line-height: 100%;
+			vertical-align: middle;
+			color: white;
+		}
+		.item-type a{
+			display: inline-block;
+			width: 90%;
+			padding-bottom: 70%;
+			border-radius: 50%;
+			background-color: #484848;
+		}
+	</style>
+</head>
+<div style="position:fixed;width:100%;height:auto;bottom:0px;padding:0px;margin:0px;z-index:9999;background-color:#000;" >
 <ul class="menu-bar" id="bottom_menu">
 	<!-- 菜单项 商品管理 -->
 	<li class="menu-item" id="menu_item1">
@@ -22,11 +60,41 @@
 			</a>
 	</li>
 	<!-- 菜单项 我的 -->
-	<li class="menu-item" id="menu_item3">
+	<li class="menu-item" id="menu_item4">
 			<a href="{:url('seller/me/index')}">
 				<img src="__STATIC__/image/me_white_48.png" /><br/>
 				<span class="menu-item-name">{$Think.lang.ME}</span>
 			</a>
 	</li>
 </ul>
+<!--
+<div class="good-type menu-bar">
+	<ul class="type-list">
+		<li class="item-type menu-item" id="menu_item1">
+			<a href="{:url('seller/index/index')}">
+				<img src="__STATIC__/image/goods_white_48.png" /><br/>
+				<span class="menu-item-name">{$Think.lang.GOODS}</span>
+			</a>
+		</li>
+		<li class="item-type menu-item" id="menu_item1">
+			<a href="{:url('seller/terms/index')}">
+				<img src="__STATIC__/image/terms_white_48.png" /><br/>
+				<span class="menu-item-name">{$Think.lang.TERMS}</span>
+			</a>
+		</li>
+		<li class="item-type menu-item" id="menu_item1">
+			<a href="{:url('seller/Order/index')}">
+				<img src="__STATIC__/image/order_white_48.png" /><br/>
+				<span class="menu-item-name">{$Think.lang.ORDER}</span>
+			</a>
+		</li>
+		<li class="item-type menu-item" id="menu_item1" >
+			<a href="{:url('seller/me/index')}">
+				<img src="__STATIC__/image/me_white_48.png" /><br/>
+				<span class="menu-item-name">{$Think.lang.ME}</span>
+			</a>
+		</li>
+	</ul>
+</div>
+-->
 </div>

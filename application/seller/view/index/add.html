@@ -12,16 +12,17 @@
 	<script type="text/javascript" src="__JS__/jquery.form.js"></script>
 	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
-	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
 	<!-- UEditor 配置 -->
-	<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js" ></script>
+	<!-- <script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js" ></script> -->
 	<!-- UEditor 源码 -->
-	<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js" ></script>
+	<!-- <script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js" ></script> -->
 	
 	<style type="text/css">
 		body,html{
+			background-color:#000;
 			margin:0;
 			padding:0;
+			color:#fff;
 		}
 		.error{
 			color:red;
@@ -47,6 +48,12 @@
 				<label for="name" class="control-label col-xs-2">{$Think.lang.NAME}</label>
 				<div class="col-xs-10">
 					<input id="name" type="text" name="name" class="form-control" placeholder="请输入名称" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="description" class="control-label col-xs-2">{$Think.lang.DESCRIPTION}</label>
+				<div class="col-xs-10">
+					<input id="description" type="text" name="description" class="form-control" placeholder="请输入描述" required />
 				</div>
 			</div>
 			<div class="form-group">
@@ -84,16 +91,19 @@
 			</div>
 			<!-- 封面预览 error...? -->
 			<div id="cover_previou_wrapper" class="center-block row">
-				<img src="" id="cover_previou" class="col-xs-offset-3 col-xs-3" />
+				<!-- <img src="" id="cover_previou" class="col-xs-offset-3 col-xs-3" /> -->
 			</div>
 			<br/>
+			<!-- UEEditor -->
+			<!-- 
 			<div class="form-group" >
 				<label for="description" class="control-label col-xs-2">{$Think.lang.DESCRIPTION}</label>
 				<div class="col-xs-10">
-					<!-- UEEditor -->
+					
 					<script id="ueditor_container" name="description" type="text/plain"></script>
 				</div>
 			</div>
+			-->
 			<div class="center-block text-center">
 				<button class="btn btn-default" type="button" onclick="back();">{$Think.lang.BACK}</button> &nbsp;&nbsp;
 				<button class="btn btn-primary" type="submit">{$Think.lang.SUBMIT}</button>

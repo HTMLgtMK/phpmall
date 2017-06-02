@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>商品详情</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/font-awesome/css/font-awesome.min.css">
+</head>
+<style type="text/css">
+		html,body,ul,li,a,p{
+			padding: 0;
+			margin: 0;
+			text-decoration: none;
+			list-style: none;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			color: white;
+		}
+		html,body{
+			height: 100%;
+			background-color: black;
+		}
+		body{
+			margin: 0 auto;
+			max-width: 400px;
+			position: relative;
+		}
+		body hr{
+			margin: 2px;
+		}
+
+		.contain{
+			width: 100%;
+			height: 100%;
+			position: relative;
+		}
+		.contain #good-pic{
+			width: 100%;
+		}
+		.contain .good-info{
+			width: 100%;
+		}
+		.contain .good-info .good-price{
+			width: 100%;
+			text-align: left;
+			font-size: 2.5rem;
+			color: red;
+		}
+		.contain .good-info .good-desc{
+			width: 100%;
+			text-align: left;
+			font-size: 1.4rem;
+			font-weight: 100;
+		}
+		.contain .good-info .good-num{
+			width: 100%;
+			font-weight: 1.6rem;
+			color: #FFFEAF;
+		}
+		.contain .good-info .good-num span:first-child{
+			float: left;
+		}
+		.contain .good-info .good-num span:last-child{
+			float: right;
+		}
+		.contain button{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			border: 0;
+			background-color: #BF051C;
+			color: #F0E8E8;
+			font-size: 2rem;
+			height: 2.5rem;
+		}
+</style>
+<body>
+	<div class="contain">
+		<img id="good-pic" src="__STATIC__/image/{$good.cover}">
+		<div class="good-info">
+			<p class="good-price"><span>￥{$good.price}</span></p>
+			<p class="good-desc"><span>{$good.description}</span></p>
+			<p class="good-num"><span>销量：{$good.sell_count}</span><span>库存：{$good.stock}</span></p>
+		</div>
+		<a href="{:url('index/buy', ['id' => $good.id])}"><button>立即购买</button></a>
+	</div>
+</body>
+</html>

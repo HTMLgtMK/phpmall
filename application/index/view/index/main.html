@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +53,36 @@
 			overflow: auto;
 		}
 
+		/*未登录遮罩*/
+		.to-login{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			line-height: 500px;
+			vertical-align: middle;
+			z-index: 20;
+			text-align: center;
+			background-color: rgba(20,20,20,0.7);
+		}
+		.login{
+			line-height: 2rem;
+			display: inline-block;
+			border: 2px solid white;
+			border-radius: 1rem;
+			padding: 1rem;
+			font-size: 1.5rem;
+		}
+		.login form input,.login form input button{
+			border: 0;
+			outline: 0;
+			vertical-align: text-top;
+			background: #E0E0E0;
+		}
+		.login form i{
+			font-size: 2rem;
+			color: #C1D0F9;
+		}
+
 		/*我的信息*/
 		.my-info{
 			height: 30%;
@@ -73,7 +104,7 @@
 
 		/*我的订单*/
 		.my-bill{
-			height: 45%;
+			height: 55%;
 		}
 		.my-bill .info-detail table{
 			width: 100%;
@@ -131,20 +162,91 @@
 			margin:0 auto;
 			top:100%;
 		}
+		
+				/* 下拉按钮样式 */
+		.dropbtn {
+			background-color: #4CAF50;
+			color: white;
+			padding: 16px;
+			font-size: 16px;
+			border: none;
+			cursor: pointer;
+		}
+		
+
+		/* 容器 div - 需要定位下拉内容 */
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		/* 下拉内容 (默认隐藏) */
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		}
+
+		/* 下拉菜单的链接 */
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+
+		/* 鼠标移上去后修改下拉菜单链接颜色 */
+		.dropdown-content a:hover {background-color: #f1f1f1}
+
+		/* 在鼠标移上去后显示下拉菜单 */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+		/* 当下拉内容显示后修改下拉按钮的背景颜色 */
+		.dropdown:hover .dropbtn {
+			background-color: #3e8e41;
+		}
 	</style>
 </head>
 <body>
+	<!--
+	登陆窗口(废弃)
+	<div class="to-login">
+		<div class="login">
+			<form>
+				<span><i class="fa fa-user"></i> <input type="text" name="username" placeholder="用户名"></span>
+				<br>
+				<span><i class="fa fa-lock"></i> <input type="password" name="pwd"></span>
+				<br>
+				<button>login</button>
+			</form>
+		</div>
+	</div>
+	-->
 	<div class="contain-box my-info">
-		<p class="box-tittle"><span class="barFront"><strong>我的信息</strong></span><span class="barBack">编辑</span></p>
+		<p class="box-tittle"><span class="barFront"><strong>我的信息</strong></span>
+		<span class="barBack"><a href="{:url('index/index/logout')}">退出</a></span></p>
 		<hr>
 		<div class="info-detail">
 			<div class="headimg-box"></div>
 			<div class="text-info-box">
-				<p><i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;Aman</p><hr>
-				<p><i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp;17862700605</p><hr>
-				<p><i class="fa fa-envelope-open"></i>&nbsp;&nbsp;&nbsp;zman_2016@163.com</p><hr>
-				<p><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;&nbsp;山东省威海市环翠区文化西路二号哈尔滨工业大学(威海)</p>
+				<p><i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;{$buyer['name']}</p><hr>
+				<p><i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp;{$buyer['tel']}</p><hr>
+				<p><i class="fa fa-envelope-open"></i>&nbsp;&nbsp;&nbsp;{$buyer['mail']}</p><hr>
+				<p><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;&nbsp;{$buyer['address']}</p>
 			</div>
+			<hr/>
+			<div>
+				<a href="{:url('index/index/index',['buyer_id'=>$buyer['id']])}"
+					style="display:block;float:left;margin-right:10px;">&lt;&lt;shop首页</a>
+				<a href="{:url('seller/index/index',['buyer_id'=>$buyer['id']])}" 
+					style="display:block;float:right;margin-right:10px;">我的店铺&gt;&gt;</a>
+				<div style="clear:both;"></div>
+			</div>
+			<hr/>
 		</div>
 	</div>
 	<div class="contain-box my-bill">
@@ -152,30 +254,39 @@
 		<div class="info-detail">
 			<table>
 				<thead><tr><th>名称</th><th>数量</th><th>总额</th><th>备注</th><th>日期</th><th>状态</th></tr></thead>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>	
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>	
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>
-				<tr><td>iphone5</td><td>1</td><td>￥2500</td><td>二手</td><td>2017/05/27</td><td>已收货</td></tr>	
+				{foreach $orders as $order}
+					<tr><td>
+						<a href="{:url('index/index/detail',['goods_id'=>$order['goods_id']])}">{$order['name']}</a>
+					</td><td>{$order['num']}</td><td>{$order['total']}</td><td>{$order['message']}</td><td>{$order['c_time']}</td>
+					<td>
+						{switch name="$order['status']"}
+							{case value="1"}等待买家付款{/case}
+							{case value="2"}等待发货{/case}
+							{case value="3"}
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle dropbtn" data-toggle="dropdown" 
+										style="background-color:transparent;border-color:transparent;color:#000;">
+										配送中<span style="color:#000;" class="glyphicon glyphicon-triangle-bottom"></span>
+									</button>
+									<div class="dropdown-content">
+										<a href="{:url('index/index/qianshou',['order_id'=>$order['id']])}">签收</a>
+									</div>
+								</div>
+							{/case}<!-- 配送签收 -->
+							{case value="4"}已签收{/case}
+						{/switch}
+					</td></tr>
+				{/foreach}
 			</table>
 		</div>
 	</div>
 	<!-- 后台传来ifHasShop变量，判断用户是否已开店 -->
+	<!-- 
+	我的店铺(废弃)
 	<div class="contain-box my-shop ifHasShop">
 		<p class="box-tittle"><span class="barFront"><strong>我的店铺</strong></span></p><hr>
 		<div id="no-shop" class="info-detail" style="display: none;">
-			<a href=""><img src="img/addShop.png"></a>
+			<a href=""><img src="__STATIC__/image/addShop.png"></a>
 			<span><strong><i class="fa fa-hand-o-left"></i>马上开店</strong></span>
 		</div>
 		<div id="has-shop" class="info-detail">
@@ -187,6 +298,7 @@
 			</ul>
 		</div>
 	</div>
+	-->
 	<script type="text/javascript">
 		window.onload=function(){
 			//仿bootstrap斑马线

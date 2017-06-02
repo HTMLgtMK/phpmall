@@ -14,7 +14,7 @@
 		}
 		html,body{
 			height: 100%;
-			background-color: #E6E6E6;
+			background-color: black;
 		}
 		body{
 			margin: 0 auto;
@@ -34,7 +34,7 @@
 			box-sizing: border-box;
 			width: 100%;
 			padding: 5px 10px;
-			background-color: #F76525;
+			background-color: black;
 			height: 3rem; 
 			position: relative;
 			line-height: 2rem;
@@ -100,7 +100,7 @@
 			opacity: 0;
 			filter: opacity(0%);
 			position: absolute;
-			width: 100%;
+			height: 100%;
 			z-index: 1;
 		}
 		.list .show{
@@ -145,7 +145,7 @@
 			top: 50%;
 			margin-top: 3rem;
 			bottom: 0;
-			background-color: red;
+			/*background-color: red;*/
 			z-index: 1;
 		}
 		.good-type .type-list{
@@ -160,16 +160,17 @@
 			box-sizing: border-box;
 			width: 23%;
 			height: 50%;
-			background-color: yellow;
+			/*background-color: yellow;*/
 			line-height: 100%;
 			vertical-align: middle;
+			color: white;
 		}
 		.item-type a{
 			display: inline-block;
-			width: 80%;
-			padding-bottom: 80%;
+			width: 90%;
+			padding-bottom: 70%;
 			border-radius: 50%;
-			background-color: blue;
+			background-color: #484848;
 		}
 
 
@@ -179,7 +180,6 @@
 			padding-top: 0.5rem;
 		}
 		.main .good-list{
-			height: 100%;
 			width: 100%;
 			text-align: center;
 		}
@@ -189,13 +189,17 @@
 			border: 1px #B6B5B5 solid;
 			width: 30%; 
 			padding-bottom: 40%;
-			background: url(type1.png) no-repeat;
 			background-size: 100%;
-			background-position: 0  2rem;
+			background-position: 0 2rem;
+			background-color: #5E5757;
 		}
 		.good-list .good-item .tittle{
 			margin: 0.5rem auto;
 			position: absolute;
+			color: #D8D8D8;
+			width: 100%;
+			background-color: rgba(20,20,20,0.7);
+			text-align: center;
 		}
 		.good-list .good-item .bottomInfo{
 			margin: 0.5rem auto;
@@ -212,65 +216,63 @@
 			float: right;
 			color: #0ABB03;
 		}
+
 		footer{
 			width: 100%;
 			text-align: center;
-
+			color: white;
 		}
 		footer p{
 			margin: 5px 0;
 		}
 	</style>
+	<script type="text/javascript">
+		
+	</script>
 </head>
 <body>
 	<header>
 		<nav>
 			<a id="shopCar" href=""></a>
 			<span class="searchBar">
-				<input type="text" name="searchText">
-				<a id="so" href=""></a>
+				<input id="searchText" type="text" name="searchText">
+				<a id="so"></a>
 			</span>
-			<a id="userPage" href=""></a>
+			<a id="userPage" href="{:url('index/main')}"></a>
 		</nav>
 		<div class="swipe">
 			<div class="list">
-				<img src="1.jpg" class="show fadeIn">
-				<img src="2.jpg">
-				<img src="3.jpg">
-				<img src="4.jpg">
+				{foreach name="slide" item="vo"}
+					<img src="__STATIC__/image/{$vo.url}">
+				{/foreach}
 			</div>
 			<div class="buttons">
-				<span index="1" class="on"></span>
-		        <span index="2"></span>
-		        <span index="3"></span>
-		        <span index="4"></span>
+				{foreach name="slide" item="vo" key="k"}
+					<span index="{$k.order}"></span>
+				{/foreach}
 			</div>
 		</div>
 		<div class="good-type">
 			<ul class="type-list">
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
-				<li class="item-type"><a href=""></a></li>
+				{foreach name="goodType" item="vo"}
+					<li class="item-type"><a href="{:url('index/index/goodList',['keyword'=>$vo['name']])}" style="background: url(__STATIC__/image/{$vo.icon}) no-repeat center;"></a><span>{$vo.name}</span></li>
+				{/foreach}
 			</ul>
 		</div>
 	</header>
 	<div class="main">
 		<ul class="good-list">
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
-			<li class="good-item"><a href=""><p class="tittle">商品名</p><p class="bottomInfo"><span>￥99.9</span><span>月销：99</span></p></a></li>
+			{foreach name="goods" item="vo"}
+				<li class="good-item" style="background: url(__STATIC__/image/{$vo.cover}) no-repeat center;background-size: auto 100%">
+					<a href="{:url('index/detail', ['id' => $vo.id])}">
+						<p class="tittle">{$vo.name}</p>
+						<p class="bottomInfo">
+							<span>￥{$vo.price}</span>
+							<span>累销：{$vo.sell_count}</span>
+						</p>
+					</a>
+				</li>
+			{/foreach}
 		</ul>
 	</div>
 	<footer>
@@ -284,21 +286,13 @@
 			var dots = document.querySelectorAll(".buttons span");
 			var interval = 2500;//时间间隔
 			var timer = setInterval(function(){swipe(imgs,dots);},interval);
+			//轮播图初始显示
+			imgs[0].classList.add("show");
+			imgs[0].classList.add("fadeIn");
+			dots[0].classList.add("on");
+			document.getElementById("so").onclick=search;
 
 		}
-		/*function swipe(imgs,dots){
-			mark = window.flag;
-			imgs.forEach(function(value,index){
-				if(value.className.indexOf("show") != -1){
-					value.className = value.className.replace("show","");
-					mark = true;
-				}else if(mark){
-					value.className = "show";
-					mark = false;
-				}
-			});
-			window.flag = mark;
-		}*/
 		function swipe(imgs,dots){
 			imgs.forEach(function(value,index){
 				if(value.className.indexOf("show") != -1){
@@ -307,13 +301,22 @@
 				}
 			});
 			var count = counter;
-			count = (count+4)%4;
+			var len = imgs.length;
+			count = (count+len)%len;
 			imgs[count].className = "show fadeIn";
 			window.counter = count+1;
 			dots.forEach(function(value,index){
 				value.className = "";
 			});
 			dots[count].className = "on";
+		}
+		
+		function search(){
+			var input=document.getElementById('searchText');
+			var text=input.value;
+			var url="{:url('index/index/goodList')}";
+			url = url+"?keyword="+text;
+			window.location.href=url;
 		}
 	</script>
 </body>

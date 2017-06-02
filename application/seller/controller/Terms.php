@@ -12,15 +12,6 @@
  
  class Terms extends Base{
 	 
-	 function _initialize(){
-		 parent::_initialize();
-		  if(!Session::has('store_id')){
-			 Session::clear();
-			 $url=\think\Url::build("seller/Publicc/login",true,true);
-			 return $this->error("登陆超时!",$url);
-		 }
-	 }
-	 
 	 public function index(){
 		 $term_id=Request::instance()->param('term_id');
 		 if(!isset($term_id)) {
@@ -36,7 +27,6 @@
 	 public function add(){
 		 if(Request::instance()->isPost()){
 			 $store_id=Session::get("store_id");
-			
 			 $post_data=Request::instance()->post();
 			 if(!isset($post_data['term_parent'])){
 				 return $this->error("请选择父级分类!");
@@ -47,6 +37,14 @@
 			 if(!isset($post_data['term_status'])){
 				 $post_data['status']='1';
 			 }
+			  //保存封面文件
+			 $file=Request::instance()->file("icon");
+			 $info = $file->move(ROOT_PATH.'public'.DS.'static'.DS.'image');
+			 if(!$info){
+				// 上传失败获取错误信息
+				$err=$file->getError();
+				return $this->error("上传失败!".$err);
+			 } 
 			 $model_store_terms=new StoreTerms();
 			 if($model_store_terms->isExistTerm($store_id,$post_data['term_name'])){
 				 return $this->error("已经存在该分类!");
@@ -56,6 +54,7 @@
 				'parent_id'=>"{$post_data['term_parent']}",
 				'name'=>"{$post_data['term_name']}",
 				'store_id'=>"{$store_id}",
+				'icon'=>"{$info->getSaveName()}",
 				'status'=>"{$post_data['term_status']}",
 				'c_time'=>"{$timestamp}"
 			 );
@@ -89,6 +88,14 @@
 			 if(!isset($post_data['term_status'])){
 				 $post_data['status']='1';
 			 }
+			  //保存封面文件
+			 $file=Request::instance()->file("icon");
+			 $info = $file->move(ROOT_PATH.'public'.DS.'static'.DS.'image');
+			 if(!$info){
+				// 上传失败获取错误信息
+				$err=$file->getError();
+				return $this->error("上传失败!".$err);
+			 }
 			 $model_store_terms=new StoreTerms();
 			 if($model_store_terms->isExistTerm($store_id,$post_data['term_name'])){
 				 return $this->error("已经存在该分类!");
@@ -97,6 +104,7 @@
 			 $data=array(
 				'parent_id'=>"{$post_data['term_parent']}",
 				'name'=>"{$post_data['term_name']}",
+				'icon'=>"{$info->getSaveName()}",
 				'status'=>"{$post_data['term_status']}",
 				'store_id'=>"{$store_id}"
 			 );

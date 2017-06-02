@@ -10,15 +10,17 @@
 	<link rel="stylesheet" type="text/css" href="__CSS__/float-menu.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js" ></script>
-	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<!-- <script type="text/javascript" src="__JS__/menu-bar.js"></script> -->
 	<!-- <script type="text/javascript" src="__JS__/float-menu.js"></script> -->
 	<style type="text/css">
 		body,html{
+			background-color:#000;
 			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 			text-decoration: none;
 			/*text-align:center;*/
 			padding:0;
 			margin:0;
+			color:#fff;
 		}
 		/*改变验证消息颜色*/
 		.error{
@@ -60,7 +62,8 @@
 						<li class="list-group-item">
 							<a href="{:url('seller/terms/index',['term_id'=>$term['id']])}">{$term['name']}</a>
 							<div class="pull-right text-center" style="margin-right:30px;height:100%;">
-								<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" >
+								<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" 
+									style="background-color:transparent;border-color:transparent;color:#000;">
 									{$Think.lang.OP}&nbsp;<span class="glyphicon glyphicon-triangle-bottom"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">

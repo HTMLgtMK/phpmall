@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="GT" />
+    <title>{$Think.lang.LOGIN}</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.form.js" ></script>
+	<style type="text/css">
+		body,html{
+			background-color: #2c2c2c;
+			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+			text-decoration: none;
+			color:#fff;
+			/*text-align:center;*/
+		}
+		/*改变验证消息颜色*/
+		.error{
+			color:red
+		}
+		/*去掉label*/
+		.hidden{
+			/*display:none;*/
+		}
+	</style>
+	<script type="text/javascript">
+		function refreshVerify(img){
+			var url="{:captcha_src()}";
+			url=url+"?id="+Math.random();
+			$(img).attr("src",url);
+		}
+		/*清空消息显示*/
+		function clearMsg(){
+			$(".msg-window").html("&nbsp;");
+		}
+		function jump2register(){
+			window.location.href="{:url('index/Register/step1')}";
+		}
+	</script>
+</head>
+<body>
+    <div class="container">
+      <form class="js-ajax-forms form form-horizontal" method="post" action="{:url('index/login')}">
+		<div><h1 class="text-center">{$Think.lang.LOGIN}</h1></div>
+		<div class="form-group">
+			<label for="email" class="col-xs-2 control-label">{$Think.lang.EMAIL}</label>
+			<div class="col-xs-10">
+				<input type="email" id="email" name="email" class="form-control" placeholder="{$Think.lang.EMAIL_ADDRESS}" value="{$res['mail']}" required autofocus />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="password" class="col-xs-2 control-label col-sm-2">{$Think.lang.PASSWORD}</label>
+			<div class="col-xs-10">
+				<input type="password" id="password" name="password" class="form-control" placeholder="{$Think.lang.PASSWORD}" required />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="verify" class="col-xs-2 control-label col-sm-2">{$Think.lang.VERIFY}</label>
+			<div class="col-xs-10">
+				<input type="text" id="verify" name="verify" class="form-control" placeholder="{$Think.lang.VERIFY}" required />
+			</div>
+		</div>
+		<div class="text-center">
+			<img id="verify_img" src="{:captcha_src()}" alt="{$Think.lang.CLICK2REFRESH}" onclick="refreshVerify(this);" />
+		</div>
+		<br/>
+		<div class="text-center">
+				<button id="register" class="btn btn-primary" style="width:50%"  type="submit">{$Think.lang.LOGIN}</button>
+				<br/>
+				<button id="register" class="btn" style="width:50%;margin-top:10px;color:#000;" onclick="jump2register();" type="button">注册</button>
+		</div>
+      </form>
+	  <!-- show some info msg -->
+	  <div class="msg-window text-center">&nbsp;</div>
+    </div> <!-- /container -->
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("form").keypress(function(){
+				clearMsg();
+		});
+	
+		var form = $('form.js-ajax-forms');
+		var formloading=false;
+		//表单验证开始
+		form.validate({
+			//是否在获取焦点时验证
+			onfocusout : false,
+			//是否在敲击键盘时验证
+			onkeyup : false,
+			//当鼠标掉级时验证
+			onclick : false,
+			//验证规则
+			rules : {
+				email:{
+					required:true,
+					email:true
+				},
+				password:{
+					required:true,
+					minlength:5
+				},
+				verify:{
+					required:true
+				},
+			},
+			//验证未通过提示消息
+			messages : {
+				email:{
+					required:'请输入邮箱地址',
+					email:'请输入正确邮箱地址'
+				},
+				password:{
+					required:'请输入密码',
+					minlength:'密码长度不能少于5位'
+				},
+				verify:'请输入验证码'
+			},             
+			//给未通过验证的元素加效果,闪烁等
+			highlight : false,
+			//是否在获取焦点时验证
+			onfocusout : false,
+			//表单验证通过
+			submitHandler : function(forms) {
+				if(formloading){
+					return;
+				}
+				//Object { code: 0, msg: "验证码错误!", data: "", url: "", wait: 3 }
+				$(forms).ajaxSubmit({
+					url:form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+					dataType:'json',
+					beforeSubmit:function(attr,form,opts){
+						formloading=true;
+					},
+					success:function(data, statusText, xhr, $form){
+						formloading=false;
+						console.info(data);
+						if(data.code){
+							$(".msg-window").html(data.msg);
+							location.href=data.url;
+						}else{
+							$("#password").val("");
+							//$("#confirm").val("");
+							$("#verify").val("");
+							refreshVerify($("#verify_img"));//刷新验证码
+							//alert(data.msg);
+							$(".msg-window").html(data.msg);
+						}
+					},
+					error:function(textStatus,xhr){
+						console.log(textStatus);
+					}
+				});
+			}
+		});
+	});
+	</script>
+</body>
+</html>
