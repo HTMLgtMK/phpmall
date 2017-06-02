@@ -18,5 +18,7 @@
 	'reg_step1'			=> '填写注册信息',
 	'reg_step2'			=> '完善个人信息',
 	'JUMP'				=> '跳过',
+	'LOGIN'				=> '登陆',
+	'SEARCH_RESULT'		=> '搜索结果',
  );
 ?>
