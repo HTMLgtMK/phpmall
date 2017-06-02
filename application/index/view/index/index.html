@@ -226,14 +226,17 @@
 			margin: 5px 0;
 		}
 	</style>
+	<script type="text/javascript">
+		
+	</script>
 </head>
 <body>
 	<header>
 		<nav>
 			<a id="shopCar" href=""></a>
 			<span class="searchBar">
-				<input type="text" name="searchText">
-				<a id="so" href=""></a>
+				<input id="searchText" type="text" name="searchText">
+				<a id="so"></a>
 			</span>
 			<a id="userPage" href="{:url('index/main')}"></a>
 		</nav>
@@ -287,6 +290,7 @@
 			imgs[0].classList.add("show");
 			imgs[0].classList.add("fadeIn");
 			dots[0].classList.add("on");
+			document.getElementById("so").onclick=search;
 
 		}
 		function swipe(imgs,dots){
@@ -305,6 +309,14 @@
 				value.className = "";
 			});
 			dots[count].className = "on";
+		}
+		
+		function search(){
+			var input=document.getElementById('searchText');
+			var text=input.value;
+			var url="{:url('index/index/goodList')}";
+			url = url+"?keyword="+text;
+			window.location.href=url;
 		}
 	</script>
 </body>

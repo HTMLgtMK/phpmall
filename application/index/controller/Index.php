@@ -6,6 +6,7 @@ use \think\Session;
 
 use app\common\model\Buyer;
 use app\common\model\Order;
+use app\common\model\Goods;
 
 class Index extends Controller{
 	protected $tb_slides;//表中添加了order字段，表示图片滚动的顺序
@@ -61,12 +62,20 @@ class Index extends Controller{
 	}
 
 	//商品列表类
-	/*
-	*@param $type: 请求类型，如类别请求->0，搜索结果->1
-	*@param $query: 即为不同类型下的查询根据
-	*/
-	public function goodList($type,$query){
+	public function goodList(){
+		$keyword=Request::instance()->param('keyword');
+		// $str_keyword=implode('',$keyword);
+		$this->assign('keyword',$keyword);
+		$this->search();
 		return $this->fetch();
+	}
+	
+	public function search(){
+		$keyword=Request::instance()->param('keyword');
+		$goods=Goods::where('name','like',"%{$keyword}%")->select();
+		$this->assign("goods",$goods);
+		// ajaxReturn($data,$info='',$status=1,$type='') 没有了。。
+		return json($goods);
 	}
 
 	//商品购买
