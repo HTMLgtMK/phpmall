@@ -71,10 +71,41 @@ class Index extends Controller{
 	}
 	
 	public function search(){
+		//查询
 		$keyword=Request::instance()->param('keyword');
-		$goods=Goods::where('name','like',"%{$keyword}%")->select();
+		$page=Request::instance()->param('page');
+		if(!isSet($page)){
+			$page=1;
+		}
+		$goods=Goods::alias('`a`')
+						->join(['__STORE_TERMS__'=>'`b`'],'a.term_id=b.id')
+						->field('a.*,b.name as terms_name')
+						->where('a.name','like',"%{$keyword}%")
+						->whereOr('a.description','like',"%{$keyword}%")
+						->whereOr('b.name','like',"%{$keyword}%")
+						->where('b.status','1')
+						->order('a.sell_count DESC')//按销量排序
+						->page($page)//分页
+						->select();
 		$this->assign("goods",$goods);
 		// ajaxReturn($data,$info='',$status=1,$type='') 没有了。。
+		//分页
+		$count=Goods::alias('`a`')
+						->join(['__STORE_TERMS__'=>'`b`'],'a.term_id=b.id')
+						->field('a.*,b.name as terms_name')
+						->where('a.name','like',"%{$keyword}%")
+						->whereOr('a.description','like',"%{$keyword}%")
+						->whereOr('b.name','like',"%{$keyword}%")
+						->where('b.status','1')
+						->count();//计数
+		$this->assign('page',$page);
+		$this->assign('count',$count);
+		$list_rows=\think\Config::get('paginate.list_rows');
+		$page_count=$count/$list_rows;
+		if($count%$list_rows!=0){
+			$page_count+=1;
+		}
+		$this->assign('page_count',$page_count);
 		return json($goods);
 	}
 

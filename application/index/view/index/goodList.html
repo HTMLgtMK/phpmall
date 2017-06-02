@@ -46,14 +46,16 @@
 		}
 		.contain ul{
 			width: 100%;
-			height: 100%;
+		}
+		.contain .pagenate{
+			width:100%;
+			text-align:center;
 		}
 		.contain ul li:first-child{
 			margin-top: 0.2rem;
 		}
 		.contain ul li{
 			width: 100%;
-			height:15%;
 			background-color: black;
 			margin-bottom: 0.2rem;
 		}
@@ -76,6 +78,16 @@
 			color: red;
 		}
 </style>
+<script type="text/javascript">
+	//翻页
+	function jump2page(page){
+		var keyword="{$keyword}";
+		var url="{:url('index/index/goodList')}";
+		url=url+"?keyword="+keyword;
+		url=url+"&page="+page;
+		window.location.href=url;
+	}
+</script>
 <body>
 	<!-- 顶部的搜索navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
@@ -107,6 +119,21 @@
 			</li>
 			{/foreach}
 		</ul>
+		<div class="pagenate">
+			<nav>
+				<ul class="pagination">
+					<li {eq name="page" value="1"}class="disabled"{/eq}><a {neq name="page" value="1"}onclick="jump2page(1);"{/neq} aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+					{for	start="1" end="$page_count" step="1"	name="i"} 
+						<li {eq name="page" value="i"}class="active"{/eq} ><a onclick="jump2page({$i});" >{$i}</a></li>
+					{/for}
+					<li {eq name="page" value="$page_count" } class="disabled" {/eq} >
+						 <a {neq name="page" value="1"}onclick="jump2page({$page_count});"{/neq} aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						 </a>
+					</li>
+				</ul>
+			</nav>
+		</div>
 	</div>
 </body>
 </html>
