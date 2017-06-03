@@ -71,12 +71,6 @@ class Index extends Controller{
 	}
 	
 	public function search(){
-<<<<<<< HEAD
-		$keyword=Request::instance()->param('keyword');
-		$goods=Goods::where('name','like',"%{$keyword}%")->select();
-		$this->assign("goods",$goods);
-		// ajaxReturn($data,$info='',$status=1,$type='') 没有了。。
-=======
 		//查询
 		$keyword=Request::instance()->param('keyword');
 		$page=Request::instance()->param('page');
@@ -112,7 +106,6 @@ class Index extends Controller{
 			$page_count+=1;
 		}
 		$this->assign('page_count',$page_count);
->>>>>>> a18df754164942e29efc0823fab6ee4ac4c0a9aa
 		return json($goods);
 	}
 
@@ -134,9 +127,6 @@ class Index extends Controller{
 			"c_time"=>date("Y-m-d H:i:s")];
 		$this->tb_order->insert($data);
 		$this->tb_goods->where('id',$id)->update(["sell_count"=>(int)($good["sell_count"])+1,"stock"=>(int)($good["stock"])-1]);
-<<<<<<< HEAD
-		return $this->redirect('index/index/index');
-=======
 		return $this->success("剁手成功!",'index/index/index');
 	}
 	
@@ -155,7 +145,6 @@ class Index extends Controller{
 		}else{
 			return $this->success("签收失败!");
 		}
->>>>>>> a18df754164942e29efc0823fab6ee4ac4c0a9aa
 	}
 
 	//买家登陆
@@ -189,12 +178,9 @@ class Index extends Controller{
 			 return $this->fetch();
 		 }
 	}
-<<<<<<< HEAD
-=======
 	
 	public function logout(){
 		Session::clear();
 		return $this->redirect('index/index/index');
 	}
->>>>>>> a18df754164942e29efc0823fab6ee4ac4c0a9aa
 }
