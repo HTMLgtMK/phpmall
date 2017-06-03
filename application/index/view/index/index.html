@@ -255,7 +255,7 @@
 		<div class="good-type">
 			<ul class="type-list">
 				{foreach name="goodType" item="vo"}
-					<li class="item-type"><a href="" style="background: url(__STATIC__/image/{$vo.icon}) no-repeat center;"></a><span>{$vo.name}</span></li>
+					<li class="item-type"><a href="{:url('index/goodList', ['keyword' => $vo.name])}" style="background: url(__STATIC__/image/{$vo.icon}) no-repeat center;"></a><span>{$vo.name}</span></li>
 				{/foreach}
 			</ul>
 		</div>
