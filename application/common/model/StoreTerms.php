@@ -16,10 +16,13 @@
 	  * @param term_id 分类id
 	  * @return $terms_path array
 	  */
-	 public function terms_path($term_id){
+	 public function terms_path($term_id,$store_id){
 		 $terms_path=array();
 		 while($term_id!=0){
-			 $term=$this->where('id',$term_id)->find();
+			 $term=$this->where([
+						'id'=>"{$term_id}",
+						'store_id'=>"{$store_id}"
+					])->find();
 			 $terms_path[]=$term;
 			 $term_id=$term['parent_id'];
 		 }

@@ -62,6 +62,8 @@
 			 unset($where['b.term_id']);
 			 unset($where['b.name']);
 		 }
+		 $store_id=Session::get('store_id');
+		 $where['a.store_id']="{$store_id}";
 		 $orders=\app\common\model\Order::alias('a')
 					->join(["__GOODS__"=>'b'],'a.goods_id=b.id')
 					->field('a.*,b.name as `name`,b.cover as `cover`,b.term_id as `term_id`')
@@ -69,7 +71,6 @@
 					->select();
 		 $this->assign("orders",$orders);
 		 
-		 $store_id=Session::get('store_id');
 		 $goods=Goods::where('store_id',$store_id)->select();
 		 $this->assign("goods",$goods);
 		 

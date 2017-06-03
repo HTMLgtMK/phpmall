@@ -86,6 +86,7 @@
 		 $res=Store::where('seller_id',$seller['id'])->find();
 		 if(!$res){
 			 //创建店铺
+			 $this->assign('seller',$seller);
 			 return $this->fetch('c_shop');
 		 }
 		 //登陆店铺

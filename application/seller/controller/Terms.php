@@ -17,9 +17,11 @@
 		 if(!isset($term_id)) {
 			 $term_id=0;
 		 }
-		 $terms_path=(new StoreTerms())->terms_path($term_id);
+		 $store_id=Session::get('store_id');
+		 $terms_path=(new StoreTerms())->terms_path($term_id,$store_id);
 		 $this->assign("terms_path",$terms_path);
-		 $terms_child=StoreTerms::where('parent_id',$term_id)->select();
+		 $terms_child=StoreTerms::where('parent_id',$term_id)
+						->where('store_id',$store_id)->select();
 		 $this->assign('terms_child',$terms_child);
 		 return $this->fetch();
 	 }

@@ -15,7 +15,7 @@
 		//登陆控制,强制登陆
 		 $action=Request::instance()->action();
 		 if($action!='login'){
-			if(!Session::has('seller.login')){
+			if(!Session::has('seller.login') || !Session::has('store_id')){
 				//重定向到卖家登陆
 				return $this->redirect("seller/Publicc/login2");
 			}
