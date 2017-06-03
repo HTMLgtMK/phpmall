@@ -62,7 +62,7 @@
 	if($mail->send()){
 		return true;
 	}else{
-		echo $mail->ErrorInfo();
+		//echo $mail->ErrorInfo;
 		return false;
 	}
  }
