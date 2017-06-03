@@ -9,14 +9,16 @@
 	<link rel="stylesheet" type="text/css" href="__CSS__/menu-bar.css" />
 	<script type="text/javascript" src="__JS__/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="__JS__/menu-bar.js"></script>
+	<!--<script type="text/javascript" src="__JS__/menu-bar.js"></script>-->
 	<style type="text/css">
 		body,html{
+			background:#000;
 			font: 16px/1.5 "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 			text-decoration: none;
 			/*text-align:center;*/
 			padding:0;
 			margin:0;
+			color:#fff;
 		}
 		/*改变验证消息颜色*/
 		.error{
@@ -31,7 +33,7 @@
 			<div style="width:100%;height:auto;">
 				<!-- 分类名称 -->
 				<div style="margin-top:10px;">
-					<h3 style="font-size:18px;color:#000000;margin-left:10px;display:inline;">{$item['term']['name']}</h3>
+					<h3 style="font-size:18px;margin-left:10px;display:inline;">{$item['term']['name']}</h3>
 					<div style="margin-right:30px;" class="text-center pull-right dropdown">
 						<!-- 
 						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -59,7 +61,7 @@
 						{foreach $item['goods'] as $goods}
 							<li class="goods_item" style="background-color:#cfcfcf;padding:5px;">
 								<a href="{:url('seller/index/detail',['goods_id'=>$goods['id']])}" class="pull-left" style="display:block;width:60%">
-									<img src="__ROOT__/uploads/cover/taobao_128.png" alt="商品封面" style="width:50px;height:50px;display:block;float:left;" />
+									<img src="__STATIC__/image/{$goods.cover}" alt="商品封面" style="width:50px;height:50px;display:block;float:left;" />
 									<div style="float:left;">
 										<span style="overflow:hidden;">{$goods['name']}</span><br/>
 										<div>
@@ -136,7 +138,7 @@
 					if(data.code){
 						window.location.reload();
 					}else{
-						if(typeof data.url != "undefine"){
+						if(typeof data.url != "undefined"){
 							window.location.href=data.url;
 						}
 					}

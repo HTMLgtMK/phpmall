@@ -25,7 +25,7 @@
 			 $post_data=Request::instance()->post();
 			 //保存封面文件
 			 $file=Request::instance()->file("cover");
-			 $info = $file->move(ROOT_PATH.'public'.DS.'uploads'.DS.'cover');
+			 $info = $file->move(ROOT_PATH.'public'.DS.'static'.DS.'image');
 			 if(!$info){
 				// 上传失败获取错误信息
 				$err=$file->getError();
@@ -85,7 +85,7 @@
 			 $post_data=Request::instance()->post();
 			 //保存封面文件
 			 $file=Request::instance()->file("cover");
-			 $info = $file->move(ROOT_PATH.'public'.DS.'uploads'.DS.'cover');
+			 $info = $file->move(ROOT_PATH.'public'.DS.'static'.DS.'image');
 			 if(!$info){
 				// 上传失败获取错误信息
 				$err=$file->getError();

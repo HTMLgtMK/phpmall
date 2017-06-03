@@ -162,6 +162,53 @@
 			margin:0 auto;
 			top:100%;
 		}
+		
+				/* 下拉按钮样式 */
+		.dropbtn {
+			background-color: #4CAF50;
+			color: white;
+			padding: 16px;
+			font-size: 16px;
+			border: none;
+			cursor: pointer;
+		}
+		
+
+		/* 容器 div - 需要定位下拉内容 */
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		/* 下拉内容 (默认隐藏) */
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		}
+
+		/* 下拉菜单的链接 */
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+
+		/* 鼠标移上去后修改下拉菜单链接颜色 */
+		.dropdown-content a:hover {background-color: #f1f1f1}
+
+		/* 在鼠标移上去后显示下拉菜单 */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+		/* 当下拉内容显示后修改下拉按钮的背景颜色 */
+		.dropdown:hover .dropbtn {
+			background-color: #3e8e41;
+		}
 	</style>
 </head>
 <body>
@@ -180,7 +227,8 @@
 	</div>
 	-->
 	<div class="contain-box my-info">
-		<p class="box-tittle"><span class="barFront"><strong>我的信息</strong></span><span class="barBack">编辑</span></p>
+		<p class="box-tittle"><span class="barFront"><strong>我的信息</strong></span>
+		<span class="barBack"><a href="{:url('index/index/logout')}">退出</a></span></p>
 		<hr>
 		<div class="info-detail">
 			<div class="headimg-box"></div>
@@ -192,6 +240,8 @@
 			</div>
 			<hr/>
 			<div>
+				<a href="{:url('index/index/index',['buyer_id'=>$buyer['id']])}"
+					style="display:block;float:left;margin-right:10px;">&lt;&lt;shop首页</a>
 				<a href="{:url('seller/index/index',['buyer_id'=>$buyer['id']])}" 
 					style="display:block;float:right;margin-right:10px;">我的店铺&gt;&gt;</a>
 				<div style="clear:both;"></div>
@@ -212,7 +262,17 @@
 						{switch name="$order['status']"}
 							{case value="1"}等待买家付款{/case}
 							{case value="2"}等待发货{/case}
-							{case value="3"}配送中{/case}
+							{case value="3"}
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle dropbtn" data-toggle="dropdown" 
+										style="background-color:transparent;border-color:transparent;color:#000;">
+										配送中<span style="color:#000;" class="glyphicon glyphicon-triangle-bottom"></span>
+									</button>
+									<div class="dropdown-content">
+										<a href="{:url('index/index/qianshou',['order_id'=>$order['id']])}">签收</a>
+									</div>
+								</div>
+							{/case}<!-- 配送签收 -->
 							{case value="4"}已签收{/case}
 						{/switch}
 					</td></tr>
