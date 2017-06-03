@@ -68,7 +68,7 @@
 				<span style="margin-top:10px;">商铺名:{$store['name']}</span><hr/>
 				<span style="margin-top:10px;overflow:hide;">
 				总销量:￥
-				{empty name="$store['sell_count']"}
+				{empty name="store['sell_count']"}
 					0
 				{else /}
 					{$store['sell_count']}
@@ -76,7 +76,7 @@
 				</span><hr/>
 				<span style="margin-top:10px;overflow:hide;">
 				总交易额:￥
-				{empty name="$store['total']"}
+				{empty name="store['total']"}
 					0
 				{else /}
 					{$store['total']}

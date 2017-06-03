@@ -24,7 +24,6 @@
 					->field('a.name as name,a.mail as mail,b.*')
 					->where('b.id',"{$store['seller_id']}")
 					->find();
-		
 		$this->assign("seller",$seller);
 		$this->assign("store",$store);
 		$this->today();
@@ -37,7 +36,7 @@
 		$store_id=Session::get('store_id');
 		$begin_time=date('Y-m-d 00:00:00',time());//凌晨时间
 		$end_time=date('Y-m-d 00:00:00',strtotime('+1 day'));//明日凌晨时间
-		$count=Order::field('count(*) as order_num,count(total) as total')
+		$count=Order::field('count(*) as order_num,sum(total) as total')
 					->where(['store_id'=>"{$store_id}"])
 					->where(['c_time'=>['lt',"{$end_time}"]])
 					->where(['c_time'=>['gt',"{$begin_time}"]])
@@ -53,7 +52,7 @@
 		$store_id=Session::get('store_id');
 		$end_time=date('Y-m-d 00:00:00',strtotime(' +1 day'));//明日凌晨时间
 		$begin_time=date('Y-m-1 00:00:00',time());//当月开始时间
-		$count=Order::field('count(*) as order_num,count(total) as total')
+		$count=Order::field('count(*) as order_num,sum(total) as total')
 					->where(['store_id'=>"{$store_id}"])
 					->where(['c_time'=>['lt',"{$end_time}"]])
 					->where(['c_time'=>['gt',"{$begin_time}"]])

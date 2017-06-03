@@ -7,6 +7,7 @@ use \think\Session;
 use app\common\model\Buyer;
 use app\common\model\Order;
 use app\common\model\Goods;
+use app\common\model\Store;
 
 class Index extends Controller{
 	protected $tb_slides;//表中添加了order字段，表示图片滚动的顺序
@@ -125,8 +126,18 @@ class Index extends Controller{
 			"status"=>2,
 			"status_message"=>"",
 			"c_time"=>date("Y-m-d H:i:s")];
-		$this->tb_order->insert($data);
+		$res=$this->tb_order->insert($data);
+		if(!$res){
+			$err=$this->tb_order->getError();
+			return $this->error('购买失败!'.$err);
+		}
 		$this->tb_goods->where('id',$id)->update(["sell_count"=>(int)($good["sell_count"])+1,"stock"=>(int)($good["stock"])-1]);
+		$store=Store::where('id',$good["store_id"])->find();
+		$data=[
+			'sell_count'=>(int)$store['sell_count']+1,
+			'total'=>(int)$store['total']+$good['price']
+		];
+		Store::where('id',$store['id'])->update($data);
 		return $this->success("剁手成功!",'index/index/index');
 	}
 	
